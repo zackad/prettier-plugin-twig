@@ -10,3 +10,14 @@ __pycache__/
 *.pyc
 test_files
 tests/prettier_*
+
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
