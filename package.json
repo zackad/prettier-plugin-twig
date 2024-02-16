@@ -5,7 +5,7 @@
     "main": "src",
     "repository": "https://github.com/trivago/prettier-plugin-twig-melody",
     "author": "Tom Bartel <thomas.bartel@trivago.com>",
-    "license": "Apache 2.0",
+    "license": "Apache-2.0",
     "files": [
         "src"
     ],
