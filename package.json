@@ -10,7 +10,7 @@
         "src"
     ],
     "engines": {
-        "node": ">=6"
+        "node": ">=18"
     },
     "scripts": {
         "lint": "jest -c jest.eslint.config.js",
