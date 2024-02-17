@@ -1,13 +1,6 @@
 const prettier = require("prettier");
-const {
-    concat,
-    group,
-    line,
-    hardline,
-    softline,
-    indent,
-    join
-} = prettier.doc.builders;
+const { concat, group, line, hardline, softline, indent, join } =
+    prettier.doc.builders;
 const {
     removeSurroundingWhitespace,
     isInlineElement,

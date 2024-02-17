@@ -253,9 +253,8 @@ printFunctions["MountStatement"] = printMountStatement;
 printFunctions["ForStatement"] = printForStatement;
 printFunctions["BinaryConcatExpression"] = printBinaryExpression;
 printFunctions["SetStatement"] = printSetStatement;
-printFunctions[
-    "VariableDeclarationStatement"
-] = printVariableDeclarationStatement;
+printFunctions["VariableDeclarationStatement"] =
+    printVariableDeclarationStatement;
 printFunctions["DoStatement"] = printDoStatement;
 printFunctions["ExtendsStatement"] = printExtendsStatement;
 printFunctions["EmbedStatement"] = printEmbedStatement;

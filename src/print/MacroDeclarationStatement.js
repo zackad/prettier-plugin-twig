@@ -1,13 +1,6 @@
 const prettier = require("prettier");
-const {
-    group,
-    join,
-    concat,
-    line,
-    softline,
-    hardline,
-    indent
-} = prettier.doc.builders;
+const { group, join, concat, line, softline, hardline, indent } =
+    prettier.doc.builders;
 
 const printOpener = (node, path, print) => {
     const parts = [
