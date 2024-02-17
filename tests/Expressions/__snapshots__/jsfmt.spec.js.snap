@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`arrayExpression.melody.twig 1`] = `
+exports[`arrayExpression.melody.twig - melody-verify: arrayExpression.melody.twig 1`] = `
 {{ [2, 3, "cat"] }}
 
 {{ [ 2, 3, "cat","dog",   "mouse"] }}
@@ -42,7 +42,7 @@ exports[`arrayExpression.melody.twig 1`] = `
 
 `;
 
-exports[`binaryExpressions.melody.twig 1`] = `
+exports[`binaryExpressions.melody.twig - melody-verify: binaryExpressions.melody.twig 1`] = `
 {% set highlightValueForMoney = isFeatureEnabled('vFMV5') or isCTestActive('WEB-48935') or isCTestActive('WEB-48956') or isCTestActive('WEB-48955')%}
 
 {% set name = condition1 or condition2 and condition3 or condition4 or condition5 and condition6 %}
@@ -95,7 +95,7 @@ exports[`binaryExpressions.melody.twig 1`] = `
 
 `;
 
-exports[`callExpression.melody.twig 1`] = `
+exports[`callExpression.melody.twig - melody-verify: callExpression.melody.twig 1`] = `
 {{ range(3) }}
 
 {{ date('d/m/Y H:i', timezone="Europe/Paris") }}
@@ -155,7 +155,7 @@ exports[`callExpression.melody.twig 1`] = `
 
 `;
 
-exports[`conditionalExpression.melody.twig 1`] = `
+exports[`conditionalExpression.melody.twig - melody-verify: conditionalExpression.melody.twig 1`] = `
 {{ test ? "One" : "Two" }}
 
 {{ test ? "This is a slightly longer string to overflow the line" : "and here is its counterpart" }}
@@ -172,7 +172,7 @@ exports[`conditionalExpression.melody.twig 1`] = `
 
 `;
 
-exports[`filterExpression.melody.twig 1`] = `
+exports[`filterExpression.melody.twig - melody-verify: filterExpression.melody.twig 1`] = `
 {{ 'test.foo' | split('.') }}
 {{ range(3) | sort | join(',') }}
 {{ 'SHOUTING' | lower|escape('html') | upper | escape('markdown') | lower | upper | escape('markdown') }}
@@ -224,14 +224,14 @@ exports[`filterExpression.melody.twig 1`] = `
 
 `;
 
-exports[`memberExpression.melody.twig 1`] = `
+exports[`memberExpression.melody.twig - melody-verify: memberExpression.melody.twig 1`] = `
 {{ alternativeMarriottRewardRates[deal.dealId].short }}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {{ alternativeMarriottRewardRates[deal.dealId].short }}
 
 `;
 
-exports[`objectExpression.melody.twig 1`] = `
+exports[`objectExpression.melody.twig - melody-verify: objectExpression.melody.twig 1`] = `
 {{ {
     a: "foo",
     "b#{ar}": "bar",
@@ -260,7 +260,7 @@ exports[`objectExpression.melody.twig 1`] = `
 
 `;
 
-exports[`operators.melody.twig 1`] = `
+exports[`operators.melody.twig - melody-verify: operators.melody.twig 1`] = `
 {{ a b-and b }}
 {{ a b-or b }}
 {{ a b-xor b }}
@@ -392,7 +392,7 @@ exports[`operators.melody.twig 1`] = `
 
 `;
 
-exports[`stringConcat.melody.twig 1`] = `
+exports[`stringConcat.melody.twig - melody-verify: stringConcat.melody.twig 1`] = `
 <div>
 {{ first  ~   second    }}
 </div>
@@ -423,7 +423,7 @@ exports[`stringConcat.melody.twig 1`] = `
 
 `;
 
-exports[`stringLiteral.melody.twig 1`] = `
+exports[`stringLiteral.melody.twig - melody-verify: stringLiteral.melody.twig 1`] = `
 {{ 'zzz\\\\bar\\\\baz' }}
 
 {{ "College - Women's" }}
@@ -446,7 +446,7 @@ exports[`stringLiteral.melody.twig 1`] = `
 
 `;
 
-exports[`unaryNot.melody.twig 1`] = `
+exports[`unaryNot.melody.twig - melody-verify: unaryNot.melody.twig 1`] = `
 {% if not invalid %}
     <p>All's well.</p>
 {% endif %}

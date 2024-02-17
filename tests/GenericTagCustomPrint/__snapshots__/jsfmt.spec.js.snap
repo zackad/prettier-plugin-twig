@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`switch.melody.twig 1`] = `
+exports[`switch.melody.twig - melody-verify: switch.melody.twig 1`] = `
 {% switch matrixBlock.type %}
     {% case "text" %}
 

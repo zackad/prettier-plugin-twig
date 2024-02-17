@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`for.melody.twig 1`] = `
+exports[`for.melody.twig - melody-verify: for.melody.twig 1`] = `
 <ul>
     {% for item in items %}
         <li class="{{ loop.last ? 'last' : '' }}">
@@ -35,7 +35,7 @@ exports[`for.melody.twig 1`] = `
 
 `;
 
-exports[`forIfElse.melody.twig 1`] = `
+exports[`forIfElse.melody.twig - melody-verify: forIfElse.melody.twig 1`] = `
 <ul>
 {% for a,b in c | slice(3, c.length) if b is even -%}
     <li>{{ a }} - {{ b }}</li>
@@ -75,7 +75,7 @@ exports[`forIfElse.melody.twig 1`] = `
 
 `;
 
-exports[`forInclude.melody.twig 1`] = `
+exports[`forInclude.melody.twig - melody-verify: forInclude.melody.twig 1`] = `
 {% for foo in range(1, category) %}
 <span key="{{ foo }}" class="qtp-item__star icon-ic icon-icn_star--white {{ foo }}">
   {% include './Star.twig' only %}
@@ -91,7 +91,7 @@ exports[`forInclude.melody.twig 1`] = `
 
 `;
 
-exports[`forWithBlock.melody.twig 1`] = `
+exports[`forWithBlock.melody.twig - melody-verify: forWithBlock.melody.twig 1`] = `
 <h1>{{ title | title }}</h1>
 <ul>
     {% for item in items %}
@@ -118,7 +118,7 @@ exports[`forWithBlock.melody.twig 1`] = `
 
 `;
 
-exports[`if.melody.twig 1`] = `
+exports[`if.melody.twig - melody-verify: if.melody.twig 1`] = `
 <div>
     {%- if foo %}
         <div class="foo"></div>

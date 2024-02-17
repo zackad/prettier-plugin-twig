@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`block.melody.twig 1`] = `
+exports[`block.melody.twig - melody-verify: block.melody.twig 1`] = `
 <section key="0">
 {% block hello %}
     <div key="1" class="test">
@@ -44,7 +44,7 @@ exports[`block.melody.twig 1`] = `
 
 `;
 
-exports[`embed.melody.twig 1`] = `
+exports[`embed.melody.twig - melody-verify: embed.melody.twig 1`] = `
 {% extends "parent.twig" %}
 
 {% block hello %}
@@ -90,7 +90,7 @@ exports[`embed.melody.twig 1`] = `
 
 `;
 
-exports[`extendsEmbed.melody.twig 1`] = `
+exports[`extendsEmbed.melody.twig - melody-verify: extendsEmbed.melody.twig 1`] = `
 {%- extends "parent.twig" %}
 {% extends someVar -%}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -99,7 +99,7 @@ exports[`extendsEmbed.melody.twig 1`] = `
 
 `;
 
-exports[`import.melody.twig 1`] = `
+exports[`import.melody.twig - melody-verify: import.melody.twig 1`] = `
 {%- import "forms.html" as forms %}
 {% import "aVeryLongAndConvolutedAndIntertwinedFilename.html" as someQuiteEccentricLocalVariableName -%}
 
@@ -124,7 +124,7 @@ exports[`import.melody.twig 1`] = `
 
 `;
 
-exports[`include.melody.twig 1`] = `
+exports[`include.melody.twig - melody-verify: include.melody.twig 1`] = `
 <div key="1" class="test">
     {{ message | lower | upper }}{% flush %}
     <span class="">{{ _context.name[1:] }}</span>
@@ -181,7 +181,7 @@ exports[`include.melody.twig 1`] = `
 
 `;
 
-exports[`mount.melody.twig 1`] = `
+exports[`mount.melody.twig - melody-verify: mount.melody.twig 1`] = `
 {%- mount './component' as 'bar' -%}
 
 {% mount async './parts/#{ part }.twig' as 'bar-#{part}' with {foo: 'bar'} delay placeholder by 1s -%}
@@ -290,7 +290,7 @@ exports[`mount.melody.twig 1`] = `
 
 `;
 
-exports[`useStatement.melody.twig 1`] = `
+exports[`useStatement.melody.twig - melody-verify: useStatement.melody.twig 1`] = `
 {% use "foo.twig" %}
 
 {%- use "blocks.html" with sidebar as base_sidebar, title as base_title %}

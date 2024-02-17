@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`twigCodingStandards.melody.twig 1`] = `
+exports[`twigCodingStandards.melody.twig - melody-verify: twigCodingStandards.melody.twig 1`] = `
 {{ foo }}
 {# comment #}
 {% if foo %}{% endif %}
