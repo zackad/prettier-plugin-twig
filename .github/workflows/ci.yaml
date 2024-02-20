@@ -6,6 +6,9 @@ on:
             - master
     pull_request:
 
+env:
+    NODE_OPTIONS: --experimental-vm-modules
+
 jobs:
     test:
         name: Test
@@ -13,20 +16,29 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                node_version: [18, 20]
-                prettier_version: ["2.3.0", "^2.3.0", "3.0.0"]
+                node_version: [ 18, 20 ]
+                prettier_version: [ "^2.3.0", "^3.0.0" ]
+                eslint_plugin_prettier_version: [ "^4.0.0", "^5.0.0" ]
+                exclude:
+                    -   prettier_version: ^2.3.0
+                        eslint_plugin_prettier_version: ^5.0.0
+                    -   prettier_version: ^3.0.0
+                        eslint_plugin_prettier_version: ^4.0.0
         steps:
-            - name: Checkout
-              uses: actions/checkout@v4
+            -   name: Checkout
+                uses: actions/checkout@v4
 
-            - name: Setup Node.js
-              uses: actions/setup-node@v4
-              with:
-                  node-version: ${{ matrix.node_version }}
-                  cache: "yarn"
+            -   name: Setup Node.js
+                uses: actions/setup-node@v4
+                with:
+                    node-version: ${{ matrix.node_version }}
+                    cache: "yarn"
 
-            - name: Install Dependencies
-              run: yarn add prettier@${{ matrix.prettier_version }}
+            -   name: Install Prettier
+                run: yarn add prettier@${{ matrix.prettier_version }}
 
-            - name: Run Test
-              run: yarn test
+            -   name: Install Eslint plugin for prettier
+                run: yarn add --dev eslint-plugin-prettier@${{ matrix.eslint_plugin_prettier_version }}
+
+            -   name: Run Test
+                run: yarn test
