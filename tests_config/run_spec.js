@@ -31,7 +31,12 @@ function run_spec(dirname, parsers, options) {
             const mergedOptions = Object.assign({}, options, {
                 parser: parsers[0]
             });
-            const output = prettyprint(source, path, mergedOptions);
+
+            let output;
+            beforeAll(async () => {
+                output = await prettyprint(source, path, mergedOptions);
+            });
+
             test(`${filename} - ${mergedOptions.parser}-verify`, () => {
                 expect(
                     raw(source + "~".repeat(80) + "\n" + output)
