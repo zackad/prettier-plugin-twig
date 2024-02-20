@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { concat, softline, indent, group } = prettier.doc.builders;
+const { softline, indent, group } = prettier.doc.builders;
 const { Node } = require("melody-types");
 const {
     firstValueInAncestorChain,
@@ -29,15 +29,11 @@ const printLogicalExpression = (node, path, print) => {
     const needsParentheses = argumentNeedsParentheses(node.argument);
     const printedArgument = path.call(print, "argument");
     if (needsParentheses) {
-        parts.push(
-            "(",
-            indent(concat([softline, printedArgument])),
-            concat([softline, ")"])
-        );
+        parts.push("(", indent([softline, printedArgument]), [softline, ")"]);
     } else {
         parts.push(printedArgument);
     }
-    const result = concat(parts);
+    const result = parts;
     const shouldCreateTopLevelGroup = !foundRootAbove && shouldGroupOnTopLevel;
 
     return shouldCreateTopLevelGroup ? group(result) : result;
@@ -55,7 +51,7 @@ const p = (node, path, print) => {
         parts.push(node.operator, " ");
     }
     parts.push(path.call(print, "argument"));
-    return concat(parts);
+    return parts;
 };
 
 module.exports = {

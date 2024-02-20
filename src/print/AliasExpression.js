@@ -1,12 +1,9 @@
-const prettier = require("prettier");
-const { concat } = prettier.doc.builders;
-
 const p = (node, path, print) => {
-    return concat([
+    return [
         path.call(print, "name"),
         " as ",
         path.call(print, "alias")
-    ]);
+    ];
 };
 
 module.exports = {

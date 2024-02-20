@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { concat, group } = prettier.doc.builders;
+const { group } = prettier.doc.builders;
 const {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
@@ -16,7 +16,7 @@ const p = (node, path, print) => {
         parts.push("]");
     }
     wrapExpressionIfNeeded(path, parts, node);
-    return group(concat(parts));
+    return group(parts);
 };
 
 module.exports = {

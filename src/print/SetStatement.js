@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { group, concat, line, hardline } = prettier.doc.builders;
+const { group, line, hardline } = prettier.doc.builders;
 const {
     printChildBlock,
     isNotExpression,
@@ -20,15 +20,13 @@ const buildSetStatement = (node, path, print, assignmentIndex) => {
         varDeclaration.value
     );
 
-    return group(
-        concat([
-            node.trimLeft ? "{%-" : "{%",
-            " set ",
-            path.call(print, "assignments", assignmentIndex),
-            avoidBreakBeforeClosing ? " " : line,
-            node.trimRight ? "-%}" : "%}"
-        ])
-    );
+    return group([
+        node.trimLeft ? "{%-" : "{%",
+        " set ",
+        path.call(print, "assignments", assignmentIndex),
+        avoidBreakBeforeClosing ? " " : line,
+        node.trimRight ? "-%}" : "%}"
+    ]);
 };
 
 const isEmbracingSet = node => {
@@ -51,7 +49,7 @@ const printRegularSet = (node, path, print) => {
             parts.push(buildSetStatement(node, path, print, index));
         });
     }
-    return concat(parts);
+    return parts;
 };
 
 const printEmbracingSet = (node, path, print) => {
@@ -78,7 +76,7 @@ const printEmbracingSet = (node, path, print) => {
         " endset ",
         node.trimRight ? "-%}" : "%}"
     );
-    return concat(parts);
+    return parts;
 };
 
 const p = (node, path, print) => {
