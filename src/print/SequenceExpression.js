@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { concat, hardline } = prettier.doc.builders;
+const { hardline } = prettier.doc.builders;
 const {
     removeSurroundingWhitespace,
     printChildGroups,
@@ -12,9 +12,9 @@ const p = (node, path, print) => {
     node.expressions = removeSurroundingWhitespace(node.expressions);
     const items = printChildGroups(node, path, print, "expressions");
     if (isRootNode(path)) {
-        return concat([...items, hardline]);
+        return [...items, hardline];
     }
-    return concat(items);
+    return items;
 };
 
 module.exports = {

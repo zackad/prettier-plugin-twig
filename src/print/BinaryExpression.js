@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { group, concat, line, softline, indent } = prettier.doc.builders;
+const { group, line, softline, indent } = prettier.doc.builders;
 const { Node } = require("melody-types");
 const {
     EXPRESSION_NEEDED,
@@ -35,7 +35,7 @@ const printInterpolatedString = (node, path, print, options) => {
     }
     printedFragments.unshift(path.call(print, ...currentPath));
     printedFragments.unshift('"');
-    return concat(printedFragments);
+    return printedFragments;
 };
 
 const operatorNeedsSpaces = operator => {
@@ -125,12 +125,13 @@ const printBinaryExpression = (node, path, print) => {
         potentiallyIndented.push(")");
     }
     const rightHandSide = alreadyIndented
-        ? concat(potentiallyIndented)
-        : indent(concat(potentiallyIndented));
-    const result = concat(
-        wrapExpressionIfNeeded(path, [...parts, rightHandSide], node)
+        ? potentiallyIndented
+        : indent(potentiallyIndented);
+    const result = wrapExpressionIfNeeded(
+        path,
+        [...parts, rightHandSide],
+        node
     );
-
     const shouldCreateTopLevelGroup = !foundRootAbove && shouldGroupOnTopLevel;
     const isDifferentLogicalOperator =
         isLogicalOperator && node.operator !== parentOperator;

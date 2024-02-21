@@ -10,6 +10,8 @@ env:
     es6: true
     node: true
     jest: true
+parserOptions:
+    ecmaVersion: 2017
 rules:
     curly: error
     import/no-extraneous-dependencies:

@@ -1,5 +1,5 @@
 const prettier = require("prettier");
-const { concat, softline, line, group, join, indent } = prettier.doc.builders;
+const { softline, line, group, join, indent } = prettier.doc.builders;
 const { findParentNode } = require("../util");
 
 const textMap = {
@@ -34,20 +34,13 @@ const p = (node, path, print) => {
     }
     if (hasArguments) {
         const printedArguments = path.map(print, "arguments");
-        const joinedArguments = join(concat([",", line]), printedArguments);
+        const joinedArguments = join([",", line], printedArguments);
         parts.push(
-            group(
-                concat([
-                    "(",
-                    indent(concat([softline, joinedArguments])),
-                    softline,
-                    ")"
-                ])
-            )
+            group(["(", indent([softline, joinedArguments]), softline, ")"])
         );
     }
 
-    return concat(parts);
+    return parts;
 };
 
 module.exports = {

@@ -1,5 +1,3 @@
-const prettier = require("prettier");
-const { concat } = prettier.doc.builders;
 const { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } = require("../util");
 const { Node } = require("melody-types");
 
@@ -18,7 +16,7 @@ const printConcatenatedString = (valueNode, path, print, ...initialPath) => {
         currentNode = currentNode.left;
     }
     printedFragments.unshift(path.call(print, ...currentPath));
-    return concat(printedFragments);
+    return printedFragments;
 };
 
 const p = (node, path, print = print) => {
@@ -46,7 +44,7 @@ const p = (node, path, print = print) => {
         docs.push('"');
     }
 
-    return concat(docs);
+    return docs;
 };
 
 module.exports = {

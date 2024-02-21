@@ -1,6 +1,6 @@
 const { EXPRESSION_NEEDED, INSIDE_OF_STRING } = require("./publicSymbols.js");
 const prettier = require("prettier");
-const { line, indent, concat, fill, group, hardline } = prettier.doc.builders;
+const { line, indent, fill, group, hardline } = prettier.doc.builders;
 const { Node } = require("melody-types");
 
 const {
@@ -387,7 +387,7 @@ const printChildBlock = (node, path, print, ...childPath) => {
         ...childPath
     );
     const childGroups = printChildGroups(node, path, print, ...childPath);
-    return indent(group(concat([hardline, ...childGroups])));
+    return indent(group([hardline, ...childGroups]));
 };
 
 const addNewlineIfNotEmpty = items => {
@@ -510,7 +510,7 @@ const addPreserveWhitespaceInfo = (inlineMap, nodes) => {
     });
 };
 
-const indentWithHardline = contents => indent(concat([hardline, contents]));
+const indentWithHardline = contents => indent([hardline, contents]);
 
 const printChildGroups = (node, path, print, ...childPath) => {
     // For the preprocessed children, get a map showing which elements can
