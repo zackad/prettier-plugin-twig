@@ -2,6 +2,7 @@
 extends:
     - eslint:recommended
     - plugin:prettier/recommended
+    - plugin:prettier-doc/recommended
     - plugin:jest/recommended
 plugins:
     - import
@@ -30,6 +31,7 @@ rules:
         - never
     prefer-arrow-callback: error
     prefer-const: error
+    prettier-doc/no-concat: error
     react/no-deprecated: off
     strict: off
     symbol-description: error
