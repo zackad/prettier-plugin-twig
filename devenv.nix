@@ -3,6 +3,7 @@
 {
   # https://devenv.sh/basics/
   env.GREET = "devenv";
+  env.NODE_OPTIONS = "--experimental-vm-modules";
 
   # https://devenv.sh/packages/
   packages = [
