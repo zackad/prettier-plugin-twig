@@ -2,6 +2,11 @@
 
 ![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
 
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/zackad/prettier-plugin-twig-melody/ci.yaml?branch=master&style=for-the-badge&logo=github)
+![GitHub License](https://img.shields.io/github/license/zackad/prettier-plugin-twig-melody?style=for-the-badge)
+![GitHub Release](https://img.shields.io/github/v/release/zackad/prettier-plugin-twig-melody?display_name=release&style=for-the-badge&logo=github)
+![GitHub Tag](https://img.shields.io/github/v/tag/zackad/prettier-plugin-twig-melody?style=for-the-badge)
+
 ---
 
 This Plugin enables Prettier to format `.twig` files, as well as `.html.twig` and `.melody.twig`. [Melody](https://melody.js.org) is a component based UI framework that uses Twig as its template language.
@@ -9,7 +14,7 @@ This Plugin enables Prettier to format `.twig` files, as well as `.html.twig` an
 ## Install
 
 ```bash
-yarn add --dev prettier-plugin-twig-melody
+yarn add --dev https://github.com/zackad/prettier-plugin-twig-melody#semver:^0.5.0
 ```
 
 ## Use
@@ -24,7 +29,7 @@ In your editor, if the plugin is not automatically picked up and invoked (e.g., 
 {
     "printWidth": 80,
     "tabWidth": 4,
-    "plugins": ["./node_modules/prettier-plugin-twig-melody"]
+    "plugins": ["prettier-plugin-twig-melody"]
 }
 ```
 

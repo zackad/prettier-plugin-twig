@@ -1,10 +1,23 @@
 # Changelog
 
-## master
+## unreleased
 
--   Features
+## v0.5.0
 
--   Bug fixes
+### Features
+
+-   BREAKING: Drop compatibility with prettier lower than 2.3.0. Use version 0.4.6 if you need to use prettier older than 2.3.0
+-   Fix compatibility with prettier 3
+
+### Internals
+
+-   Add CI configuration for github actions
+-   Add support for devenv.sh, nix based tools to manage development environment
+-   Explicitly declare prettier configuration as yaml file
+-   Fix eslint configuration to support ECMAScript 2017, allowing `async` function
+-   Fix license name to use valid SPDX
+-   Remove deprecated function usage of `concat` from `prettier.doc.builders`. Enforce this policy with eslint plugin `eslint-plugin-prettier-doc` using `prettier-doc/no-concat` rule.
+-   Upgrade devDependencies to latest compatible version
 
 ## v0.4.6
 
