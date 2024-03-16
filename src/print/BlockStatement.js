@@ -1,7 +1,7 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { hardline, group } = prettier.doc.builders;
-const { Node } = require("melody-types");
-const { EXPRESSION_NEEDED, printChildBlock } = require("../util");
+import { Node } from 'melody-types';
+import { EXPRESSION_NEEDED, printChildBlock } from '../util/index.js';
 
 const p = (node, path, print, options) => {
     node[EXPRESSION_NEEDED] = false;
@@ -44,6 +44,6 @@ const p = (node, path, print, options) => {
     }
 };
 
-module.exports = {
+export default {
     printBlockStatement: p
 };

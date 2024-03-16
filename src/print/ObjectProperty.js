@@ -1,5 +1,5 @@
-const { isValidIdentifierName, STRING_NEEDS_QUOTES } = require("../util");
-const { Node } = require("melody-types");
+import { isValidIdentifierName, STRING_NEEDS_QUOTES } from '../util/index.js';
+import { Node } from 'melody-types';
 
 const p = (node, path, print, options) => {
     node[STRING_NEEDS_QUOTES] =
@@ -22,6 +22,6 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-module.exports = {
+export default {
     printObjectProperty: p
 };

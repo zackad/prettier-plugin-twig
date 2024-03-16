@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { hardline, group } = prettier.doc.builders;
-const { printChildBlock } = require("../util");
+import { printChildBlock } from '../util/index.js';
 
 const p = (node, path, print) => {
     const parts = [
@@ -19,6 +19,6 @@ const p = (node, path, print) => {
     return result;
 };
 
-module.exports = {
+export default {
     printSpacelessBlock: p
 };

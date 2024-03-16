@@ -1,9 +1,9 @@
-const {
+import {
     firstValueInAncestorChain,
     quoteChar,
     STRING_NEEDS_QUOTES,
-    OVERRIDE_QUOTE_CHAR
-} = require("../util");
+    OVERRIDE_QUOTE_CHAR,
+} from '../util/index.js';
 
 const isUnmaskedOccurrence = (s, pos) => {
     return pos === 0 || s[pos - 1] !== "\\";
@@ -60,6 +60,6 @@ const p = (node, path, print, options) => {
     return node.value;
 };
 
-module.exports = {
+export default {
     printStringLiteral: p
 };

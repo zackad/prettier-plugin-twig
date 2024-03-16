@@ -1,7 +1,7 @@
-const pluginUtil = require("./pluginUtil.js");
-const publicSymbols = require("./publicSymbols.js");
-const publicFunctions = require("./publicFunctions.js");
-const printFunctions = require("./printFunctions.js");
+import pluginUtil from './pluginUtil.js';
+import publicSymbols from './publicSymbols.js';
+import publicFunctions from './publicFunctions.js';
+import printFunctions from './printFunctions.js';
 
 const combinedExports = Object.assign(
     {},
@@ -11,4 +11,4 @@ const combinedExports = Object.assign(
     printFunctions
 );
 
-module.exports = combinedExports;
+export default combinedExports;

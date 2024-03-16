@@ -1,13 +1,8 @@
-const { EXPRESSION_NEEDED, INSIDE_OF_STRING } = require("./publicSymbols.js");
-const prettier = require("prettier");
+import { EXPRESSION_NEEDED, INSIDE_OF_STRING } from './publicSymbols.js';
+import prettier from 'prettier';
 const { line, indent, fill, group, hardline } = prettier.doc.builders;
-const { Node } = require("melody-types");
-
-const {
-    PRESERVE_LEADING_WHITESPACE,
-    PRESERVE_TRAILING_WHITESPACE,
-    NEWLINES_ONLY
-} = require("./publicSymbols.js");
+import { Node } from 'melody-types';
+import { PRESERVE_LEADING_WHITESPACE, PRESERVE_TRAILING_WHITESPACE, NEWLINES_ONLY } from './publicSymbols.js';
 
 const INLINE_HTML_ELEMENTS = [
     "a",
@@ -550,7 +545,7 @@ const printChildGroups = (node, path, print, ...childPath) => {
     return finishedGroups;
 };
 
-module.exports = {
+export default {
     shouldExpressionsBeWrapped,
     wrapExpressionIfNeeded,
     wrapInStringInterpolation,

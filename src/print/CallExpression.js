@@ -1,11 +1,7 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, softline, line, indent, join } = prettier.doc.builders;
-const {
-    EXPRESSION_NEEDED,
-    STRING_NEEDS_QUOTES,
-    wrapExpressionIfNeeded
-} = require("../util");
-const { Node } = require("melody-types");
+import { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES, wrapExpressionIfNeeded } from '../util/index.js';
+import { Node } from 'melody-types';
 
 const p = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
@@ -34,6 +30,6 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-module.exports = {
+export default {
     printCallExpression: p
 };

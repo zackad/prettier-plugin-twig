@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { hardline } = prettier.doc.builders;
-const { printChildBlock, quoteChar } = require("../util");
+import { printChildBlock, quoteChar } from '../util/index.js';
 
 const createOpener = (node, options) => {
     return [
@@ -27,6 +27,6 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-module.exports = {
+export default {
     printAutoescapeBlock: p
 };

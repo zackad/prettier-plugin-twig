@@ -1,12 +1,13 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, line, hardline, softline, indent, join } = prettier.doc.builders;
-const {
+
+import {
     removeSurroundingWhitespace,
     isInlineElement,
     printChildGroups,
     EXPRESSION_NEEDED,
-    STRING_NEEDS_QUOTES
-} = require("../util");
+    STRING_NEEDS_QUOTES,
+} from '../util/index.js';
 
 const printOpeningTag = (node, path, print) => {
     const opener = "<" + node.name;
@@ -59,6 +60,6 @@ const p = (node, path, print) => {
     return openingGroup;
 };
 
-module.exports = {
+export default {
     printElement: p
 };

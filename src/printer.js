@@ -1,67 +1,59 @@
 "use strict";
 
-const { printSequenceExpression } = require("./print/SequenceExpression.js");
-const { printBinaryExpression } = require("./print/BinaryExpression.js");
-const {
-    printConditionalExpression
-} = require("./print/ConditionalExpression.js");
-const { printElement } = require("./print/Element.js");
-const { printAttribute } = require("./print/Attribute.js");
-const { printIdentifier } = require("./print/Identifier.js");
-const { printExpressionStatement } = require("./print/ExpressionStatement.js");
-const { printMemberExpression } = require("./print/MemberExpression.js");
-const { printFilterExpression } = require("./print/FilterExpression.js");
-const { printObjectExpression } = require("./print/ObjectExpression.js");
-const { printObjectProperty } = require("./print/ObjectProperty.js");
-const { printCallExpression } = require("./print/CallExpression.js");
-const { printTestExpression } = require("./print/TestExpression.js");
-const { printUnaryExpression } = require("./print/UnaryExpression.js");
-const { printUnarySubclass } = require("./print/UnarySubclass.js");
-const { printTextStatement } = require("./print/TextStatement.js");
-const { printStringLiteral } = require("./print/StringLiteral.js");
-const { printArrayExpression } = require("./print/ArrayExpression.js");
-const { printSliceExpression } = require("./print/SliceExpression.js");
-const { printUseStatement } = require("./print/UseStatement.js");
-const { printAliasExpression } = require("./print/AliasExpression.js");
-const { printBlockStatement } = require("./print/BlockStatement.js");
-const { printSpacelessBlock } = require("./print/SpacelessBlock.js");
-const { printAutoescapeBlock } = require("./print/AutoescapeBlock.js");
-const { printFlushStatement } = require("./print/FlushStatement.js");
-const { printIncludeStatement } = require("./print/IncludeStatement.js");
-const { printIfStatement } = require("./print/IfStatement.js");
-const { printMountStatement } = require("./print/MountStatement.js");
-const { printForStatement } = require("./print/ForStatement.js");
-const { printSetStatement } = require("./print/SetStatement.js");
-const { printDoStatement } = require("./print/DoStatement.js");
-const { printExtendsStatement } = require("./print/ExtendsStatement.js");
-const { printEmbedStatement } = require("./print/EmbedStatement.js");
-const { printImportDeclaration } = require("./print/ImportDeclaration.js");
-const { printFromStatement } = require("./print/FromStatement.js");
-const { printTwigComment } = require("./print/TwigComment.js");
-const { printHtmlComment } = require("./print/HtmlComment.js");
-const { printDeclaration } = require("./print/Declaration.js");
-const { printGenericTwigTag } = require("./print/GenericTwigTag.js");
-const { printGenericToken } = require("./print/GenericToken.js");
-const {
-    printMacroDeclarationStatement
-} = require("./print/MacroDeclarationStatement.js");
-const {
-    printFilterBlockStatement
-} = require("./print/FilterBlockStatement.js");
-const {
-    printVariableDeclarationStatement
-} = require("./print/VariableDeclarationStatement.js");
-const {
-    printNamedArgumentExpression
-} = require("./print/NamedArgumentExpression.js");
-const {
+import { printSequenceExpression } from './print/SequenceExpression.js';
+import { printBinaryExpression } from './print/BinaryExpression.js';
+import { printConditionalExpression } from './print/ConditionalExpression.js';
+import { printElement } from './print/Element.js';
+import { printAttribute } from './print/Attribute.js';
+import { printIdentifier } from './print/Identifier.js';
+import { printExpressionStatement } from './print/ExpressionStatement.js';
+import { printMemberExpression } from './print/MemberExpression.js';
+import { printFilterExpression } from './print/FilterExpression.js';
+import { printObjectExpression } from './print/ObjectExpression.js';
+import { printObjectProperty } from './print/ObjectProperty.js';
+import { printCallExpression } from './print/CallExpression.js';
+import { printTestExpression } from './print/TestExpression.js';
+import { printUnaryExpression } from './print/UnaryExpression.js';
+import { printUnarySubclass } from './print/UnarySubclass.js';
+import { printTextStatement } from './print/TextStatement.js';
+import { printStringLiteral } from './print/StringLiteral.js';
+import { printArrayExpression } from './print/ArrayExpression.js';
+import { printSliceExpression } from './print/SliceExpression.js';
+import { printUseStatement } from './print/UseStatement.js';
+import { printAliasExpression } from './print/AliasExpression.js';
+import { printBlockStatement } from './print/BlockStatement.js';
+import { printSpacelessBlock } from './print/SpacelessBlock.js';
+import { printAutoescapeBlock } from './print/AutoescapeBlock.js';
+import { printFlushStatement } from './print/FlushStatement.js';
+import { printIncludeStatement } from './print/IncludeStatement.js';
+import { printIfStatement } from './print/IfStatement.js';
+import { printMountStatement } from './print/MountStatement.js';
+import { printForStatement } from './print/ForStatement.js';
+import { printSetStatement } from './print/SetStatement.js';
+import { printDoStatement } from './print/DoStatement.js';
+import { printExtendsStatement } from './print/ExtendsStatement.js';
+import { printEmbedStatement } from './print/EmbedStatement.js';
+import { printImportDeclaration } from './print/ImportDeclaration.js';
+import { printFromStatement } from './print/FromStatement.js';
+import { printTwigComment } from './print/TwigComment.js';
+import { printHtmlComment } from './print/HtmlComment.js';
+import { printDeclaration } from './print/Declaration.js';
+import { printGenericTwigTag } from './print/GenericTwigTag.js';
+import { printGenericToken } from './print/GenericToken.js';
+import { printMacroDeclarationStatement } from './print/MacroDeclarationStatement.js';
+import { printFilterBlockStatement } from './print/FilterBlockStatement.js';
+import { printVariableDeclarationStatement } from './print/VariableDeclarationStatement.js';
+import { printNamedArgumentExpression } from './print/NamedArgumentExpression.js';
+
+import {
     isWhitespaceNode,
     isHtmlCommentEqualTo,
     isTwigCommentEqualTo,
     getPluginPathsFromOptions,
-    loadPlugins
-} = require("./util");
-const { ORIGINAL_SOURCE } = require("./parser");
+    loadPlugins,
+} from './util/index.js';
+
+import { ORIGINAL_SOURCE } from './parser.js';
 
 const printFunctions = {};
 
@@ -279,6 +271,6 @@ printFunctions["GenericToken"] = printGenericToken;
 // Fallbacks
 printFunctions["String"] = s => s;
 
-module.exports = {
+export default {
     print
 };

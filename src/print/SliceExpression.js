@@ -5,6 +5,6 @@ const p = (node, path, print) => {
     return [printedTarget, "[", printedStart, ":", printedEnd, "]"];
 };
 
-module.exports = {
+export default {
     printSliceExpression: p
 };

@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, line, hardline } = prettier.doc.builders;
-const { FILTER_BLOCK, printChildBlock } = require("../util");
+import { FILTER_BLOCK, printChildBlock } from '../util/index.js';
 
 const printOpeningGroup = (node, path, print) => {
     const parts = [node.trimLeft ? "{%- " : "{% "];
@@ -23,6 +23,6 @@ const p = (node, path, print) => {
     return [openingGroup, body, closingStatement];
 };
 
-module.exports = {
+export default {
     printFilterBlockStatement: p
 };

@@ -1,7 +1,8 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, line, softline, indent } = prettier.doc.builders;
-const { Node } = require("melody-types");
-const {
+import { Node } from 'melody-types';
+
+import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
     INSIDE_OF_STRING,
@@ -9,9 +10,10 @@ const {
     IS_ROOT_LOGICAL_EXPRESSION,
     firstValueInAncestorChain,
     findParentNode,
-    wrapExpressionIfNeeded
-} = require("../util");
-const { extension: coreExtension } = require("melody-extension-core");
+    wrapExpressionIfNeeded,
+} from '../util/index.js';
+
+import { extension as coreExtension } from 'melody-extension-core';
 const ALREADY_INDENTED = Symbol("ALREADY_INDENTED");
 const OPERATOR_PRECEDENCE = Symbol("OPERATOR_PRECEDENCE");
 const NO_WHITESPACE_AROUND = [".."];
@@ -151,6 +153,6 @@ const p = (node, path, print, options) => {
     return printBinaryExpression(node, path, print);
 };
 
-module.exports = {
+export default {
     printBinaryExpression: p
 };

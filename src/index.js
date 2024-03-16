@@ -1,9 +1,9 @@
 "use strict";
 
-const { print } = require("./printer.js");
-const { parse } = require("./parser.js");
-const symbols = require("./util/publicSymbols.js");
-const publicFunctions = require("./util/publicFunctions.js");
+import { print } from './printer.js';
+import { parse } from './parser.js';
+import symbols from './util/publicSymbols.js';
+import publicFunctions from './util/publicFunctions.js';
 
 const languages = [
     {
@@ -137,4 +137,4 @@ const combinedExports = Object.assign(
 
 // This exports defines the Prettier plugin
 // See https://github.com/prettier/prettier/blob/master/docs/plugins.md
-module.exports = combinedExports;
+export default combinedExports;

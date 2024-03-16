@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { softline, line, group, join, indent } = prettier.doc.builders;
-const { findParentNode } = require("../util");
+import { findParentNode } from '../util/index.js';
 
 const textMap = {
     TestNullExpression: "null",
@@ -43,6 +43,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
+export default {
     printTestExpression: p
 };

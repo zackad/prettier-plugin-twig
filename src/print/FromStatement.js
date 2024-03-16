@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, join, line, indent } = prettier.doc.builders;
-const { STRING_NEEDS_QUOTES } = require("../util");
+import { STRING_NEEDS_QUOTES } from '../util/index.js';
 
 const printImportDeclaration = node => {
     const parts = [node.key.name];
@@ -28,6 +28,6 @@ const p = (node, path, print) => {
     ]);
 };
 
-module.exports = {
+export default {
     printFromStatement: p
 };

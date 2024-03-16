@@ -1,6 +1,6 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { line, indent, group } = prettier.doc.builders;
-const { Node } = require("melody-types");
+import { Node } from 'melody-types';
 
 const noSpaceBeforeToken = {
     ",": true
@@ -29,6 +29,6 @@ const printSingleTwigTag = (node, path, print) => {
     return group(parts);
 };
 
-module.exports = {
+export default {
     printSingleTwigTag
 };

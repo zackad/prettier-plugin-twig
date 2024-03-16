@@ -1,5 +1,5 @@
-const path = require("path");
-const resolve = require("resolve");
+import path from 'path';
+import resolve from 'resolve';
 
 const getPluginPathsFromOptions = options => {
     if (options.twigMelodyPlugins && Array.isArray(options.twigMelodyPlugins)) {
@@ -68,7 +68,7 @@ const getAdditionalMelodyExtensions = pluginPaths => {
     return result.filter(elem => !!elem);
 };
 
-module.exports = {
+export default {
     getPluginPathsFromOptions,
     tryLoadPlugin,
     loadPlugins,

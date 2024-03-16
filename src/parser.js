@@ -1,9 +1,6 @@
-const { CharStream, Lexer, TokenStream, Parser } = require("melody-parser");
-const { extension: coreExtension } = require("melody-extension-core");
-const {
-    getAdditionalMelodyExtensions,
-    getPluginPathsFromOptions
-} = require("./util");
+import { CharStream, Lexer, TokenStream, Parser } from 'melody-parser';
+import { extension as coreExtension } from 'melody-extension-core';
+import { getAdditionalMelodyExtensions, getPluginPathsFromOptions } from './util/index.js';
 
 const ORIGINAL_SOURCE = Symbol("ORIGINAL_SOURCE");
 
@@ -86,7 +83,7 @@ const parse = (text, parsers, options) => {
     return ast;
 };
 
-module.exports = {
+export default {
     parse,
     ORIGINAL_SOURCE
 };

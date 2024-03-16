@@ -1,4 +1,4 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { group, join, line, softline, hardline, indent } = prettier.doc.builders;
 
 const printOpener = (node, path, print) => {
@@ -27,6 +27,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
+export default {
     printMacroDeclarationStatement: p
 };

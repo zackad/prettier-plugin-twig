@@ -1,11 +1,12 @@
-const prettier = require("prettier");
+import prettier from 'prettier';
 const { hardline } = prettier.doc.builders;
-const {
+
+import {
     removeSurroundingWhitespace,
     printChildGroups,
     isRootNode,
-    STRING_NEEDS_QUOTES
-} = require("../util");
+    STRING_NEEDS_QUOTES,
+} from '../util/index.js';
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = false;
@@ -17,6 +18,6 @@ const p = (node, path, print) => {
     return items;
 };
 
-module.exports = {
+export default {
     printSequenceExpression: p
 };
