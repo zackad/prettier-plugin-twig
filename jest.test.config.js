@@ -2,7 +2,7 @@
 
 const ENABLE_COVERAGE = false; // !!process.env.CI;
 
-module.exports = {
+export default {
     displayName: "test",
     setupFiles: ["<rootDir>/tests_config/run_spec.js"],
     snapshotSerializers: ["<rootDir>/tests_config/raw-serializer.js"],

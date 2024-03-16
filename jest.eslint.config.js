@@ -1,6 +1,6 @@
 "use strict";
 
-module.exports = {
+export default {
     runner: "jest-runner-eslint",
     displayName: "lint",
     testMatch: ["<rootDir>/**/*.js"],
