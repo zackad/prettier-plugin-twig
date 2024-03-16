@@ -1,5 +1,5 @@
-import path from 'path';
-import resolve from 'resolve';
+import path from "path";
+import resolve from "resolve";
 
 const getPluginPathsFromOptions = options => {
     if (options.twigMelodyPlugins && Array.isArray(options.twigMelodyPlugins)) {

@@ -1,4 +1,4 @@
-import { STRING_NEEDS_QUOTES } from '../util/index.js';
+import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -10,6 +10,4 @@ const p = (node, path, print) => {
     ];
 };
 
-export {
-    p as printExtendsStatement
-};
+export { p as printExtendsStatement };

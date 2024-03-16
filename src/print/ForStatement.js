@@ -1,6 +1,10 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group, indent, line, hardline } = prettier.doc.builders;
-import { EXPRESSION_NEEDED, isWhitespaceNode, indentWithHardline } from '../util/index.js';
+import {
+    EXPRESSION_NEEDED,
+    isWhitespaceNode,
+    indentWithHardline
+} from "../util/index.js";
 
 const printFor = (node, path, print) => {
     const parts = [node.trimLeft ? "{%-" : "{%", " for "];
@@ -50,6 +54,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export {
-    p as printForStatement
-};
+export { p as printForStatement };

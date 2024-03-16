@@ -1,6 +1,6 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group } = prettier.doc.builders;
-import { STRING_NEEDS_QUOTES } from '../util/index.js';
+import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -22,6 +22,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export {
-    p as printIncludeStatement
-};
+export { p as printIncludeStatement };

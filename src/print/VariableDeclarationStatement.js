@@ -1,6 +1,6 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { line, indent } = prettier.doc.builders;
-import { STRING_NEEDS_QUOTES, isContractableNodeType } from '../util/index.js';
+import { STRING_NEEDS_QUOTES, isContractableNodeType } from "../util/index.js";
 
 const p = (node, path, print) => {
     const printedName = path.call(print, "name");
@@ -17,6 +17,4 @@ const p = (node, path, print) => {
     return [printedName, " =", rightHandSide];
 };
 
-export {
-    p as printVariableDeclarationStatement
-};
+export { p as printVariableDeclarationStatement };

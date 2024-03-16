@@ -1,4 +1,4 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { line, join, hardline } = prettier.doc.builders;
 
 import {
@@ -7,8 +7,8 @@ import {
     createTextGroups,
     PRESERVE_LEADING_WHITESPACE,
     PRESERVE_TRAILING_WHITESPACE,
-    NEWLINES_ONLY,
-} from '../util/index.js';
+    NEWLINES_ONLY
+} from "../util/index.js";
 
 const newlinesOnly = (s, preserveWhitespace = true) => {
     const numNewlines = countNewlines(s);
@@ -42,6 +42,4 @@ const p = (node, path, print) => {
     return join([hardline, hardline], textGroups);
 };
 
-export {
-    p as printTextStatement
-};
+export { p as printTextStatement };

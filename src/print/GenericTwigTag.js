@@ -1,13 +1,13 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { hardline } = prettier.doc.builders;
-import { Node } from 'melody-types';
+import { Node } from "melody-types";
 
 import {
     STRING_NEEDS_QUOTES,
     indentWithHardline,
     printSingleTwigTag,
-    isEmptySequence,
-} from '../util/index.js';
+    isEmptySequence
+} from "../util/index.js";
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -27,6 +27,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export {
-    p as printGenericTwigTag
-};
+export { p as printGenericTwigTag };

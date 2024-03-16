@@ -1,7 +1,7 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { hardline, group } = prettier.doc.builders;
-import { Node } from 'melody-types';
-import { EXPRESSION_NEEDED, printChildBlock } from '../util/index.js';
+import { Node } from "melody-types";
+import { EXPRESSION_NEEDED, printChildBlock } from "../util/index.js";
 
 const p = (node, path, print, options) => {
     node[EXPRESSION_NEEDED] = false;
@@ -44,6 +44,4 @@ const p = (node, path, print, options) => {
     }
 };
 
-export {
-    p as printBlockStatement
-};
+export { p as printBlockStatement };

@@ -1,6 +1,6 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group, indent, line, softline, join } = prettier.doc.builders;
-import { Node } from 'melody-types';
+import { Node } from "melody-types";
 
 import {
     EXPRESSION_NEEDED,
@@ -11,8 +11,8 @@ import {
     wrapInStringInterpolation,
     someParentNode,
     isMultipartExpression,
-    getDeepProperty,
-} from '../util/index.js';
+    getDeepProperty
+} from "../util/index.js";
 
 const isInFilterBlock = path =>
     someParentNode(path, node => node[FILTER_BLOCK] === true);
@@ -128,6 +128,4 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export {
-    p as printFilterExpression
-};
+export { p as printFilterExpression };

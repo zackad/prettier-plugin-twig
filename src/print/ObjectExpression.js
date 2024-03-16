@@ -1,6 +1,6 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group, line, hardline, indent, join } = prettier.doc.builders;
-import { EXPRESSION_NEEDED, wrapExpressionIfNeeded } from '../util/index.js';
+import { EXPRESSION_NEEDED, wrapExpressionIfNeeded } from "../util/index.js";
 
 const p = (node, path, print, options) => {
     if (node.properties.length === 0) {
@@ -17,6 +17,4 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export {
-    p as printObjectExpression
-};
+export { p as printObjectExpression };

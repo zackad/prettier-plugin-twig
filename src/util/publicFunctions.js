@@ -1,8 +1,12 @@
-import { EXPRESSION_NEEDED, INSIDE_OF_STRING } from './publicSymbols.js';
-import prettier from 'prettier';
+import { EXPRESSION_NEEDED, INSIDE_OF_STRING } from "./publicSymbols.js";
+import prettier from "prettier";
 const { line, indent, fill, group, hardline } = prettier.doc.builders;
-import { Node } from 'melody-types';
-import { PRESERVE_LEADING_WHITESPACE, PRESERVE_TRAILING_WHITESPACE, NEWLINES_ONLY } from './publicSymbols.js';
+import { Node } from "melody-types";
+import {
+    PRESERVE_LEADING_WHITESPACE,
+    PRESERVE_TRAILING_WHITESPACE,
+    NEWLINES_ONLY
+} from "./publicSymbols.js";
 
 const INLINE_HTML_ELEMENTS = [
     "a",

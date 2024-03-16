@@ -1,4 +1,4 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group, indent, join, line } = prettier.doc.builders;
 
 const p = (node, path, print) => {
@@ -21,6 +21,4 @@ const p = (node, path, print) => {
     return group(docs);
 };
 
-export {
-    p as printUseStatement
-};
+export { p as printUseStatement };

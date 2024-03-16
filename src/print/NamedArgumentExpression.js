@@ -1,4 +1,4 @@
-import { STRING_NEEDS_QUOTES } from '../util/index.js';
+import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -7,6 +7,4 @@ const p = (node, path, print) => {
     return [printedName, " = ", printedValue];
 };
 
-export {
-    p as printNamedArgumentExpression
-};
+export { p as printNamedArgumentExpression };

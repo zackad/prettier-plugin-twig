@@ -1,8 +1,12 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { group, indent, line, hardline } = prettier.doc.builders;
-import { EXPRESSION_NEEDED, printChildBlock } from '../util/index.js';
-import { Node } from 'melody-types';
-import { hasNoNewlines, PRESERVE_LEADING_WHITESPACE, PRESERVE_TRAILING_WHITESPACE } from '../util/index.js';
+import { EXPRESSION_NEEDED, printChildBlock } from "../util/index.js";
+import { Node } from "melody-types";
+import {
+    hasNoNewlines,
+    PRESERVE_LEADING_WHITESPACE,
+    PRESERVE_TRAILING_WHITESPACE
+} from "../util/index.js";
 
 const IS_ELSEIF = Symbol("IS_ELSEIF");
 
@@ -72,6 +76,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export {
-    p as printIfStatement
-};
+export { p as printIfStatement };

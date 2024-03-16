@@ -1,6 +1,6 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { hardline, group } = prettier.doc.builders;
-import { printChildBlock } from '../util/index.js';
+import { printChildBlock } from "../util/index.js";
 
 const p = (node, path, print) => {
     const parts = [
@@ -19,6 +19,4 @@ const p = (node, path, print) => {
     return result;
 };
 
-export {
-    p as printSpacelessBlock
-};
+export { p as printSpacelessBlock };

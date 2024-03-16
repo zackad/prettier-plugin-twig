@@ -1,6 +1,10 @@
-import prettier from 'prettier';
+import prettier from "prettier";
 const { indent, hardline, line, group } = prettier.doc.builders;
-import { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES, printChildBlock } from '../util/index.js';
+import {
+    EXPRESSION_NEEDED,
+    STRING_NEEDS_QUOTES,
+    printChildBlock
+} from "../util/index.js";
 
 const printOpener = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
@@ -30,6 +34,4 @@ const p = (node, path, print) => {
     return [printedOpener, children, closing];
 };
 
-export {
-    p as printEmbedStatement
-};
+export { p as printEmbedStatement };
