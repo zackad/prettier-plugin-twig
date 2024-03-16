@@ -72,6 +72,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printIfStatement: p
+export {
+    p as printIfStatement
 };

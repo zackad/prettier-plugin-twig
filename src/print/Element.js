@@ -60,6 +60,6 @@ const p = (node, path, print) => {
     return openingGroup;
 };
 
-export default {
-    printElement: p
+export {
+    p as printElement
 };

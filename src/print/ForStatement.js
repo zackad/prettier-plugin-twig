@@ -50,6 +50,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printForStatement: p
+export {
+    p as printForStatement
 };

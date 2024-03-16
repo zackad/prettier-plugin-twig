@@ -11,6 +11,6 @@ const p = (node, path, print) => {
     return fill([start, " ", join(" ", printedParts), ">"]);
 };
 
-export default {
-    printDeclaration: p
+export {
+    p as printDeclaration
 };

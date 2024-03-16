@@ -7,6 +7,6 @@ const p = (node, path, print) => {
     return [printedName, " = ", printedValue];
 };
 
-export default {
-    printNamedArgumentExpression: p
+export {
+    p as printNamedArgumentExpression
 };

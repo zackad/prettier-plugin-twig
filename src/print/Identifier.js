@@ -11,6 +11,6 @@ const p = (node, path) => {
     return parts.length === 1 ? result : group(result);
 };
 
-export default {
-    printIdentifier: p
+export {
+    p as printIdentifier
 };

@@ -27,6 +27,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printMacroDeclarationStatement: p
+export {
+    p as printMacroDeclarationStatement
 };

@@ -29,6 +29,6 @@ const printSingleTwigTag = (node, path, print) => {
     return group(parts);
 };
 
-export default {
+export {
     printSingleTwigTag
 };

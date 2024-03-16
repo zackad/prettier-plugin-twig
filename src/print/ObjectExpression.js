@@ -17,6 +17,6 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export default {
-    printObjectExpression: p
+export {
+    p as printObjectExpression
 };

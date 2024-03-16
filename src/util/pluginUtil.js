@@ -68,7 +68,7 @@ const getAdditionalMelodyExtensions = pluginPaths => {
     return result.filter(elem => !!elem);
 };
 
-export default {
+export {
     getPluginPathsFromOptions,
     tryLoadPlugin,
     loadPlugins,

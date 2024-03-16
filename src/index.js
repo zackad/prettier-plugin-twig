@@ -2,8 +2,8 @@
 
 import { print } from './printer.js';
 import { parse } from './parser.js';
-import symbols from './util/publicSymbols.js';
-import publicFunctions from './util/publicFunctions.js';
+import * as symbols from './util/publicSymbols.js';
+import * as publicFunctions from './util/publicFunctions.js';
 
 const languages = [
     {

@@ -30,6 +30,6 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export default {
-    printCallExpression: p
+export {
+    p as printCallExpression
 };

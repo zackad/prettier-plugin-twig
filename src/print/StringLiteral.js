@@ -60,6 +60,6 @@ const p = (node, path, print, options) => {
     return node.value;
 };
 
-export default {
-    printStringLiteral: p
+export {
+    p as printStringLiteral
 };

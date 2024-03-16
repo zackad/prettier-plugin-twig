@@ -18,6 +18,6 @@ const p = (node, path, print) => {
     return items;
 };
 
-export default {
-    printSequenceExpression: p
+export {
+    p as printSequenceExpression
 };

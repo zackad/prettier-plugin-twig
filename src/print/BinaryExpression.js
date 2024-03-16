@@ -153,6 +153,6 @@ const p = (node, path, print, options) => {
     return printBinaryExpression(node, path, print);
 };
 
-export default {
-    printBinaryExpression: p
+export {
+    p as printBinaryExpression
 };

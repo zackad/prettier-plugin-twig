@@ -44,6 +44,6 @@ const p = (node, path, print, options) => {
     }
 };
 
-export default {
-    printBlockStatement: p
+export {
+    p as printBlockStatement
 };

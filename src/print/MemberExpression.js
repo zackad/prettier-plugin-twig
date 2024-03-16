@@ -15,6 +15,6 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export default {
-    printMemberExpression: p
+export {
+    p as printMemberExpression
 };

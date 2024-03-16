@@ -128,6 +128,6 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export default {
-    printFilterExpression: p
+export {
+    p as printFilterExpression
 };

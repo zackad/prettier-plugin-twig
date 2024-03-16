@@ -20,6 +20,6 @@ const p = node => {
     return [trimLeft ? "{#-" : "{#", commentText, trimRight ? "-#}" : "#}"];
 };
 
-export default {
-    printTwigComment: p
+export {
+    p as printTwigComment
 };

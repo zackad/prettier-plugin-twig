@@ -30,6 +30,6 @@ const p = (node, path, print) => {
     return [printedOpener, children, closing];
 };
 
-export default {
-    printEmbedStatement: p
+export {
+    p as printEmbedStatement
 };

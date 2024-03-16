@@ -80,6 +80,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printMountStatement: p
+export {
+    p as printMountStatement
 };

@@ -19,6 +19,6 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export default {
-    printConditionalExpression: p
+export {
+    p as printConditionalExpression
 };

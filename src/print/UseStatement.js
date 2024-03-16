@@ -21,6 +21,6 @@ const p = (node, path, print) => {
     return group(docs);
 };
 
-export default {
-    printUseStatement: p
+export {
+    p as printUseStatement
 };

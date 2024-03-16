@@ -47,6 +47,6 @@ const p = (node, path, print = print) => {
     return docs;
 };
 
-export default {
-    printAttribute: p
+export {
+    p as printAttribute
 };

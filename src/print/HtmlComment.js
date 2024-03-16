@@ -19,6 +19,6 @@ const p = (node, path, print) => {
     return ["<!-- ", commentText, " -->"];
 };
 
-export default {
-    printHtmlComment: p
+export {
+    p as printHtmlComment
 };

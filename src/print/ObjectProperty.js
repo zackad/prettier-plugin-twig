@@ -22,6 +22,6 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-export default {
-    printObjectProperty: p
+export {
+    p as printObjectProperty
 };

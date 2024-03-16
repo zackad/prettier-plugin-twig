@@ -55,6 +55,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printUnarySubclass: p
+export {
+    p as printUnarySubclass
 };

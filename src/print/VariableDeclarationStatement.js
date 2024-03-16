@@ -17,6 +17,6 @@ const p = (node, path, print) => {
     return [printedName, " =", rightHandSide];
 };
 
-export default {
-    printVariableDeclarationStatement: p
+export {
+    p as printVariableDeclarationStatement
 };

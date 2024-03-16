@@ -19,6 +19,6 @@ const p = (node, path, print) => {
     return result;
 };
 
-export default {
-    printSpacelessBlock: p
+export {
+    p as printSpacelessBlock
 };

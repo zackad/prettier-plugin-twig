@@ -4,6 +4,6 @@ const p = (node, path, print) => {
     return `{%${dashLeft} flush ${dashRight}%}`;
 };
 
-export default {
-    printFlushStatement: p
+export {
+    p as printFlushStatement
 };

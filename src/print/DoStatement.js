@@ -7,6 +7,6 @@ const p = (node, path, print) => {
     ];
 };
 
-export default {
-    printDoStatement: p
+export {
+    p as printDoStatement
 };

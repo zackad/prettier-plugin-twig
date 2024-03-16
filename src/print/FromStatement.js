@@ -28,6 +28,6 @@ const p = (node, path, print) => {
     ]);
 };
 
-export default {
-    printFromStatement: p
+export {
+    p as printFromStatement
 };

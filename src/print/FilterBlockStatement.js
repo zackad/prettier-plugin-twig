@@ -23,6 +23,6 @@ const p = (node, path, print) => {
     return [openingGroup, body, closingStatement];
 };
 
-export default {
-    printFilterBlockStatement: p
+export {
+    p as printFilterBlockStatement
 };

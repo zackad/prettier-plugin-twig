@@ -27,6 +27,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printGenericTwigTag: p
+export {
+    p as printGenericTwigTag
 };

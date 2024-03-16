@@ -10,6 +10,6 @@ const p = (node, path, print) => {
     return group(["[", indent(indentedContent), softline, "]"]);
 };
 
-export default {
-    printArrayExpression: p
+export {
+    p as printArrayExpression
 };

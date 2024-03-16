@@ -545,7 +545,7 @@ const printChildGroups = (node, path, print, ...childPath) => {
     return finishedGroups;
 };
 
-export default {
+export {
     shouldExpressionsBeWrapped,
     wrapExpressionIfNeeded,
     wrapInStringInterpolation,

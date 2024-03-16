@@ -89,6 +89,6 @@ const p = (node, path, print) => {
     return printRegularSet(node, path, print);
 };
 
-export default {
-    printSetStatement: p
+export {
+    p as printSetStatement
 };

@@ -271,6 +271,6 @@ printFunctions["GenericToken"] = printGenericToken;
 // Fallbacks
 printFunctions["String"] = s => s;
 
-export default {
+export {
     print
 };

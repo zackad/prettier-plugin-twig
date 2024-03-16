@@ -43,6 +43,6 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export default {
-    printTestExpression: p
+export {
+    p as printTestExpression
 };

@@ -14,6 +14,6 @@ const p = (node, path, print) => {
     ]);
 };
 
-export default {
-    printImportDeclaration: p
+export {
+    p as printImportDeclaration
 };

@@ -42,6 +42,6 @@ const p = (node, path, print) => {
     return join([hardline, hardline], textGroups);
 };
 
-export default {
-    printTextStatement: p
+export {
+    p as printTextStatement
 };

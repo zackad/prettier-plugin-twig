@@ -10,6 +10,6 @@ const p = (node, path, print) => {
     ];
 };
 
-export default {
-    printExtendsStatement: p
+export {
+    p as printExtendsStatement
 };

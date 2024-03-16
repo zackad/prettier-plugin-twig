@@ -27,6 +27,6 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-export default {
-    printAutoescapeBlock: p
+export {
+    p as printAutoescapeBlock
 };

@@ -17,6 +17,6 @@ const p = (node, path, print) => {
     return group([opener, value, padding, closing]);
 };
 
-export default {
-    printExpressionStatement: p
+export {
+    p as printExpressionStatement
 };

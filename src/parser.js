@@ -83,7 +83,7 @@ const parse = (text, parsers, options) => {
     return ast;
 };
 
-export default {
+export {
     parse,
     ORIGINAL_SOURCE
 };
