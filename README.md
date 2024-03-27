@@ -14,7 +14,7 @@ This Plugin enables Prettier to format `.twig` files, as well as `.html.twig` an
 ## Install
 
 ```bash
-yarn add --dev https://github.com/zackad/prettier-plugin-twig-melody#semver:^0.5.0
+yarn add --dev @zackad/prettier-plugin-twig-melody
 ```
 
 ## Use
@@ -29,7 +29,7 @@ In your editor, if the plugin is not automatically picked up and invoked (e.g., 
 {
     "printWidth": 80,
     "tabWidth": 4,
-    "plugins": ["prettier-plugin-twig-melody"]
+    "plugins": ["@zackad/prettier-plugin-twig-melody"]
 }
 ```
 

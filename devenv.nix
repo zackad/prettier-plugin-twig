@@ -7,7 +7,7 @@
 
   # https://devenv.sh/packages/
   packages = [
-    pkgs.nodejs-slim
+    pkgs.nodejs
     pkgs.yarn
   ];
 
