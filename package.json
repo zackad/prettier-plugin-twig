@@ -15,8 +15,7 @@
     "scripts": {
         "lint": "jest -c jest.eslint.config.js",
         "test": "jest",
-        "prettier": "prettier --plugin=. --parser=melody",
-        "publish": "npm publish"
+        "prettier": "prettier --plugin=. --parser=melody"
     },
     "dependencies": {
         "babel-types": "^6.26.0",

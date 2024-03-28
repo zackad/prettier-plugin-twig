@@ -2,14 +2,17 @@
 
 ## unreleased
 
+### Internals
+-   Remove npm script to publish
+
 ---
 ## v0.6.0 (2024-03-27)
 
 ### Features
-- BREAKING: Change package name `prettier-plugin-twig-melody` -> `@zackad/prettier-plugin-twig-melody`
+-   BREAKING: Change package name `prettier-plugin-twig-melody` -> `@zackad/prettier-plugin-twig-melody`
 
 ### Internals
-- Publish package as `@zackad/prettier-plugin-twig-melody` into npm registry
+-   Publish package as `@zackad/prettier-plugin-twig-melody` into npm registry
 
 ---
 ## v0.5.0
