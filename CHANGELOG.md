@@ -4,6 +4,7 @@
 
 ### Internals
 -   Remove npm script to publish
+- Integrate devenv into nix flakes
 
 ---
 ## v0.6.0 (2024-03-27)
