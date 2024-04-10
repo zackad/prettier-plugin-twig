@@ -5,7 +5,7 @@ const {
     printSingleTwigTag,
     indentWithHardline,
     isEmptySequence
-} = require("../../src/util");
+} = require("../../util");
 const { Node } = require("melody-types");
 
 const printSwitch = (node, path, print) => {

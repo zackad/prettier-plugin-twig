@@ -8,6 +8,7 @@
 ### Internals
 - Remove npm script to publish
 - Integrate devenv into nix flakes
+- Move `switch-plugin` from `tests` directory into `src/plugins`
 
 ---
 ## v0.6.0 (2024-03-27)
