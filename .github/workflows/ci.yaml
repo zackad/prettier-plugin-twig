@@ -17,13 +17,7 @@ jobs:
             fail-fast: false
             matrix:
                 node_version: [ 18, 20 ]
-                prettier_version: [ "^2.3.0", "^3.0.0" ]
-                eslint_plugin_prettier_version: [ "^4.0.0", "^5.0.0" ]
-                exclude:
-                    -   prettier_version: ^2.3.0
-                        eslint_plugin_prettier_version: ^5.0.0
-                    -   prettier_version: ^3.0.0
-                        eslint_plugin_prettier_version: ^4.0.0
+
         steps:
             -   name: Checkout
                 uses: actions/checkout@v4
@@ -34,11 +28,8 @@ jobs:
                     node-version: ${{ matrix.node_version }}
                     cache: "yarn"
 
-            -   name: Install Prettier
-                run: yarn add prettier@${{ matrix.prettier_version }}
-
-            -   name: Install Eslint plugin for prettier
-                run: yarn add --dev eslint-plugin-prettier@${{ matrix.eslint_plugin_prettier_version }}
+            -   name: Install Dependencies
+                run: yarn install
 
             -   name: Run Test
                 run: yarn test

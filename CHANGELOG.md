@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- BREAKING: Drop compatibility support for prettier 2
+
 ### Internals
 - Remove npm script to publish
 - Integrate devenv into nix flakes
