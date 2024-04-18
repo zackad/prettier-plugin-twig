@@ -34,7 +34,8 @@
         "eslint-plugin-prettier": "^5.0.0",
         "eslint-plugin-prettier-doc": "^1.1.0",
         "jest": "^30.0.0-alpha.3",
-        "jest-runner-eslint": "^2.1.2"
+        "jest-runner-eslint": "^2.1.2",
+        "vitest": "^1.5.0"
     },
     "jest": {
         "projects": [
