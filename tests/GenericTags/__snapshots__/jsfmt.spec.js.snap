@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`cache.melody.twig - melody-verify: cache.melody.twig 1`] = `
+exports[`cache.melody.twig - melody-verify > cache.melody.twig 1`] = `
 {% cache globally using key craft.some.rather.long.property.chain.request.path for 3 weeks %}
     {% for block in entry.myMatrixField %}
         <p>{{ block.text }}</p>
@@ -38,7 +38,7 @@ exports[`cache.melody.twig - melody-verify: cache.melody.twig 1`] = `
 
 `;
 
-exports[`header.melody.twig - melody-verify: header.melody.twig 1`] = `
+exports[`header.melody.twig - melody-verify > header.melody.twig 1`] = `
 {%  header "Cache-Control: max-age=" ~ (expiry.timestamp - now.timestamp)  %}
 
 {# prettier-ignore #}
@@ -51,14 +51,14 @@ exports[`header.melody.twig - melody-verify: header.melody.twig 1`] = `
 
 `;
 
-exports[`includeCssFile.melody.twig - melody-verify: includeCssFile.melody.twig 1`] = `
+exports[`includeCssFile.melody.twig - melody-verify > includeCssFile.melody.twig 1`] = `
 {% includeCssFile "/assets/css/layouts/" ~ entry.layout ~ ".css" %}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {% includeCssFile '/assets/css/layouts/' ~ entry.layout ~ '.css' %}
 
 `;
 
-exports[`nav.melody.twig - melody-verify: nav.melody.twig 1`] = `
+exports[`nav.melody.twig - melody-verify > nav.melody.twig 1`] = `
 {% nav entry in entries %}
     <li>
         <a href="{{ entry.url }}">{{ entry.title }}</a>
@@ -83,7 +83,7 @@ exports[`nav.melody.twig - melody-verify: nav.melody.twig 1`] = `
 
 `;
 
-exports[`paginate.melody.twig - melody-verify: paginate.melody.twig 1`] = `
+exports[`paginate.melody.twig - melody-verify > paginate.melody.twig 1`] = `
 {% paginate craft.entries.section('blog').limit(10) as pageInfo, pageEntries %}
 
 {% paginate craft.entries.section('blog').limit(10) as pageInfo, pageEntries, pageProperties %}
@@ -99,14 +99,14 @@ exports[`paginate.melody.twig - melody-verify: paginate.melody.twig 1`] = `
 
 `;
 
-exports[`redirect.melody.twig - melody-verify: redirect.melody.twig 1`] = `
+exports[`redirect.melody.twig - melody-verify > redirect.melody.twig 1`] = `
 {% redirect "pricing" 301 %}
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 {% redirect 'pricing' 301 %}
 
 `;
 
-exports[`switch.melody.twig - melody-verify: switch.melody.twig 1`] = `
+exports[`switch.melody.twig - melody-verify > switch.melody.twig 1`] = `
 {% switch matrixBlock.type %}
 
 
