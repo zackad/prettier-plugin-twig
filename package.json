@@ -13,8 +13,8 @@
         "node": ">=18"
     },
     "scripts": {
-        "lint": "jest -c jest.eslint.config.js",
-        "test": "jest -c jest.test.config.js",
+        "lint": "DEBUG=eslint:cli-engine eslint .",
+        "test": "vitest --run",
         "prettier": "prettier --plugin=./src/index.js --parser=melody"
     },
     "dependencies": {
