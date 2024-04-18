@@ -14,8 +14,8 @@
     },
     "scripts": {
         "lint": "jest -c jest.eslint.config.js",
-        "test": "jest",
-        "prettier": "prettier --plugin=. --parser=melody"
+        "test": "jest -c jest.test.config.js",
+        "prettier": "prettier --plugin=./src/index.js --parser=melody"
     },
     "dependencies": {
         "babel-types": "^6.26.0",

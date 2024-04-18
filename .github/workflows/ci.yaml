@@ -31,5 +31,11 @@ jobs:
             -   name: Install Dependencies
                 run: yarn install
 
+            -   name: Can load prettier plugin properly
+                run: yarn prettier --version
+
+            -   name: Run linter
+                run: yarn lint
+
             -   name: Run Test
                 run: yarn test
