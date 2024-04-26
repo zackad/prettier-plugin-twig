@@ -9,6 +9,7 @@
 - Remove npm script to publish
 - Integrate devenv into nix flakes
 - Move `switch-plugin` from `tests` directory into `src/plugins`
+- Replace `jest` with `vitest` as test runner
 
 ---
 ## v0.6.0 (2024-03-27)

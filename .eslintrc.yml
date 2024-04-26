@@ -3,14 +3,12 @@ extends:
     - eslint:recommended
     - plugin:prettier/recommended
     - plugin:prettier-doc/recommended
-    - plugin:jest/recommended
 plugins:
     - import
 root: true
 env:
     es6: true
     node: true
-    jest: true
 parserOptions:
     ecmaVersion: 2017
     sourceType: module
