@@ -3,11 +3,12 @@
 const fs = require("fs");
 const extname = require("path").extname;
 const prettier = require("prettier");
+import { beforeAll, test, expect } from "vitest";
 
 function run_spec(dirname, parsers, options) {
     options = Object.assign(
         {
-            plugins: ["."],
+            plugins: ["./src/index.js"],
             tabWidth: 4
         },
         options

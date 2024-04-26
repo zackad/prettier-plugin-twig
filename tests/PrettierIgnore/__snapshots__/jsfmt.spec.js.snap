@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`prettierIgnore.melody.twig - melody-verify: prettierIgnore.melody.twig 1`] = `
+exports[`prettierIgnore.melody.twig - melody-verify > prettierIgnore.melody.twig 1`] = `
 <!-- prettier-ignore -->
 <div><span    class="what-about-this"  >Should not re-format</span></div>
 <div><span    class="what-about-this"  >Should re-format</span></div>
@@ -23,7 +23,7 @@ exports[`prettierIgnore.melody.twig - melody-verify: prettierIgnore.melody.twig 
 
 `;
 
-exports[`prettierIgnoreStartEnd.melody.twig - melody-verify: prettierIgnoreStartEnd.melody.twig 1`] = `
+exports[`prettierIgnoreStartEnd.melody.twig - melody-verify > prettierIgnoreStartEnd.melody.twig 1`] = `
 <!--prettier-ignore-start-->
 <div><span    class="what-about-this"  >Should not re-format</span></div>
 <div><span    class="what-about-this"  >Should not re-format</span></div>

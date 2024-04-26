@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`element.melody.twig - melody-verify: element.melody.twig 1`] = `
+exports[`element.melody.twig - melody-verify > element.melody.twig 1`] = `
 <div>
     <img src="person.jpg">
 </div>

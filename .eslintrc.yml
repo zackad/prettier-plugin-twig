@@ -13,6 +13,7 @@ env:
     jest: true
 parserOptions:
     ecmaVersion: 2017
+    sourceType: module
 rules:
     curly: error
     import/no-extraneous-dependencies:
