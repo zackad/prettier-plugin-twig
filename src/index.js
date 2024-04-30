@@ -1,5 +1,3 @@
-"use strict";
-
 const { print } = require("./printer.js");
 const { parse } = require("./parser.js");
 const symbols = require("./util/publicSymbols.js");

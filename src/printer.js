@@ -1,5 +1,3 @@
-"use strict";
-
 const { printSequenceExpression } = require("./print/SequenceExpression.js");
 const { printBinaryExpression } = require("./print/BinaryExpression.js");
 const {

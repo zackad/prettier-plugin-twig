@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const extname = require("path").extname;
 const prettier = require("prettier");
