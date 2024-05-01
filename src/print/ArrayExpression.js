@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { group, softline, line, indent, join } = prettier.doc.builders;
-const { STRING_NEEDS_QUOTES } = require("../util");
+import { doc } from "prettier";
+import { STRING_NEEDS_QUOTES } from "../util/index.js";
+
+const { group, softline, line, indent, join } = doc.builders;
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -10,6 +11,4 @@ const p = (node, path, print) => {
     return group(["[", indent(indentedContent), softline, "]"]);
 };
 
-module.exports = {
-    printArrayExpression: p
-};
+export { p as printArrayExpression };

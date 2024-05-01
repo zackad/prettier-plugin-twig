@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { group, line, indent } = prettier.doc.builders;
-const { STRING_NEEDS_QUOTES } = require("../util");
+import { doc } from "prettier";
+import { STRING_NEEDS_QUOTES } from "../util/index.js";
+
+const { group, line, indent } = doc.builders;
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -14,6 +15,4 @@ const p = (node, path, print) => {
     ]);
 };
 
-module.exports = {
-    printImportDeclaration: p
-};
+export { p as printImportDeclaration };

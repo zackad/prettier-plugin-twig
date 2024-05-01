@@ -1,11 +1,12 @@
-const prettier = require("prettier");
-const { group, indent, line } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
     isContractableNodeType
-} = require("../util");
-const { Node } = require("melody-types");
+} from "../util/index.js";
+
+const { group, indent, line } = doc.builders;
 
 const p = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
@@ -21,6 +22,4 @@ const p = (node, path, print) => {
     return group([opener, value, padding, closing]);
 };
 
-module.exports = {
-    printExpressionStatement: p
-};
+export { p as printExpressionStatement };

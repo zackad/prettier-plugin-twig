@@ -1,12 +1,13 @@
-const prettier = require("prettier");
-const { group, line, hardline } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
     printChildBlock,
     isNotExpression,
     STRING_NEEDS_QUOTES,
     GROUP_TOP_LEVEL_LOGICAL
-} = require("../util");
-const { Node } = require("melody-types");
+} from "../util/index.js";
+
+const { group, line, hardline } = doc.builders;
 
 const shouldAvoidBreakBeforeClosing = valueNode =>
     Node.isObjectExpression(valueNode) ||
@@ -87,6 +88,4 @@ const p = (node, path, print) => {
     return printRegularSet(node, path, print);
 };
 
-module.exports = {
-    printSetStatement: p
-};
+export { p as printSetStatement };

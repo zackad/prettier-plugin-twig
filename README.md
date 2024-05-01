@@ -144,18 +144,16 @@ You can also tell Prettier to leave entire regions as they are:
 Let's look at an example of a plugin to the plugin:
 
 ```javascript
-const melodyIconPlugin = require("../melody-plugin-icon-tag");
+import melodyIconPlugin from "../melody-plugin-icon-tag.js";
 
 const printIconTag = (node, path, print, options) => {
     // Implementation of printing
     // ...
 };
 
-module.exports = {
-    melodyExtensions: [melodyIconPlugin],
-    printers: {
-        IconTag: printIconTag
-    }
+export const melodyExtensions = [melodyIconPlugin];
+export const printers = {
+    IconTag: printIconTag
 };
 ```
 

@@ -1,10 +1,11 @@
-const prettier = require("prettier");
-const { line, indent, group } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
     wrapExpressionIfNeeded
-} = require("../util");
+} from "../util/index.js";
+
+const { line, indent, group } = doc.builders;
 
 const p = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
@@ -23,6 +24,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-module.exports = {
-    printConditionalExpression: p
-};
+export { p as printConditionalExpression };

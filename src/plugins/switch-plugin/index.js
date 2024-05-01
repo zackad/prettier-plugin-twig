@@ -1,12 +1,13 @@
-const prettier = require("prettier");
-const { indent, hardline } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
     STRING_NEEDS_QUOTES,
     printSingleTwigTag,
     indentWithHardline,
     isEmptySequence
-} = require("../../util");
-const { Node } = require("melody-types");
+} from "../../util/index.js";
+
+const { indent, hardline } = doc.builders;
 
 const printSwitch = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -30,8 +31,6 @@ const printSwitch = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
-    printers: {
-        switchTag: printSwitch
-    }
+export const printers = {
+    switchTag: printSwitch
 };

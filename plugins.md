@@ -32,16 +32,14 @@ tbd
 A plugin has to export an object of the following shape:
 
 ```
-module.exports = {
-    melodyExtensions: [
-        ext1,
-        ext2,
-        ...
-    ],
-    printers: {
-        nodeTypeName1: printNodeType1,
-        nodeTypeName2: printNodeType2,
-        ...
-    }
+export const melodyExtensions = [
+    ext1,
+    ext2,
+    ...
+];
+export const printers: {
+  nodeTypeName1: printNodeType1,
+  nodeTypeName2: printNodeType2,
+  ...
 };
 ```

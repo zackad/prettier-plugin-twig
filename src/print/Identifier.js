@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { group } = prettier.doc.builders;
-const { EXPRESSION_NEEDED, wrapExpressionIfNeeded } = require("../util");
+import { doc } from "prettier";
+import { EXPRESSION_NEEDED, wrapExpressionIfNeeded } from "../util/index.js";
+
+const { group } = doc.builders;
 
 const p = (node, path) => {
     node[EXPRESSION_NEEDED] = false;
@@ -11,6 +12,4 @@ const p = (node, path) => {
     return parts.length === 1 ? result : group(result);
 };
 
-module.exports = {
-    printIdentifier: p
-};
+export { p as printIdentifier };

@@ -1,9 +1,9 @@
-const {
+import {
     createTextGroups,
     stripTwigCommentChars,
     normalizeTwigComment,
     countNewlines
-} = require("../util");
+} from "../util/index.js";
 
 const p = node => {
     const originalText = node.value.value || "";
@@ -20,6 +20,4 @@ const p = node => {
     return [trimLeft ? "{#-" : "{#", commentText, trimRight ? "-#}" : "#}"];
 };
 
-module.exports = {
-    printTwigComment: p
-};
+export { p as printTwigComment };

@@ -1,13 +1,14 @@
-const prettier = require("prettier");
-const { softline, indent, group } = prettier.doc.builders;
-const { Node } = require("melody-types");
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
     firstValueInAncestorChain,
     findParentNode,
     isMultipartExpression,
     IS_ROOT_LOGICAL_EXPRESSION,
     GROUP_TOP_LEVEL_LOGICAL
-} = require("../util");
+} from "../util/index.js";
+
+const { softline, indent, group } = doc.builders;
 
 const argumentNeedsParentheses = node => isMultipartExpression(node);
 
@@ -54,6 +55,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
-    printUnarySubclass: p
-};
+export { p as printUnarySubclass };
