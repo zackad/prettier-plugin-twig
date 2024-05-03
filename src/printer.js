@@ -42,32 +42,15 @@ import { printMacroDeclarationStatement } from "./print/MacroDeclarationStatemen
 import { printFilterBlockStatement } from "./print/FilterBlockStatement.js";
 import { printVariableDeclarationStatement } from "./print/VariableDeclarationStatement.js";
 import { printNamedArgumentExpression } from "./print/NamedArgumentExpression.js";
+import { printSwitchTag } from "./print/SwitchTag.js";
 import {
     isWhitespaceNode,
     isHtmlCommentEqualTo,
-    isTwigCommentEqualTo,
-    getPluginPathsFromOptions,
-    loadPlugins
+    isTwigCommentEqualTo
 } from "./util/index.js";
 import { ORIGINAL_SOURCE } from "./parser.js";
 
 const printFunctions = {};
-
-const applyPlugin = loadedPlugin => {
-    if (loadedPlugin && loadedPlugin.printers) {
-        for (const printerName of Object.keys(loadedPlugin.printers)) {
-            printFunctions[printerName] = loadedPlugin.printers[printerName];
-        }
-    }
-};
-
-const applyPlugins = options => {
-    const pluginPaths = getPluginPathsFromOptions(options);
-    const loadedPlugins = loadPlugins(pluginPaths);
-    loadedPlugins.forEach(plugin => {
-        applyPlugin(plugin);
-    });
-};
 
 const isHtmlIgnoreNextComment = isHtmlCommentEqualTo("prettier-ignore");
 const isHtmlIgnoreStartComment = isHtmlCommentEqualTo("prettier-ignore-start");
@@ -105,8 +88,6 @@ const checkForIgnoreEnd = node => {
 const shouldApplyIgnoreNext = node => !isWhitespaceNode(node);
 
 const print = (path, options, print) => {
-    applyPlugins(options);
-
     const node = path.getValue();
     const nodeType = node.constructor.name;
 
@@ -222,6 +203,7 @@ const returnNodeValue = node => "" + node.value;
 printFunctions["Fragment"] = (node, path, print) => {
     return path.call(print, "value");
 };
+printFunctions["switchTag"] = printSwitchTag;
 printFunctions["NumericLiteral"] = returnNodeValue;
 printFunctions["BooleanLiteral"] = returnNodeValue;
 printFunctions["NullLiteral"] = () => "null";

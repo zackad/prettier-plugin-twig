@@ -1,9 +1,5 @@
 import { CharStream, Lexer, TokenStream, Parser } from "melody-parser";
 import { extension as coreExtension } from "melody-extension-core";
-import {
-    getAdditionalMelodyExtensions,
-    getPluginPathsFromOptions
-} from "./util/index.js";
 
 const ORIGINAL_SOURCE = Symbol("ORIGINAL_SOURCE");
 
@@ -74,12 +70,9 @@ const getMultiTagConfig = (tagsCsvs = []) =>
     }, {});
 
 const parse = (text, parsers, options) => {
-    const pluginPaths = getPluginPathsFromOptions(options);
     const multiTagConfig = getMultiTagConfig(options.twigMultiTags || []);
-    const extensions = [
-        coreExtension,
-        ...getAdditionalMelodyExtensions(pluginPaths)
-    ];
+
+    const extensions = [coreExtension];
     const parser = createConfiguredParser(text, multiTagConfig, ...extensions);
     const ast = parser.parse();
     ast[ORIGINAL_SOURCE] = text;

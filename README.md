@@ -41,16 +41,6 @@ This Prettier plugin comes with some options that you can add to your Prettier c
 
 Values can be `true` or `false`. If `true`, single quotes will be used for string literals in Twig files.
 
-### twigMelodyPlugins (default: `[]`)
-
-An array containing file paths to plugin directories. This can be used to add your own printers and parser extensions.
-
-The paths are relative paths, seen from the project root. Example:
-
-```json
-"twigMelodyPlugins": ["src-js/some-melody-plugin", "src-js/some-other-plugin"]
-```
-
 ### twigPrintWidth (default: `80`)
 
 Because Twig files might have a lot of nesting, it can be useful to define a separate print width for Twig files. This can be done with this option. If it is not set, the standard `printWidth` option is used.
@@ -136,33 +126,6 @@ You can also tell Prettier to leave entire regions as they are:
     ...
 {# prettier-ignore-end #}
 ```
-
-## Plugins
-
-[Melody](https://melody.js.org) features an extensible parser, so chances are you add custom elements for which the parsing and printing logic is not part of this Prettier plugin. Therefore, this Prettier plugin is itself pluggable.
-
-Let's look at an example of a plugin to the plugin:
-
-```javascript
-import melodyIconPlugin from "../melody-plugin-icon-tag.js";
-
-const printIconTag = (node, path, print, options) => {
-    // Implementation of printing
-    // ...
-};
-
-export const melodyExtensions = [melodyIconPlugin];
-export const printers = {
-    IconTag: printIconTag
-};
-```
-
-As we can see, a plugin to the plugin exports two fields:
-
--   `melodyExtensions`: A list of extensions to the [Melody](https://melody.js.org) framework that might export `tags`, `visitors`, `functionMap` and the like. Usually, such an extension will add additional parsing functionality to the core parser.
--   `printers`: The Prettier printing functionality for your additional language constructs, tags, operators, etc. This is an object where the keys are the node types in the Melody AST (abstract syntax tree) &mdash; as retrieved through `node.constructor.name` &mdash;, and the values are the print functions with the standard Prettier signature.
-
-Don't forget to make your plugins known through the `twigMelodyPlugins` option in your Prettier configuration.
 
 ## Testing
 

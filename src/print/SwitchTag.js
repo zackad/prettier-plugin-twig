@@ -5,11 +5,11 @@ import {
     printSingleTwigTag,
     indentWithHardline,
     isEmptySequence
-} from "../../util/index.js";
+} from "../util/index.js";
 
 const { indent, hardline } = doc.builders;
 
-const printSwitch = (node, path, print) => {
+const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const openingTag = printSingleTwigTag(node, path, print);
     const parts = [openingTag];
@@ -17,20 +17,23 @@ const printSwitch = (node, path, print) => {
     node.sections.forEach((section, i) => {
         if (Node.isGenericTwigTag(section)) {
             if (section.tagName === "endswitch") {
+                console.log("no indent ", section.tagName);
                 parts.push([hardline, printedSections[i]]);
             } else {
+                console.log("indent ", section.tagName);
                 parts.push(indentWithHardline(printedSections[i]));
             }
         } else {
             if (!isEmptySequence(section)) {
+                console.log("double indent ", section.tagName);
+
                 // Indent twice
                 parts.push(indent(indentWithHardline(printedSections[i])));
             }
         }
     });
+
     return parts;
 };
 
-export const printers = {
-    switchTag: printSwitch
-};
+export { p as printSwitchTag };

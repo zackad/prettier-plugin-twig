@@ -72,14 +72,6 @@ const printers = {
 };
 
 const options = {
-    twigMelodyPlugins: {
-        type: "path",
-        category: "Global",
-        array: true,
-        default: [{ value: [] }],
-        description:
-            "Provide additional plugins for Melody. Relative file path from the project root."
-    },
     twigMultiTags: {
         type: "path",
         category: "Global",
