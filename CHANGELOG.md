@@ -4,11 +4,12 @@
 
 ### Features
 - BREAKING: Drop compatibility support for prettier 2
+- BREAKING: Plugin system has been removed from this project
 
 ### Internals
 - Remove npm script to publish
 - Integrate devenv into nix flakes
-- Move `switch-plugin` from `tests` directory into `src/plugins`
+- Incorporate `switch-plugin` into core functionality
 - Replace `jest` with `vitest` as test runner
 
 ---
