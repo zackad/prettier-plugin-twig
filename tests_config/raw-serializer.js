@@ -1,16 +1,11 @@
-"use strict";
-
 const RAW = Symbol.for("raw");
 
-module.exports = {
-    print(val) {
-        return val[RAW];
-    },
-    test(val) {
-        return (
-            val &&
-            Object.prototype.hasOwnProperty.call(val, RAW) &&
-            typeof val[RAW] === "string"
-        );
-    }
+const print = val => val[RAW];
+const test = val =>
+    val &&
+    Object.prototype.hasOwnProperty.call(val, RAW) &&
+    typeof val[RAW] === "string";
+export default {
+    print,
+    test
 };

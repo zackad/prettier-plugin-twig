@@ -1,5 +1,5 @@
-const { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } = require("../util");
-const { Node } = require("melody-types");
+import { Node } from "melody-types";
+import { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const mayCorrectWhitespace = attrName =>
     ["id", "class", "type"].indexOf(attrName) > -1;
@@ -47,6 +47,4 @@ const p = (node, path, print = print) => {
     return docs;
 };
 
-module.exports = {
-    printAttribute: p
-};
+export { p as printAttribute };

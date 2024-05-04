@@ -10,7 +10,7 @@ env:
     es6: true
     node: true
 parserOptions:
-    ecmaVersion: 2017
+    ecmaVersion: 2024
     sourceType: module
 rules:
     curly: error

@@ -1,14 +1,15 @@
-const prettier = require("prettier");
-const { indent, hardline } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
     STRING_NEEDS_QUOTES,
     printSingleTwigTag,
     indentWithHardline,
     isEmptySequence
-} = require("../../util");
-const { Node } = require("melody-types");
+} from "../util/index.js";
 
-const printSwitch = (node, path, print) => {
+const { indent, hardline } = doc.builders;
+
+const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const openingTag = printSingleTwigTag(node, path, print);
     const parts = [openingTag];
@@ -16,22 +17,23 @@ const printSwitch = (node, path, print) => {
     node.sections.forEach((section, i) => {
         if (Node.isGenericTwigTag(section)) {
             if (section.tagName === "endswitch") {
+                console.log("no indent ", section.tagName);
                 parts.push([hardline, printedSections[i]]);
             } else {
+                console.log("indent ", section.tagName);
                 parts.push(indentWithHardline(printedSections[i]));
             }
         } else {
             if (!isEmptySequence(section)) {
+                console.log("double indent ", section.tagName);
+
                 // Indent twice
                 parts.push(indent(indentWithHardline(printedSections[i])));
             }
         }
     });
+
     return parts;
 };
 
-module.exports = {
-    printers: {
-        switchTag: printSwitch
-    }
-};
+export { p as printSwitchTag };

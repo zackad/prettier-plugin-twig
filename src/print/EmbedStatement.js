@@ -1,10 +1,11 @@
-const prettier = require("prettier");
-const { indent, hardline, line, group } = prettier.doc.builders;
-const {
+import { doc } from "prettier";
+import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
     printChildBlock
-} = require("../util");
+} from "../util/index.js";
+
+const { indent, hardline, line, group } = doc.builders;
 
 const printOpener = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
@@ -34,6 +35,4 @@ const p = (node, path, print) => {
     return [printedOpener, children, closing];
 };
 
-module.exports = {
-    printEmbedStatement: p
-};
+export { p as printEmbedStatement };

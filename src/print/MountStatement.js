@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { group, indent, line, hardline } = prettier.doc.builders;
-const { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } = require("../util");
+import { doc } from "prettier";
+import { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } from "../util/index.js";
+
+const { group, indent, line, hardline } = doc.builders;
 
 const formatDelay = delay => {
     return "" + delay / 1000 + "s";
@@ -80,6 +81,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
-    printMountStatement: p
-};
+export { p as printMountStatement };

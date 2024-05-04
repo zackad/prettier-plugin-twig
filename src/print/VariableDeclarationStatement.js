@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { line, indent } = prettier.doc.builders;
-const { STRING_NEEDS_QUOTES, isContractableNodeType } = require("../util");
+import { doc } from "prettier";
+import { STRING_NEEDS_QUOTES, isContractableNodeType } from "../util/index.js";
+
+const { line, indent } = doc.builders;
 
 const p = (node, path, print) => {
     const printedName = path.call(print, "name");
@@ -17,6 +18,4 @@ const p = (node, path, print) => {
     return [printedName, " =", rightHandSide];
 };
 
-module.exports = {
-    printVariableDeclarationStatement: p
-};
+export { p as printVariableDeclarationStatement };

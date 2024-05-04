@@ -1,6 +1,7 @@
-const prettier = require("prettier");
-const { fill, join } = prettier.doc.builders;
-const { STRING_NEEDS_QUOTES, OVERRIDE_QUOTE_CHAR } = require("../util");
+import { doc } from "prettier";
+import { STRING_NEEDS_QUOTES, OVERRIDE_QUOTE_CHAR } from "../util/index.js";
+
+const { fill, join } = doc.builders;
 
 const p = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
@@ -11,6 +12,4 @@ const p = (node, path, print) => {
     return fill([start, " ", join(" ", printedParts), ">"]);
 };
 
-module.exports = {
-    printDeclaration: p
-};
+export { p as printDeclaration };

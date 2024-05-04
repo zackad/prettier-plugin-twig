@@ -1,5 +1,6 @@
-const prettier = require("prettier");
-const { group, indent, join, line } = prettier.doc.builders;
+import { doc } from "prettier";
+
+const { group, indent, join, line } = doc.builders;
 
 const p = (node, path, print) => {
     const docs = [
@@ -21,6 +22,4 @@ const p = (node, path, print) => {
     return group(docs);
 };
 
-module.exports = {
-    printUseStatement: p
-};
+export { p as printUseStatement };

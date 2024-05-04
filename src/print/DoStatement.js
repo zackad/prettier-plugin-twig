@@ -7,6 +7,4 @@ const p = (node, path, print) => {
     ];
 };
 
-module.exports = {
-    printDoStatement: p
-};
+export { p as printDoStatement };

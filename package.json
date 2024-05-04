@@ -2,20 +2,18 @@
     "name": "@zackad/prettier-plugin-twig-melody",
     "version": "0.6.0",
     "description": "Prettier Plugin for Twig/Melody",
-    "main": "src",
     "repository": "https://github.com/zackad/prettier-plugin-twig-melody",
-    "author": "Tom Bartel <thomas.bartel@trivago.com>",
     "license": "Apache-2.0",
+    "author": "Tom Bartel <thomas.bartel@trivago.com>",
+    "type": "module",
+    "exports": "./src/index.js",
     "files": [
         "src"
     ],
-    "engines": {
-        "node": ">=18"
-    },
     "scripts": {
         "lint": "DEBUG=eslint:cli-engine eslint .",
-        "test": "vitest --run",
-        "prettier": "prettier --plugin=./src/index.js --parser=melody"
+        "prettier": "prettier --plugin=./src/index.js --parser=melody",
+        "test": "vitest --run"
     },
     "dependencies": {
         "babel-types": "^6.26.0",
@@ -34,5 +32,8 @@
         "eslint-plugin-prettier": "^5.0.0",
         "eslint-plugin-prettier-doc": "^1.1.0",
         "vitest": "^1.5.0"
+    },
+    "engines": {
+        "node": ">=18"
     }
 }

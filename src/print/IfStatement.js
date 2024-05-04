@@ -1,12 +1,14 @@
-const prettier = require("prettier");
-const { group, indent, line, hardline } = prettier.doc.builders;
-const { EXPRESSION_NEEDED, printChildBlock } = require("../util");
-const { Node } = require("melody-types");
-const {
+import { doc } from "prettier";
+import { Node } from "melody-types";
+import {
+    printChildBlock,
     hasNoNewlines,
+    EXPRESSION_NEEDED,
     PRESERVE_LEADING_WHITESPACE,
     PRESERVE_TRAILING_WHITESPACE
-} = require("../util");
+} from "../util/index.js";
+
+const { group, indent, line, hardline } = doc.builders;
 
 const IS_ELSEIF = Symbol("IS_ELSEIF");
 
@@ -76,6 +78,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-module.exports = {
-    printIfStatement: p
-};
+export { p as printIfStatement };

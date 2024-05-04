@@ -1,8 +1,6 @@
-"use strict";
-
-const fs = require("fs");
-const extname = require("path").extname;
-const prettier = require("prettier");
+import fs from "fs";
+import prettier from "prettier";
+import { extname } from "path";
 import { beforeAll, test, expect } from "vitest";
 
 function run_spec(dirname, parsers, options) {
