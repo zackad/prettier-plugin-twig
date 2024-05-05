@@ -17,16 +17,12 @@ const p = (node, path, print) => {
     node.sections.forEach((section, i) => {
         if (Node.isGenericTwigTag(section)) {
             if (section.tagName === "endswitch") {
-                console.log("no indent ", section.tagName);
                 parts.push([hardline, printedSections[i]]);
             } else {
-                console.log("indent ", section.tagName);
                 parts.push(indentWithHardline(printedSections[i]));
             }
         } else {
             if (!isEmptySequence(section)) {
-                console.log("double indent ", section.tagName);
-
                 // Indent twice
                 parts.push(indent(indentWithHardline(printedSections[i])));
             }
