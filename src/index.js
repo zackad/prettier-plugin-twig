@@ -3,6 +3,11 @@ import { parse } from "./parser.js";
 import * as symbols from "./util/publicSymbols.js";
 import * as publicFunctions from "./util/publicFunctions.js";
 
+/**
+ * @typedef {import('prettier').SupportLanguage} SupportLanguage
+ *
+ * @type {Partial<SupportLanguage>[]}
+ */
 const languages = [
     {
         name: "melody",
@@ -18,59 +23,61 @@ const languages = [
     }
 ];
 
-function hasPragma(/* text */) {
-    return false;
-}
-
-function locStart(/* node */) {
-    return -1;
-}
-
-function locEnd(/* node */) {
-    return -1;
-}
-
+/**
+ * @typedef {import('prettier').Parser} Parser
+ *
+ * @type Record<string, Parser>
+ */
 const parsers = {
     melody: {
         parse,
         astFormat: "melody",
-        hasPragma,
-        locStart,
-        locEnd
+        hasPragma() {
+            return false;
+        },
+        locStart() {
+            return -1;
+        },
+        locEnd() {
+            return -1;
+        }
     }
 };
 
-function canAttachComment(node) {
-    return node.ast_type && node.ast_type !== "comment";
-}
-
-function printComment(commentPath) {
-    const comment = commentPath.getValue();
-
-    switch (comment.ast_type) {
-        case "comment":
-            return comment.value;
-        default:
-            throw new Error("Not a comment: " + JSON.stringify(comment));
-    }
-}
-
-function clean(ast, newObj) {
-    delete newObj.lineno;
-    delete newObj.col_offset;
-}
-
+/**
+ * @typedef {import('prettier').Printer} Printer
+ *
+ * @type Record<string, Printer>
+ */
 const printers = {
     melody: {
         print,
-        // hasPrettierIgnore,
-        printComment,
-        canAttachComment,
-        massageAstNode: clean,
-        willPrintOwnComments: () => true
+        printComment(commentPath) {
+            const comment = commentPath.getValue();
+
+            switch (comment.ast_type) {
+                case "comment":
+                    return comment.value;
+                default:
+                    throw new Error(
+                        "Not a comment: " + JSON.stringify(comment)
+                    );
+            }
+        },
+        canAttachComment(node) {
+            return node.ast_type && node.ast_type !== "comment";
+        },
+        massageAstNode(ast, newObj) {
+            delete newObj.lineno;
+            delete newObj.col_offset;
+        },
+        willPrintOwnComments() {
+            return true;
+        }
     }
 };
 
+/** @type {import('prettier').Options} Options */
 const options = {
     twigMultiTags: {
         type: "path",
