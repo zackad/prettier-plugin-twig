@@ -5,7 +5,8 @@
 
 Forked from [trivago/prettier-plugin-twig-melody](https://github.com/trivago/prettier-plugin-twig-melody) with focus on twig template only.
 
-![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
+![Prettier Twig Banner](./logo/wide-dark.svg#gh-dark-mode-only)
+![Prettier Twig Banner](./logo/wide-light.svg#gh-light-mode-only)
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/zackad/prettier-plugin-twig-melody/ci.yaml?branch=master&style=for-the-badge&logo=github)
 ![GitHub License](https://img.shields.io/github/license/zackad/prettier-plugin-twig-melody?style=for-the-badge)
@@ -57,8 +58,8 @@ If set to `true`, objects will always be wrapped/broken, even if they would fit 
 ```html
 <section
     class="{{ {
-    base: css.prices
-} | classes }}"
+        base: css.prices
+    } | classes }}"
 ></section>
 ```
 
@@ -138,4 +139,4 @@ You can also tell Prettier to leave entire regions as they are:
 
 ## Credit
 
-- Author: Tom Bartel <thomas.bartel@trivago.com>
+-   Author: Tom Bartel <thomas.bartel@trivago.com>
