@@ -1,8 +1,8 @@
 {
-    "name": "@zackad/prettier-plugin-twig-melody",
+    "name": "@zackad/prettier-plugin-twig",
     "version": "0.6.0",
-    "description": "Prettier Plugin for Twig/Melody",
-    "repository": "https://github.com/zackad/prettier-plugin-twig-melody",
+    "description": "Prettier Plugin for Twig",
+    "repository": "https://github.com/zackad/prettier-plugin-twig",
     "license": "Apache-2.0",
     "author": "Tom Bartel <thomas.bartel@trivago.com>",
     "type": "module",

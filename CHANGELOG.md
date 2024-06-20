@@ -5,6 +5,7 @@
 ### Features
 - BREAKING: Drop compatibility support for prettier 2
 - BREAKING: Plugin system has been removed from this project
+- BREAKING: Package has been renamed `@zackad/prettier-plugin-twig-melody` -> `@zackad/prettier-plugin-twig`
 
 ### Internals
 - Remove npm script to publish

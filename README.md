@@ -1,4 +1,6 @@
-# Prettier for Melody
+# Prettier Plugin for Twig
+
+Forked from [trivago/prettier-plugin-twig-melody](https://github.com/trivago/prettier-plugin-twig-melody) with focus on twig template only.
 
 ![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
 
@@ -9,18 +11,18 @@
 
 ---
 
-This Plugin enables Prettier to format `.twig` files, as well as `.html.twig` and `.melody.twig`. [Melody](https://melody.js.org) is a component based UI framework that uses Twig as its template language.
+This Plugin enables Prettier to format `.twig` files, as well as `.html.twig`.
 
 ## Install
 
 ```bash
-yarn add --dev @zackad/prettier-plugin-twig-melody
+yarn add --dev @zackad/prettier-plugin-twig
 ```
 
 ## Use
 
 ```bash
-prettier --write "**/*.melody.twig"
+prettier --write "**/*.twig"
 ```
 
 In your editor, if the plugin is not automatically picked up and invoked (e.g., if you are using format on save, but no formatting is happening when you save), try adding the plugin explicitly in your Prettier configuration (e.g., `.prettierrc.json`) using the `plugins` key:
@@ -29,7 +31,7 @@ In your editor, if the plugin is not automatically picked up and invoked (e.g., 
 {
     "printWidth": 80,
     "tabWidth": 4,
-    "plugins": ["@zackad/prettier-plugin-twig-melody"]
+    "plugins": ["@zackad/prettier-plugin-twig"]
 }
 ```
 
@@ -130,3 +132,7 @@ You can also tell Prettier to leave entire regions as they are:
 ## Testing
 
 -   You can call `yarn test`to test against all regular tests
+
+## Credit
+
+- Author: Tom Bartel <thomas.bartel@trivago.com>
