@@ -1,5 +1,8 @@
 # Prettier Plugin for Twig
 
+> [!WARNING]
+> Not ready. DON'T USE!
+
 Forked from [trivago/prettier-plugin-twig-melody](https://github.com/trivago/prettier-plugin-twig-melody) with focus on twig template only.
 
 ![Prettier Banner](https://raw.githubusercontent.com/prettier/prettier-logo/master/images/prettier-banner-light.png)
