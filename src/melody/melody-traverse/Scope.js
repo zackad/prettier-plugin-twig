@@ -13,13 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Binding } from './Binding';
-import type Path from './Path';
-const CACHE_KEY = Symbol();
+import { Binding } from "./Binding.js";
+import Path from "./Path.js";
+const CACHE_KEY = Symbol("CACHE_KEY");
 let uid = 0;
 
 export default class Scope {
-    constructor(path: Path, parentScope?: Scope) {
+    /**
+     * @param {Path} path
+     * @param {Scope} [parentScope]
+     */
+    constructor(path, parentScope) {
         this.uid = uid++;
         this.parent = parentScope;
 
@@ -46,12 +50,16 @@ export default class Scope {
             return this._contextName;
         }
         if (this.parent) {
-            return this.parent.contextName || '_context';
+            return this.parent.contextName || "_context";
         }
-        return '_context';
+        return "_context";
     }
 
-    static get(path: Path, parentScope?: Scope) {
+    /**
+     * @param {Path} path
+     * @param Scope} parentScope
+     */
+    static get(path, parentScope) {
         if (parentScope && parentScope.block == path.node) {
             return parentScope;
         }
@@ -74,7 +82,10 @@ export default class Scope {
         return !!Object.keys(this.bindings).length;
     }
 
-    getBinding(name: string) {
+    /**
+     * @param {string} name
+     */
+    getBinding(name) {
         let scope = this;
 
         do {
@@ -82,21 +93,30 @@ export default class Scope {
             if (binding) {
                 return binding;
             }
-            if (scope.path.is('RootScope')) {
+            if (scope.path.is("RootScope")) {
                 return;
             }
         } while ((scope = scope.parent));
     }
 
-    getOwnBinding(name: string) {
+    /**
+     * @param {string} name
+     */
+    getOwnBinding(name) {
         return this.bindings[name];
     }
 
-    hasOwnBinding(name: string) {
+    /**
+     * @param {string} name
+     */
+    hasOwnBinding(name) {
         return !!this.getOwnBinding(name);
     }
 
-    hasBinding(name: string) {
+    /**
+     * @param {string} name
+     */
+    hasBinding(name) {
         return !name
             ? false
             : !!(this.hasOwnBinding(name) || this.parentHasBinding(name));
@@ -110,14 +130,19 @@ export default class Scope {
         return scope;
     }
 
-    registerBinding(name: string, path: Path = null, kind: string = 'context') {
+    /**
+     * @param {string} name
+     * @param {Path} path
+     * @param {string} kind
+     */
+    registerBinding(name, path = null, kind = "context") {
         let scope = this;
-        if (kind === 'global' && path === null) {
+        if (kind === "global" && path === null) {
             scope = this.getRootScope();
-        } else if (kind === 'const') {
+        } else if (kind === "const") {
             while (scope.parent) {
                 scope = scope.parent;
-                if (scope.path.is('RootScope')) {
+                if (scope.path.is("RootScope")) {
                     break;
                 }
             }
@@ -132,7 +157,11 @@ export default class Scope {
         return (scope.bindings[name] = new Binding(name, this, path, kind));
     }
 
-    reference(name: string, path: Path) {
+    /**
+     * @param {string} name
+     * @param {Path} path
+     */
+    reference(name, path) {
         let binding = this.getBinding(name);
         if (!binding) {
             binding = this.registerBinding(name);
@@ -140,15 +169,21 @@ export default class Scope {
         binding.reference(path);
     }
 
-    parentHasBinding(name: string) {
+    /**
+     * @param {string} name
+     */
+    parentHasBinding(name) {
         return this.parent && this.parent.hasBinding(name);
     }
 
-    generateUid(nameHint: string = 'temp') {
+    /**
+     * @param {string} nameHint
+     */
+    generateUid(nameHint = "temp") {
         const name = toIdentifier(nameHint);
 
-        let uid,
-            i = 0;
+        let uid;
+        let i = 0;
         do {
             uid = generateUid(name, i);
             i++;
@@ -163,15 +198,15 @@ function getCache(node) {
 }
 
 function toIdentifier(nameHint) {
-    let name = nameHint + '';
-    name = name.replace(/[^a-zA-Z0-9$_]/g, '');
+    let name = nameHint + "";
+    name = name.replace(/[^a-zA-Z0-9$_]/g, "");
 
-    name = name.replace(/^[-0-9]+/, '');
-    name = name.replace(/[-\s]+(.)?/, function(match, c) {
-        return c ? c.toUpperCase() : '';
+    name = name.replace(/^[-0-9]+/, "");
+    name = name.replace(/[-\s]+(.)?/, (match, c) => {
+        return c ? c.toUpperCase() : "";
     });
 
-    name = name.replace(/^_+/, '').replace(/[0-9]+$/, '');
+    name = name.replace(/^_+/, "").replace(/[0-9]+$/, "");
     return name;
 }
 

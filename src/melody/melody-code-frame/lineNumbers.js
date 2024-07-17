@@ -15,21 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { padStart } from 'lodash';
+import padStart from "lodash/padStart.js";
 
 const get = options => (key, defaultValue) =>
     key in options ? options[key] : defaultValue;
 
 function lineNumbers(lines, options) {
     const getOption = get(options);
-    const transform = getOption('transform', Function.prototype);
-    const padding = getOption('padding', ' ');
-    const before = getOption('before', ' ');
-    const after = getOption('after', ' | ');
-    const start = getOption('start', 1);
+    const transform = getOption("transform", Function.prototype);
+    const padding = getOption("padding", " ");
+    const before = getOption("before", " ");
+    const after = getOption("after", " | ");
+    const start = getOption("start", 1);
     const end = start + lines.length - 1;
     const width = String(end).length;
-    return lines.map(function(line, index) {
+    return lines.map((line, index) => {
         const number = start + index;
         const params = { before, number, width, after, line };
         transform(params);

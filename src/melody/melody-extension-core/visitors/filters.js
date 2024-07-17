@@ -13,25 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as t from 'babel-types';
-import template from 'babel-template';
+import * as t from "babel-types";
+import template from "babel-template";
 
 // use default value if var is null, undefined or an empty string
 // but use var if value is 0, false, an empty array or an empty object
 const defaultFilter = template("VAR != null && VAR !== '' ? VAR : DEFAULT");
 
 export default {
-    capitalize: 'lodash',
-    first: 'lodash',
-    last: 'lodash',
-    keys: 'lodash',
+    capitalize: "lodash",
+    first: "lodash",
+    last: "lodash",
+    keys: "lodash",
     default(path) {
         // babel-template transforms it to an expression statement
         // but we really need an expression here, so unwrap it
         path.replaceWithJS(
             defaultFilter({
                 VAR: path.node.target,
-                DEFAULT: path.node.arguments[0] || t.stringLiteral(''),
+                DEFAULT: path.node.arguments[0] || t.stringLiteral("")
             }).expression
         );
     },
@@ -39,7 +39,7 @@ export default {
         // todo throw error if arguments exist
         path.replaceWithJS(
             t.callExpression(
-                t.memberExpression(t.identifier('Math'), t.identifier('abs')),
+                t.memberExpression(t.identifier("Math"), t.identifier("abs")),
                 [path.node.target]
             )
         );
@@ -47,7 +47,7 @@ export default {
     join(path) {
         path.replaceWithJS(
             t.callExpression(
-                t.memberExpression(path.node.target, t.identifier('join')),
+                t.memberExpression(path.node.target, t.identifier("join")),
                 path.node.arguments
             )
         );
@@ -57,8 +57,8 @@ export default {
         path.replaceWithJS(
             t.callExpression(
                 t.memberExpression(
-                    t.identifier('JSON'),
-                    t.identifier('stringify')
+                    t.identifier("JSON"),
+                    t.identifier("stringify")
                 ),
                 [path.node.target]
             )
@@ -66,7 +66,7 @@ export default {
     },
     length(path) {
         path.replaceWithJS(
-            t.memberExpression(path.node.target, t.identifier('length'))
+            t.memberExpression(path.node.target, t.identifier("length"))
         );
     },
     lower(path) {
@@ -74,7 +74,7 @@ export default {
             t.callExpression(
                 t.memberExpression(
                     path.node.target,
-                    t.identifier('toLowerCase')
+                    t.identifier("toLowerCase")
                 ),
                 []
             )
@@ -85,7 +85,7 @@ export default {
             t.callExpression(
                 t.memberExpression(
                     path.node.target,
-                    t.identifier('toUpperCase')
+                    t.identifier("toUpperCase")
                 ),
                 []
             )
@@ -94,7 +94,7 @@ export default {
     slice(path) {
         path.replaceWithJS(
             t.callExpression(
-                t.memberExpression(path.node.target, t.identifier('slice')),
+                t.memberExpression(path.node.target, t.identifier("slice")),
                 path.node.arguments
             )
         );
@@ -102,7 +102,7 @@ export default {
     sort(path) {
         path.replaceWithJS(
             t.callExpression(
-                t.memberExpression(path.node.target, t.identifier('sort')),
+                t.memberExpression(path.node.target, t.identifier("sort")),
                 path.node.arguments
             )
         );
@@ -110,7 +110,7 @@ export default {
     split(path) {
         path.replaceWithJS(
             t.callExpression(
-                t.memberExpression(path.node.target, t.identifier('split')),
+                t.memberExpression(path.node.target, t.identifier("split")),
                 path.node.arguments
             )
         );
@@ -123,7 +123,7 @@ export default {
         path.replaceWithJS(
             t.callExpression(
                 t.identifier(
-                    path.state.addImportFrom('melody-runtime', 'strtotime')
+                    path.state.addImportFrom("melody-runtime", "strtotime")
                 ),
                 [path.node.arguments[0], path.node.target]
             )
@@ -136,11 +136,11 @@ export default {
         path.replaceWithJS(
             t.callExpression(
                 t.callExpression(
-                    t.identifier(path.state.addDefaultImportFrom('moment')),
+                    t.identifier(path.state.addDefaultImportFrom("moment")),
                     [path.node.target]
                 ),
                 [path.node.arguments[0]]
             )
         );
-    },
+    }
 };

@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { ForStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { ForStatement } from "./../types.js";
 
 export const ForParser = {
-    name: 'for',
+    name: "for",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            forStatement = new ForStatement();
+        const tokens = parser.tokens;
+        const forStatement = new ForStatement();
 
         const keyTarget = tokens.expect(Types.SYMBOL);
         if (tokens.nextIf(Types.COMMA)) {
@@ -52,44 +52,45 @@ export const ForParser = {
             );
         }
 
-        tokens.expect(Types.OPERATOR, 'in');
+        tokens.expect(Types.OPERATOR, "in");
 
         forStatement.sequence = parser.matchExpression();
 
-        if (tokens.nextIf(Types.SYMBOL, 'if')) {
+        if (tokens.nextIf(Types.SYMBOL, "if")) {
             forStatement.condition = parser.matchExpression();
         }
 
         tokens.expect(Types.TAG_END);
 
         const openingTagEndToken = tokens.la(-1);
-        let elseTagStartToken, elseTagEndToken;
+        let elseTagStartToken;
+        let elseTagEndToken;
 
         forStatement.body = parser.parse((tokenText, token, tokens) => {
             const result =
                 token.type === Types.TAG_START &&
-                (tokens.test(Types.SYMBOL, 'else') ||
-                    tokens.test(Types.SYMBOL, 'endfor'));
-            if (result && tokens.test(Types.SYMBOL, 'else')) {
+                (tokens.test(Types.SYMBOL, "else") ||
+                    tokens.test(Types.SYMBOL, "endfor"));
+            if (result && tokens.test(Types.SYMBOL, "else")) {
                 elseTagStartToken = token;
             }
             return result;
         });
 
-        if (tokens.nextIf(Types.SYMBOL, 'else')) {
+        if (tokens.nextIf(Types.SYMBOL, "else")) {
             tokens.expect(Types.TAG_END);
             elseTagEndToken = tokens.la(-1);
             forStatement.otherwise = parser.parse(
                 (tokenText, token, tokens) => {
                     return (
                         token.type === Types.TAG_START &&
-                        tokens.test(Types.SYMBOL, 'endfor')
+                        tokens.test(Types.SYMBOL, "endfor")
                     );
                 }
             );
         }
         const endforTagStartToken = tokens.la(-1);
-        tokens.expect(Types.SYMBOL, 'endfor');
+        tokens.expect(Types.SYMBOL, "endfor");
 
         setStartFromToken(forStatement, token);
         setEndFromToken(forStatement, tokens.expect(Types.TAG_END));
@@ -101,10 +102,9 @@ export const ForParser = {
         forStatement.trimRightElse = !!(
             elseTagEndToken && hasTagEndTokenTrimRight(elseTagEndToken)
         );
-        forStatement.trimLeftEndfor = hasTagStartTokenTrimLeft(
-            endforTagStartToken
-        );
+        forStatement.trimLeftEndfor =
+            hasTagStartTokenTrimLeft(endforTagStartToken);
 
         return forStatement;
-    },
+    }
 };

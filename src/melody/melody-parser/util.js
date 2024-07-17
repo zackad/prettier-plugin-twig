@@ -36,8 +36,8 @@ export function copyStart(
     node,
     {
         loc: {
-            start: { line, column, index },
-        },
+            start: { line, column, index }
+        }
     }
 ) {
     node.loc.start.line = line;
@@ -57,7 +57,7 @@ export function getNodeSource(node, entireSource) {
     if (entireSource && node.loc.start && node.loc.end) {
         return entireSource.substring(node.loc.start.index, node.loc.end.index);
     }
-    return '';
+    return "";
 }
 
 export function copyLoc(node, { loc: { start, end } }) {
@@ -79,19 +79,19 @@ export function startNode(Type, token, ...args) {
 }
 
 export function hasTagStartTokenTrimLeft(token) {
-    return token.text.endsWith('-');
+    return token.text.endsWith("-");
 }
 
 export function hasTagEndTokenTrimRight(token) {
-    return token.text.startsWith('-');
+    return token.text.startsWith("-");
 }
 
 export function isMelodyExtension(obj) {
     return (
         obj &&
         (Array.isArray(obj.binaryOperators) ||
-            typeof obj.filterMap === 'object' ||
-            typeof obj.functionMap === 'object' ||
+            typeof obj.filterMap === "object" ||
+            typeof obj.functionMap === "object" ||
             Array.isArray(obj.tags) ||
             Array.isArray(obj.tests) ||
             Array.isArray(obj.unaryOperators) ||

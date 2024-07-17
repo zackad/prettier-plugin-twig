@@ -29,15 +29,15 @@ export const voidElements = {
     param: true,
     source: true,
     track: true,
-    wbr: true,
+    wbr: true
 };
 
 export const rawTextElements = {
     script: true,
-    style: true,
+    style: true
 };
 
 export const escapableRawTextElements = {
     textarea: true,
-    title: true,
+    title: true
 };

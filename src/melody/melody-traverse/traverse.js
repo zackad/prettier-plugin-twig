@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { explode } from './visitors';
-import TraversalContext from './TraversalContext';
+import { explode } from "./visitors.js";
+import TraversalContext from "./TraversalContext.js";
 
-export function traverse(
-    parentNode,
-    visitor: Object,
-    scope?: Object,
-    state?: Object = {},
-    parentPath?: Object
-) {
+/**
+ * @param {Object} visitor
+ * @param {Object} [scope]
+ * @param {Object} [state]
+ * @param {Object} [parentPath]
+ */
+export function traverse(parentNode, visitor, scope, state = {}, parentPath) {
     if (!parentNode) {
         return;
     }
@@ -32,7 +32,8 @@ export function traverse(
 }
 
 export function visit(node, visitor, scope, state, parentPath) {
-    const keys: Array<String> = node.visitorKeys;
+    /** @type {Array<String>} */
+    const keys = node.visitorKeys;
     if (!keys || !keys.length) {
         return;
     }

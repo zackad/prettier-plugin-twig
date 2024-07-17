@@ -18,19 +18,20 @@ import {
     setStartFromToken,
     setEndFromToken,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { AutoescapeBlock } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+
+import { AutoescapeBlock } from "./../types.js";
 
 export const AutoescapeParser = {
-    name: 'autoescape',
+    name: "autoescape",
     parse(parser, token) {
         const tokens = parser.tokens;
 
-        let escapeType = null,
-            stringStartToken,
-            openingTagEndToken,
-            closingTagStartToken;
+        let escapeType = null;
+        let stringStartToken;
+        let openingTagEndToken;
+        let closingTagStartToken;
         if (tokens.nextIf(Types.TAG_END)) {
             openingTagEndToken = tokens.la(-1);
             escapeType = null;
@@ -38,14 +39,14 @@ export const AutoescapeParser = {
             escapeType = tokens.expect(Types.STRING).text;
             if (!tokens.nextIf(Types.STRING_END)) {
                 parser.error({
-                    title:
-                        'autoescape type declaration must be a simple string',
+                    title: "autoescape type declaration must be a simple string",
                     pos: tokens.la(0).pos,
                     advice: `The type declaration for autoescape must be a simple string such as 'html' or 'js'.
 I expected the current string to end with a ${
                         stringStartToken.text
-                    } but instead found ${Types.ERROR_TABLE[tokens.lat(0)] ||
-                        tokens.lat(0)}.`,
+                    } but instead found ${
+                        Types.ERROR_TABLE[tokens.lat(0)] || tokens.lat(0)
+                    }.`
                 });
             }
             openingTagEndToken = tokens.la(0);
@@ -57,11 +58,11 @@ I expected the current string to end with a ${
             openingTagEndToken = tokens.la(0);
         } else {
             parser.error({
-                title: 'Invalid autoescape type declaration',
+                title: "Invalid autoescape type declaration",
                 pos: tokens.la(0).pos,
                 advice: `Expected type of autoescape to be a string, boolean or not specified. Found ${
                     tokens.la(0).type
-                } instead.`,
+                } instead.`
             });
         }
 
@@ -71,7 +72,7 @@ I expected the current string to end with a ${
         autoescape.expressions = parser.parse((_, token, tokens) => {
             if (
                 token.type === Types.TAG_START &&
-                tokens.nextIf(Types.SYMBOL, 'endautoescape')
+                tokens.nextIf(Types.SYMBOL, "endautoescape")
             ) {
                 closingTagStartToken = token;
                 tagEndToken = tokens.expect(Types.TAG_END);
@@ -81,13 +82,11 @@ I expected the current string to end with a ${
         }).expressions;
         setEndFromToken(autoescape, tagEndToken);
 
-        autoescape.trimRightAutoescape = hasTagEndTokenTrimRight(
-            openingTagEndToken
-        );
-        autoescape.trimLeftEndautoescape = hasTagStartTokenTrimLeft(
-            closingTagStartToken
-        );
+        autoescape.trimRightAutoescape =
+            hasTagEndTokenTrimRight(openingTagEndToken);
+        autoescape.trimLeftEndautoescape =
+            hasTagStartTokenTrimLeft(closingTagStartToken);
 
         return autoescape;
-    },
+    }
 };

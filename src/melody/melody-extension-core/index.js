@@ -13,68 +13,68 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { unaryOperators, binaryOperators, tests } from './operators';
-import { AutoescapeParser } from './parser/autoescape';
-import { BlockParser } from './parser/block';
-import { DoParser } from './parser/do';
-import { EmbedParser } from './parser/embed';
-import { ExtendsParser } from './parser/extends';
-import { FilterParser } from './parser/filter';
-import { FlushParser } from './parser/flush';
-import { ForParser } from './parser/for';
-import { FromParser } from './parser/from';
-import { IfParser } from './parser/if';
-import { ImportParser } from './parser/import';
-import { IncludeParser } from './parser/include';
-import { MacroParser } from './parser/macro';
-import { SetParser } from './parser/set';
-import { SpacelessParser } from './parser/spaceless';
-import { UseParser } from './parser/use';
-import { MountParser } from './parser/mount';
+import { unaryOperators, binaryOperators, tests } from "./operators.js";
+import { AutoescapeParser } from "./parser/autoescape.js";
+import { BlockParser } from "./parser/block.js";
+import { DoParser } from "./parser/do.js";
+import { EmbedParser } from "./parser/embed.js";
+import { ExtendsParser } from "./parser/extends.js";
+import { FilterParser } from "./parser/filter.js";
+import { FlushParser } from "./parser/flush.js";
+import { ForParser } from "./parser/for.js";
+import { FromParser } from "./parser/from.js";
+import { IfParser } from "./parser/if.js";
+import { ImportParser } from "./parser/import.js";
+import { IncludeParser } from "./parser/include.js";
+import { MacroParser } from "./parser/macro.js";
+import { SetParser } from "./parser/set.js";
+import { SpacelessParser } from "./parser/spaceless.js";
+import { UseParser } from "./parser/use.js";
+import { MountParser } from "./parser/mount.js";
 
-import forVisitor from './visitors/for';
-import testVisitor from './visitors/tests';
-import filters from './visitors/filters';
-import functions from './visitors/functions';
+import forVisitor from "./visitors/for.js";
+import testVisitor from "./visitors/tests.js";
+import filters from "./visitors/filters.js";
+import functions from "./visitors/functions.js";
 
 const filterMap = [
-    'attrs',
-    'classes',
-    'styles',
-    'batch',
-    'escape',
-    'format',
-    'merge',
-    'nl2br',
-    'number_format',
-    'raw',
-    'replace',
-    'reverse',
-    'round',
-    'striptags',
-    'title',
-    'url_encode',
-    'trim',
+    "attrs",
+    "classes",
+    "styles",
+    "batch",
+    "escape",
+    "format",
+    "merge",
+    "nl2br",
+    "number_format",
+    "raw",
+    "replace",
+    "reverse",
+    "round",
+    "striptags",
+    "title",
+    "url_encode",
+    "trim"
 ].reduce((map, filterName) => {
-    map[filterName] = 'melody-runtime';
+    map[filterName] = "melody-runtime";
     return map;
 }, Object.create(null));
 
 Object.assign(filterMap, filters);
 
 const functionMap = [
-    'attribute',
-    'constant',
-    'cycle',
-    'date',
-    'max',
-    'min',
-    'random',
-    'range',
-    'source',
-    'template_from_string',
+    "attribute",
+    "constant",
+    "cycle",
+    "date",
+    "max",
+    "min",
+    "random",
+    "range",
+    "source",
+    "template_from_string"
 ].reduce((map, functionName) => {
-    map[functionName] = 'melody-runtime';
+    map[functionName] = "melody-runtime";
     return map;
 }, Object.create(null));
 Object.assign(functionMap, functions);
@@ -97,14 +97,14 @@ export const extension = {
         SetParser,
         SpacelessParser,
         UseParser,
-        MountParser,
+        MountParser
     ],
     unaryOperators,
     binaryOperators,
     tests,
     visitors: [forVisitor, testVisitor],
     filterMap,
-    functionMap,
+    functionMap
 };
 
 export {
@@ -163,5 +163,5 @@ export {
     TestDivisibleByExpression,
     TestConstantExpression,
     TestEmptyExpression,
-    TestIterableExpression,
-} from './types';
+    TestIterableExpression
+} from "./types.js";

@@ -13,23 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { FilterBlockStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { FilterBlockStatement } from "./../types.js";
 
 export const FilterParser = {
-    name: 'filter',
+    name: "filter",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            ref = createNode(Identifier, token, 'filter'),
-            filterExpression = parser.matchFilterExpression(ref);
+        const tokens = parser.tokens;
+        const ref = createNode(Identifier, token, "filter");
+        const filterExpression = parser.matchFilterExpression(ref);
         tokens.expect(Types.TAG_END);
         const openingTagEndToken = tokens.la(-1);
         let closingTagStartToken;
@@ -37,7 +37,7 @@ export const FilterParser = {
         const body = parser.parse((text, token, tokens) => {
             const result =
                 token.type === Types.TAG_START &&
-                tokens.nextIf(Types.SYMBOL, 'endfilter');
+                tokens.nextIf(Types.SYMBOL, "endfilter");
 
             if (result) {
                 closingTagStartToken = token;
@@ -52,13 +52,12 @@ export const FilterParser = {
         setStartFromToken(filterBlockStatement, token);
         setEndFromToken(filterBlockStatement, tokens.expect(Types.TAG_END));
 
-        filterBlockStatement.trimRightFilter = hasTagEndTokenTrimRight(
-            openingTagEndToken
-        );
+        filterBlockStatement.trimRightFilter =
+            hasTagEndTokenTrimRight(openingTagEndToken);
         filterBlockStatement.trimLeftEndfilter =
             closingTagStartToken &&
             hasTagStartTokenTrimLeft(closingTagStartToken);
 
         return filterBlockStatement;
-    },
+    }
 };

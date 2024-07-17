@@ -18,12 +18,12 @@ import {
     setStartFromToken,
     setEndFromToken,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { SpacelessBlock } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { SpacelessBlock } from "./../types.js";
 
 export const SpacelessParser = {
-    name: 'spaceless',
+    name: "spaceless",
     parse(parser, token) {
         const tokens = parser.tokens;
 
@@ -34,7 +34,7 @@ export const SpacelessParser = {
         const body = parser.parse((tokenText, token, tokens) => {
             const result = !!(
                 token.type === Types.TAG_START &&
-                tokens.nextIf(Types.SYMBOL, 'endspaceless')
+                tokens.nextIf(Types.SYMBOL, "endspaceless")
             );
             closingTagStartToken = token;
             return result;
@@ -44,14 +44,13 @@ export const SpacelessParser = {
         setStartFromToken(spacelessBlock, token);
         setEndFromToken(spacelessBlock, tokens.expect(Types.TAG_END));
 
-        spacelessBlock.trimRightSpaceless = hasTagEndTokenTrimRight(
-            openingTagEndToken
-        );
+        spacelessBlock.trimRightSpaceless =
+            hasTagEndTokenTrimRight(openingTagEndToken);
         spacelessBlock.trimLeftEndspaceless = !!(
             closingTagStartToken &&
             hasTagStartTokenTrimLeft(closingTagStartToken)
         );
 
         return spacelessBlock;
-    },
+    }
 };

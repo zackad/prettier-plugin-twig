@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Path from './Path';
-import Scope from './Scope';
+import Path from "./Path.js";
+import Scope from "./Scope.js";
 export { Scope, Path };
-export * from './Scope';
-export { merge, explode } from './visitors';
-export { traverse, visit } from './traverse';
+export * from "./Scope.js";
+export { merge, explode } from "./visitors.js";
+export { traverse, visit } from "./traverse.js";

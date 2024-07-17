@@ -13,32 +13,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import lineNumbers from './lineNumbers';
-import { repeat } from 'lodash';
+import lineNumbers from "./lineNumbers.js";
+import repeat from "lodash/repeat.js";
 
 const NEWLINE = /\r\n|[\n\r\u2028\u2029]/;
 
-export default function({ rawLines, lineNumber, colNumber, length }) {
-    const lines = rawLines.split(NEWLINE),
-        start = Math.max(lineNumber - 3, 0),
-        end = Math.min(lineNumber + 3, lines.length);
+export default function ({ rawLines, lineNumber, colNumber, length }) {
+    const lines = rawLines.split(NEWLINE);
+    const start = Math.max(lineNumber - 3, 0);
+    const end = Math.min(lineNumber + 3, lines.length);
 
     return lineNumbers(lines.slice(start, end), {
         start: start + 1,
-        before: '  ',
-        after: ' | ',
+        before: "  ",
+        after: " | ",
         transform(params) {
             if (params.number !== lineNumber) {
                 return;
             }
 
-            if (typeof colNumber === 'number') {
-                params.line += `\n${params.before}${repeat(' ', params.width)}${
+            if (typeof colNumber === "number") {
+                params.line += `\n${params.before}${repeat(" ", params.width)}${
                     params.after
-                }${repeat(' ', colNumber)}${repeat('^', length)}`;
+                }${repeat(" ", colNumber)}${repeat("^", length)}`;
             }
 
-            params.before = params.before.replace(/^./, '>');
-        },
-    }).join('\n');
+            params.before = params.before.replace(/^./, ">");
+        }
+    }).join("\n");
 }

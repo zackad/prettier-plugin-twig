@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import * as t from 'babel-types';
+import * as t from "babel-types";
 
 export const TYPE_MAP = Object.create(null);
 export const ALIAS_TO_TYPE = Object.create(null);
-export const PATH_CACHE_KEY = Symbol();
+export const PATH_CACHE_KEY = Symbol("PATH_CACHE_KEY");
 
 const IS_ALIAS_OF = Object.create(null);
 
@@ -27,7 +27,7 @@ export class Node {
         this.loc = {
             source: null,
             start: { line: 0, column: 0 },
-            end: { line: 0, column: 0 },
+            end: { line: 0, column: 0 }
         };
         this[PATH_CACHE_KEY] = [];
     }
@@ -35,7 +35,7 @@ export class Node {
     toJSON() {
         return Object.getOwnPropertyNames(this).reduce(
             (acc, name) => {
-                if (name === 'loc' || name === 'parent') {
+                if (name === "loc" || name === "parent") {
                     return acc;
                 }
                 const value = this[name];
@@ -47,17 +47,17 @@ export class Node {
                 return acc;
             },
             {
-                type: this.type,
+                type: this.type
             }
         );
     }
 
     static registerType(type) {
-        if (Node['is' + type]) {
+        if (Node["is" + type]) {
             return;
         }
 
-        Node['is' + type] = function(node) {
+        Node["is" + type] = function (node) {
             return is(node, type);
         };
 
@@ -68,10 +68,12 @@ export class Node {
         // };
     }
 }
-Node.registerType('Scope');
+Node.registerType("Scope");
 
 export function is(node, type) {
-    if (!node) return false;
+    if (!node) {
+        return false;
+    }
 
     return (
         node.type === type ||
@@ -80,11 +82,17 @@ export function is(node, type) {
     );
 }
 
-export function visitor(type, ...fields: String) {
+/**
+ * @param  {...string} fields
+ */
+export function visitor(type, ...fields) {
     type.prototype.visitorKeys = fields;
 }
 
-export function alias(type, ...aliases: String) {
+/**
+ * @param  {...string} aliases
+ */
+export function alias(type, ...aliases) {
     type.prototype.aliases = aliases;
     for (let i = 0, len = aliases.length; i < len; i++) {
         const alias = aliases[i];
@@ -100,7 +108,10 @@ export function alias(type, ...aliases: String) {
     }
 }
 
-export function type(Type, type: String) {
+/**
+ * @param  {...string} type
+ */
+export function type(Type, type) {
     Type.prototype.type = type;
     TYPE_MAP[type] = Type;
 
@@ -108,34 +119,43 @@ export function type(Type, type: String) {
 }
 
 export class Fragment extends Node {
-    constructor(expression: Node) {
+    /**
+     * @param  {Node} expression
+     */
+    constructor(expression) {
         super();
         this.value = expression;
     }
 }
-type(Fragment, 'Fragment');
-alias(Fragment, 'Statement');
-visitor(Fragment, 'value');
+type(Fragment, "Fragment");
+alias(Fragment, "Statement");
+visitor(Fragment, "value");
 
 export class PrintExpressionStatement extends Node {
-    constructor(expression: Node) {
+    /**
+     * @param  {Node} expression
+     */
+    constructor(expression) {
         super();
         this.value = expression;
     }
 }
-type(PrintExpressionStatement, 'PrintExpressionStatement');
-alias(PrintExpressionStatement, 'Statement', 'PrintStatement');
-visitor(PrintExpressionStatement, 'value');
+type(PrintExpressionStatement, "PrintExpressionStatement");
+alias(PrintExpressionStatement, "Statement", "PrintStatement");
+visitor(PrintExpressionStatement, "value");
 
 export class PrintTextStatement extends Node {
-    constructor(text: StringLiteral) {
+    /**
+     * @param {StringLiteral} text
+     */
+    constructor(text) {
         super();
         this.value = text;
     }
 }
-type(PrintTextStatement, 'PrintTextStatement');
-alias(PrintTextStatement, 'Statement', 'PrintStatement');
-visitor(PrintTextStatement, 'value');
+type(PrintTextStatement, "PrintTextStatement");
+alias(PrintTextStatement, "Statement", "PrintStatement");
+visitor(PrintTextStatement, "value");
 
 export class ConstantValue extends Node {
     constructor(value) {
@@ -147,32 +167,32 @@ export class ConstantValue extends Node {
         return `Const(${this.value})`;
     }
 }
-type(ConstantValue, 'ConstantValue');
-alias(ConstantValue, 'Expression', 'Literal', 'Immutable');
+type(ConstantValue, "ConstantValue");
+alias(ConstantValue, "Expression", "Literal", "Immutable");
 
 export class StringLiteral extends ConstantValue {}
-type(StringLiteral, 'StringLiteral');
-alias(StringLiteral, 'Expression', 'Literal', 'Immutable');
+type(StringLiteral, "StringLiteral");
+alias(StringLiteral, "Expression", "Literal", "Immutable");
 
 export class NumericLiteral extends ConstantValue {}
-type(NumericLiteral, 'NumericLiteral');
-alias(NumericLiteral, 'Expression', 'Literal', 'Immutable');
+type(NumericLiteral, "NumericLiteral");
+alias(NumericLiteral, "Expression", "Literal", "Immutable");
 
 export class BooleanLiteral extends ConstantValue {
     constructor(value) {
         super(value);
     }
 }
-type(BooleanLiteral, 'BooleanLiteral');
-alias(BooleanLiteral, 'Expression', 'Literal', 'Immutable');
+type(BooleanLiteral, "BooleanLiteral");
+alias(BooleanLiteral, "Expression", "Literal", "Immutable");
 
 export class NullLiteral extends ConstantValue {
     constructor() {
         super(null);
     }
 }
-type(NullLiteral, 'NullLiteral');
-alias(NullLiteral, 'Expression', 'Literal', 'Immutable');
+type(NullLiteral, "NullLiteral");
+alias(NullLiteral, "Expression", "Literal", "Immutable");
 
 export class Identifier extends Node {
     constructor(name) {
@@ -180,53 +200,71 @@ export class Identifier extends Node {
         this.name = name;
     }
 }
-type(Identifier, 'Identifier');
-alias(Identifier, 'Expression');
+type(Identifier, "Identifier");
+alias(Identifier, "Expression");
 
 export class UnaryExpression extends Node {
-    constructor(operator: String, argument: Node) {
+    /**
+     * @param {String} operator
+     * @param {Node} argument
+     */
+    constructor(operator, argument) {
         super();
         this.operator = operator;
         this.argument = argument;
     }
 }
-type(UnaryExpression, 'UnaryExpression');
-alias(UnaryExpression, 'Expression', 'UnaryLike');
-visitor(UnaryExpression, 'argument');
+type(UnaryExpression, "UnaryExpression");
+alias(UnaryExpression, "Expression", "UnaryLike");
+visitor(UnaryExpression, "argument");
 
 export class BinaryExpression extends Node {
-    constructor(operator: String, left: Node, right: Node) {
+    /**
+     * @param {String} operator
+     * @param {Node} left
+     * @param {Node} right
+     */
+    constructor(operator, left, right) {
         super();
         this.operator = operator;
         this.left = left;
         this.right = right;
     }
 }
-type(BinaryExpression, 'BinaryExpression');
-alias(BinaryExpression, 'Binary', 'Expression');
-visitor(BinaryExpression, 'left', 'right');
+type(BinaryExpression, "BinaryExpression");
+alias(BinaryExpression, "Binary", "Expression");
+visitor(BinaryExpression, "left", "right");
 
 export class BinaryConcatExpression extends BinaryExpression {
-    constructor(left: Node, right: Node) {
-        super('~', left, right);
+    /**
+     * @param {Node} left
+     * @param {Node} right
+     */
+    constructor(left, right) {
+        super("~", left, right);
         this.wasImplicitConcatenation = false;
     }
 }
-type(BinaryConcatExpression, 'BinaryConcatExpression');
-alias(BinaryConcatExpression, 'BinaryExpression', 'Binary', 'Expression');
-visitor(BinaryConcatExpression, 'left', 'right');
+type(BinaryConcatExpression, "BinaryConcatExpression");
+alias(BinaryConcatExpression, "BinaryExpression", "Binary", "Expression");
+visitor(BinaryConcatExpression, "left", "right");
 
 export class ConditionalExpression extends Node {
-    constructor(test: Node, consequent: Node, alternate: Node) {
+    /**
+     * @param {Node} test
+     * @param {Node} consequent
+     * @param {Node} alternate
+     */
+    constructor(test, consequent, alternate) {
         super();
         this.test = test;
         this.consequent = consequent;
         this.alternate = alternate;
     }
 }
-type(ConditionalExpression, 'ConditionalExpression');
-alias(ConditionalExpression, 'Expression', 'Conditional');
-visitor(ConditionalExpression, 'test', 'consequent', 'alternate');
+type(ConditionalExpression, "ConditionalExpression");
+alias(ConditionalExpression, "Expression", "Conditional");
+visitor(ConditionalExpression, "test", "consequent", "alternate");
 
 export class ArrayExpression extends Node {
     constructor(elements = []) {
@@ -234,107 +272,147 @@ export class ArrayExpression extends Node {
         this.elements = elements;
     }
 }
-type(ArrayExpression, 'ArrayExpression');
-alias(ArrayExpression, 'Expression');
-visitor(ArrayExpression, 'elements');
+type(ArrayExpression, "ArrayExpression");
+alias(ArrayExpression, "Expression");
+visitor(ArrayExpression, "elements");
 
 export class MemberExpression extends Node {
-    constructor(object: Node, property: Node, computed: boolean) {
+    /**
+     * @param {Node} object
+     * @param {Node} property
+     * @param {boolean} computed
+     */
+    constructor(object, property, computed) {
         super();
         this.object = object;
         this.property = property;
         this.computed = computed;
     }
 }
-type(MemberExpression, 'MemberExpression');
-alias(MemberExpression, 'Expression', 'LVal');
-visitor(MemberExpression, 'object', 'property');
+type(MemberExpression, "MemberExpression");
+alias(MemberExpression, "Expression", "LVal");
+visitor(MemberExpression, "object", "property");
 
 export class CallExpression extends Node {
-    constructor(callee: Node, args: Array<Node>) {
+    /**
+     * @param {Node} callee
+     * @param {Array<Node>} args
+     */
+    constructor(callee, args) {
         super();
         this.callee = callee;
         this.arguments = args;
     }
 }
-type(CallExpression, 'CallExpression');
-alias(CallExpression, 'Expression', 'FunctionInvocation');
-visitor(CallExpression, 'callee', 'arguments');
+type(CallExpression, "CallExpression");
+alias(CallExpression, "Expression", "FunctionInvocation");
+visitor(CallExpression, "callee", "arguments");
 
 export class NamedArgumentExpression extends Node {
-    constructor(name: Identifier, value: Node) {
+    /**
+     * @param {Identifier} name
+     * @param {Node} value
+     */
+    constructor(name, value) {
         super();
         this.name = name;
         this.value = value;
     }
 }
-type(NamedArgumentExpression, 'NamedArgumentExpression');
-alias(NamedArgumentExpression, 'Expression');
-visitor(NamedArgumentExpression, 'name', 'value');
+type(NamedArgumentExpression, "NamedArgumentExpression");
+alias(NamedArgumentExpression, "Expression");
+visitor(NamedArgumentExpression, "name", "value");
 
 export class ObjectExpression extends Node {
-    constructor(properties: Array<ObjectProperty> = []) {
+    /**
+     * @param {Array<ObjectProperty>} properties
+     */
+    constructor(properties = []) {
         super();
         this.properties = properties;
     }
 }
-type(ObjectExpression, 'ObjectExpression');
-alias(ObjectExpression, 'Expression');
-visitor(ObjectExpression, 'properties');
+type(ObjectExpression, "ObjectExpression");
+alias(ObjectExpression, "Expression");
+visitor(ObjectExpression, "properties");
 
 export class ObjectProperty extends Node {
-    constructor(key: Node, value: Node, computed: boolean) {
+    /**
+     * @param {Node} key
+     * @param {Node} value
+     * @param {boolean} computed
+     */
+    constructor(key, value, computed) {
         super();
         this.key = key;
         this.value = value;
         this.computed = computed;
     }
 }
-type(ObjectProperty, 'ObjectProperty');
-alias(ObjectProperty, 'Property', 'ObjectMember');
-visitor(ObjectProperty, 'key', 'value');
+type(ObjectProperty, "ObjectProperty");
+alias(ObjectProperty, "Property", "ObjectMember");
+visitor(ObjectProperty, "key", "value");
 
 export class SequenceExpression extends Node {
-    constructor(expressions: Array<Node> = []) {
+    /**
+     * @param {Array<Node>} expressions
+     */
+    constructor(expressions = []) {
         super();
         this.expressions = expressions;
     }
 
-    add(child: Node) {
+    /**
+     * @param {Node} child
+     */
+    add(child) {
         this.expressions.push(child);
         this.loc.end = child.loc.end;
     }
 }
-type(SequenceExpression, 'SequenceExpression');
-alias(SequenceExpression, 'Expression', 'Scope');
-visitor(SequenceExpression, 'expressions');
+type(SequenceExpression, "SequenceExpression");
+alias(SequenceExpression, "Expression", "Scope");
+visitor(SequenceExpression, "expressions");
 
 export class SliceExpression extends Node {
-    constructor(target: Node, start: Node, end: Node) {
+    /**
+     * @param {Node} target
+     * @param {Node} start
+     * @param {Node} end
+     */
+    constructor(target, start, end) {
         super();
         this.target = target;
         this.start = start;
         this.end = end;
     }
 }
-type(SliceExpression, 'SliceExpression');
-alias(SliceExpression, 'Expression');
-visitor(SliceExpression, 'source', 'start', 'end');
+type(SliceExpression, "SliceExpression");
+alias(SliceExpression, "Expression");
+visitor(SliceExpression, "source", "start", "end");
 
 export class FilterExpression extends Node {
-    constructor(target: Node, name: Identifier, args: Array<Node>) {
+    /**
+     * @param {Node} target
+     * @param {Identifier} name
+     * @param {Array<Node>} args
+     */
+    constructor(target, name, args) {
         super();
         this.target = target;
         this.name = name;
         this.arguments = args;
     }
 }
-type(FilterExpression, 'FilterExpression');
-alias(FilterExpression, 'Expression');
-visitor(FilterExpression, 'target', 'arguments');
+type(FilterExpression, "FilterExpression");
+alias(FilterExpression, "Expression");
+visitor(FilterExpression, "target", "arguments");
 
 export class Element extends Node {
-    constructor(name: String) {
+    /**
+     * @param {String} name
+     */
+    constructor(name) {
         super();
         this.name = name;
         this.attributes = [];
@@ -342,67 +420,87 @@ export class Element extends Node {
         this.selfClosing = false;
     }
 }
-type(Element, 'Element');
-alias(Element, 'Expression');
-visitor(Element, 'attributes', 'children');
+type(Element, "Element");
+alias(Element, "Expression");
+visitor(Element, "attributes", "children");
 
 export class Attribute extends Node {
-    constructor(name: Node, value: Node = null) {
+    /**
+     * @param {Node} name
+     * @param {Node} value
+     */
+    constructor(name, value = null) {
         super();
         this.name = name;
         this.value = value;
     }
 
     isImmutable() {
-        return is(this.name, 'Identifier') && is(this.value, 'Immutable');
+        return is(this.name, "Identifier") && is(this.value, "Immutable");
     }
 }
-type(Attribute, 'Attribute');
-visitor(Attribute, 'name', 'value');
+type(Attribute, "Attribute");
+visitor(Attribute, "name", "value");
 
 export class TwigComment extends Node {
-    constructor(text: StringLiteral) {
+    /**
+     * @param {StringLiteral} text
+     */
+    constructor(text) {
         super();
         this.value = text;
     }
 }
-type(TwigComment, 'TwigComment');
-visitor(TwigComment, 'value');
+type(TwigComment, "TwigComment");
+visitor(TwigComment, "value");
 
 export class HtmlComment extends Node {
-    constructor(text: StringLiteral) {
+    /**
+     * @param {StringLiteral} text
+     */
+    constructor(text) {
         super();
         this.value = text;
     }
 }
-type(HtmlComment, 'HtmlComment');
-visitor(HtmlComment, 'value');
+type(HtmlComment, "HtmlComment");
+visitor(HtmlComment, "value");
 
 export class Declaration extends Node {
-    constructor(declarationType: String) {
+    /**
+     * @param {String} declarationType
+     */
+    constructor(declarationType) {
         super();
         this.declarationType = declarationType;
         this.parts = [];
     }
 }
-type(Declaration, 'Declaration');
-visitor(Declaration, 'parts');
+type(Declaration, "Declaration");
+visitor(Declaration, "parts");
 
 export class GenericTwigTag extends Node {
-    constructor(tagName: String) {
+    /**
+     * @param {String} tagName
+     */
+    constructor(tagName) {
         super();
         this.tagName = tagName;
         this.parts = [];
         this.sections = [];
     }
 }
-type(GenericTwigTag, 'GenericTwigTag');
+type(GenericTwigTag, "GenericTwigTag");
 
 export class GenericToken extends Node {
-    constructor(tokenType: String, tokenText: String) {
+    /**
+     * @param {String} tokenType
+     * @param {String} tokenText
+     */
+    constructor(tokenType, tokenText) {
         super();
         this.tokenType = tokenType;
         this.tokenText = tokenText;
     }
 }
-type(GenericToken, 'GenericToken');
+type(GenericToken, "GenericToken");

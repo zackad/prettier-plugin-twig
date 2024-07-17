@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { traverse } from 'melody-traverse';
-import * as t from 'babel-types';
-import babelTemplate from 'babel-template';
+import { traverse } from "../../melody-traverse/index.js";
+import * as t from "babel-types";
+import babelTemplate from "babel-template";
 
 // @param template
 // @returns function
@@ -103,7 +103,7 @@ function parseExpr(exprStmt) {
     return {
         exprStmt: exprStmt,
         initDecl: exprStmt.body[0].declarations,
-        forStmt: exprStmt.body[1],
+        forStmt: exprStmt.body[1]
     };
 }
 
@@ -111,62 +111,62 @@ export default {
     analyse: {
         ForStatement: {
             enter(path) {
-                const forStmt = path.node,
-                    scope = path.scope;
+                const forStmt = path.node;
+                const scope = path.scope;
                 if (forStmt.keyTarget) {
                     scope.registerBinding(
                         forStmt.keyTarget.name,
-                        path.get('keyTarget'),
-                        'var'
+                        path.get("keyTarget"),
+                        "var"
                     );
                 }
                 if (forStmt.valueTarget) {
                     scope.registerBinding(
                         forStmt.valueTarget.name,
-                        path.get('valueTarget'),
-                        'var'
+                        path.get("valueTarget"),
+                        "var"
                     );
                 }
-                scope.registerBinding('loop', path, 'var');
+                scope.registerBinding("loop", path, "var");
             },
             exit(path) {
-                const sequenceName = path.scope.generateUid('sequence'),
-                    lenName = path.scope.generateUid('length');
-                path.scope.registerBinding(sequenceName, path, 'var');
-                path.scope.registerBinding(lenName, path, 'var');
+                const sequenceName = path.scope.generateUid("sequence");
+                const lenName = path.scope.generateUid("length");
+                path.scope.registerBinding(sequenceName, path, "var");
+                path.scope.registerBinding(lenName, path, "var");
                 let iName;
                 if (path.node.keyTarget) {
                     iName = path.node.keyTarget.name;
                 } else {
-                    iName = path.scope.generateUid('index0');
-                    path.scope.registerBinding(iName, path, 'var');
+                    iName = path.scope.generateUid("index0");
+                    path.scope.registerBinding(iName, path, "var");
                 }
-                path.setData('forStatement.variableLookup', {
+                path.setData("forStatement.variableLookup", {
                     sequenceName,
                     lenName,
-                    iName,
+                    iName
                 });
 
                 if (path.scope.escapesContext) {
-                    const contextName = path.scope.generateUid('context');
-                    path.scope.registerBinding(contextName, path, 'const');
+                    const contextName = path.scope.generateUid("context");
+                    path.scope.registerBinding(contextName, path, "const");
                     path.scope.contextName = contextName;
-                    path.scope.getBinding('loop').kind = 'context';
+                    path.scope.getBinding("loop").kind = "context";
                     if (path.node.valueTarget) {
                         path.scope.getBinding(path.node.valueTarget.name).kind =
-                            'context';
+                            "context";
                     }
-                } else if (path.scope.getBinding('loop').references) {
-                    const indexName = path.scope.generateUid('index');
-                    path.scope.registerBinding(indexName, path, 'var');
-                    const revindexName = path.scope.generateUid('revindex');
-                    path.scope.registerBinding(revindexName, path, 'var');
-                    const revindex0Name = path.scope.generateUid('revindex0');
-                    path.scope.registerBinding(revindex0Name, path, 'var');
-                    const firstName = path.scope.generateUid('first');
-                    path.scope.registerBinding(firstName, path, 'var');
-                    const lastName = path.scope.generateUid('last');
-                    path.scope.registerBinding(lastName, path, 'var');
+                } else if (path.scope.getBinding("loop").references) {
+                    const indexName = path.scope.generateUid("index");
+                    path.scope.registerBinding(indexName, path, "var");
+                    const revindexName = path.scope.generateUid("revindex");
+                    path.scope.registerBinding(revindexName, path, "var");
+                    const revindex0Name = path.scope.generateUid("revindex0");
+                    path.scope.registerBinding(revindex0Name, path, "var");
+                    const firstName = path.scope.generateUid("first");
+                    path.scope.registerBinding(firstName, path, "var");
+                    const lastName = path.scope.generateUid("last");
+                    path.scope.registerBinding(lastName, path, "var");
 
                     const lookupTable = {
                         index: indexName,
@@ -175,68 +175,68 @@ export default {
                         revindex: revindexName,
                         revindex0: revindex0Name,
                         first: firstName,
-                        last: lastName,
+                        last: lastName
                     };
-                    path.setData('forStatement.loopLookup', lookupTable);
+                    path.setData("forStatement.loopLookup", lookupTable);
 
-                    const loopBinding = path.scope.getBinding('loop');
+                    const loopBinding = path.scope.getBinding("loop");
                     for (const loopPath of loopBinding.referencePaths) {
                         const memExpr = loopPath.parentPath;
 
-                        if (memExpr.is('MemberExpression')) {
+                        if (memExpr.is("MemberExpression")) {
                             const typeName = memExpr.node.property.name;
-                            if (typeName === 'index0') {
+                            if (typeName === "index0") {
                                 memExpr.replaceWithJS({
-                                    type: 'BinaryExpression',
-                                    operator: '-',
+                                    type: "BinaryExpression",
+                                    operator: "-",
                                     left: {
-                                        type: 'Identifier',
-                                        name: indexName,
+                                        type: "Identifier",
+                                        name: indexName
                                     },
-                                    right: { type: 'NumericLiteral', value: 1 },
+                                    right: { type: "NumericLiteral", value: 1 },
                                     extra: {
-                                        parenthesized: true,
-                                    },
+                                        parenthesized: true
+                                    }
                                 });
                             } else {
                                 memExpr.replaceWithJS({
-                                    type: 'Identifier',
-                                    name: lookupTable[typeName],
+                                    type: "Identifier",
+                                    name: lookupTable[typeName]
                                 });
                             }
                         }
                     }
                 }
-            },
-        },
+            }
+        }
     },
     convert: {
         ForStatement: {
             enter(path) {
                 if (path.scope.escapesContext) {
-                    var parentContextName = path.scope.parent.contextName;
+                    const parentContextName = path.scope.parent.contextName;
                     if (path.node.otherwise) {
-                        const alternate = path.get('otherwise');
-                        if (alternate.is('Scope')) {
+                        const alternate = path.get("otherwise");
+                        if (alternate.is("Scope")) {
                             alternate.scope.contextName = parentContextName;
                         }
                     }
 
-                    const sequence = path.get('sequence');
+                    const sequence = path.get("sequence");
 
-                    if (sequence.is('Identifier')) {
+                    if (sequence.is("Identifier")) {
                         sequence.setData(
-                            'Identifier.contextName',
+                            "Identifier.contextName",
                             parentContextName
                         );
                     } else {
                         traverse(path.node.sequence, {
                             Identifier(id) {
                                 id.setData(
-                                    'Identifier.contextName',
+                                    "Identifier.contextName",
                                     parentContextName
                                 );
-                            },
+                            }
                         });
                     }
                 }
@@ -244,7 +244,7 @@ export default {
             exit(path) {
                 const node = path.node;
                 const { sequenceName, lenName, iName } = path.getData(
-                    'forStatement.variableLookup'
+                    "forStatement.variableLookup"
                 );
                 let expr;
                 if (path.scope.escapesContext) {
@@ -254,69 +254,69 @@ export default {
                         SUB_CONTEXT: t.identifier(contextName),
                         CREATE_SUB_CONTEXT: t.identifier(
                             this.addImportFrom(
-                                'melody-runtime',
-                                'createSubContext'
+                                "melody-runtime",
+                                "createSubContext"
                             )
                         ),
                         KEY_TARGET: t.identifier(iName),
-                        SOURCE: path.get('sequence').node,
+                        SOURCE: path.get("sequence").node,
                         SEQUENCE: t.identifier(sequenceName),
                         LENGTH: t.identifier(lenName),
-                        VALUE_TARGET: node.valueTarget,
+                        VALUE_TARGET: node.valueTarget
                     });
                     if (node.keyTarget) {
                         expr.forStmt.body.body.push({
-                            type: 'ExpressionStatement',
+                            type: "ExpressionStatement",
                             expression: {
-                                type: 'AssignmentExpression',
-                                operator: '=',
+                                type: "AssignmentExpression",
+                                operator: "=",
                                 left: {
-                                    type: 'MemberExpression',
+                                    type: "MemberExpression",
                                     object: {
-                                        type: 'Identifier',
-                                        name: contextName,
+                                        type: "Identifier",
+                                        name: contextName
                                     },
                                     property: {
-                                        type: 'Identifier',
-                                        name: node.keyTarget.name,
+                                        type: "Identifier",
+                                        name: node.keyTarget.name
                                     },
-                                    computed: false,
+                                    computed: false
                                 },
                                 right: {
-                                    type: 'Identifier',
-                                    name: iName,
-                                },
-                            },
+                                    type: "Identifier",
+                                    name: iName
+                                }
+                            }
                         });
                         expr.initDecl[
                             expr.initDecl.length - 1
                         ].init.arguments[1].properties.push({
-                            type: 'ObjectProperty',
+                            type: "ObjectProperty",
                             method: false,
                             shorthand: false,
                             computed: false,
                             key: {
-                                type: 'Identifier',
-                                name: node.keyTarget.name,
+                                type: "Identifier",
+                                name: node.keyTarget.name
                             },
                             value: {
-                                type: 'Identifier',
-                                name: iName,
-                            },
+                                type: "Identifier",
+                                name: iName
+                            }
                         });
                     }
-                } else if (path.scope.getBinding('loop').references) {
+                } else if (path.scope.getBinding("loop").references) {
                     const {
                         index: indexName,
                         revindex: revindexName,
                         revindex0: revindex0Name,
                         first: firstName,
-                        last: lastName,
-                    } = path.getData('forStatement.loopLookup');
+                        last: lastName
+                    } = path.getData("forStatement.loopLookup");
 
                     expr = localFor({
                         KEY_TARGET: t.identifier(iName),
-                        SOURCE: path.get('sequence').node,
+                        SOURCE: path.get("sequence").node,
                         SEQUENCE: t.identifier(sequenceName),
                         LENGTH: t.identifier(lenName),
                         VALUE_TARGET: node.valueTarget,
@@ -324,32 +324,32 @@ export default {
                         REVERSE_INDEX: t.identifier(revindex0Name),
                         REVERSE_INDEX_BY_1: t.identifier(revindexName),
                         FIRST: t.identifier(firstName),
-                        LAST: t.identifier(lastName),
+                        LAST: t.identifier(lastName)
                     });
                 } else {
                     expr = basicFor({
                         SEQUENCE: t.identifier(sequenceName),
-                        SOURCE: path.get('sequence').node,
+                        SOURCE: path.get("sequence").node,
                         KEY_TARGET: t.identifier(iName),
                         LENGTH: t.identifier(lenName),
-                        VALUE_TARGET: node.valueTarget,
+                        VALUE_TARGET: node.valueTarget
                     });
                 }
 
-                expr.forStmt.body.body.unshift(...path.get('body').node.body);
+                expr.forStmt.body.body.unshift(...path.get("body").node.body);
 
                 let uniteratedName;
                 if (node.otherwise) {
-                    uniteratedName = path.scope.generateUid('uniterated');
+                    uniteratedName = path.scope.generateUid("uniterated");
                     path.scope.parent.registerBinding(
                         uniteratedName,
                         path,
-                        'var'
+                        "var"
                     );
                     expr.forStmt.body.body.push(
                         t.expressionStatement(
                             t.assignmentExpression(
-                                '=',
+                                "=",
                                 t.identifier(uniteratedName),
                                 t.booleanLiteral(false)
                             )
@@ -360,22 +360,20 @@ export default {
                 if (node.condition) {
                     expr.forStmt.body = t.blockStatement([
                         {
-                            type: 'IfStatement',
+                            type: "IfStatement",
                             test: node.condition,
-                            consequent: t.blockStatement(
-                                expr.forStmt.body.body
-                            ),
-                        },
+                            consequent: t.blockStatement(expr.forStmt.body.body)
+                        }
                     ]);
                 }
 
                 if (uniteratedName) {
                     path.replaceWithMultipleJS(
-                        t.variableDeclaration('let', [
+                        t.variableDeclaration("let", [
                             t.variableDeclarator(
                                 t.identifier(uniteratedName),
                                 t.booleanLiteral(true)
-                            ),
+                            )
                         ]),
                         expr.exprStmt,
                         t.ifStatement(
@@ -386,7 +384,7 @@ export default {
                 } else {
                     path.replaceWithJS(expr.exprStmt);
                 }
-            },
-        },
-    },
+            }
+        }
+    }
 };

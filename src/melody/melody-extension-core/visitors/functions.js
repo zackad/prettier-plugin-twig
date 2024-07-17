@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as t from 'babel-types';
+import * as t from "babel-types";
 
 function addOne(expr) {
-    return t.binaryExpression('+', expr, t.numericLiteral(1));
+    return t.binaryExpression("+", expr, t.numericLiteral(1));
 }
 
 export default {
@@ -33,36 +33,34 @@ export default {
             callArgs.push(args[0], addOne(args[1]));
         } else {
             path.state.error(
-                'Invalid range call',
+                "Invalid range call",
                 path.node.pos,
-                `The range function accepts 1 to 3 arguments but you have specified ${
-                    args.length
-                } arguments instead.`
+                `The range function accepts 1 to 3 arguments but you have specified ${args.length} arguments instead.`
             );
         }
 
         path.replaceWithJS(
             t.callExpression(
-                t.identifier(path.state.addImportFrom('lodash', 'range')),
+                t.identifier(path.state.addImportFrom("lodash", "range")),
                 callArgs
             )
         );
     },
     // range: 'lodash',
     dump(path) {
-        if (!path.parentPath.is('PrintExpressionStatement')) {
+        if (!path.parentPath.is("PrintExpressionStatement")) {
             path.state.error(
-                'dump must be used in a lone expression',
+                "dump must be used in a lone expression",
                 path.node.pos,
-                'The dump function does not have a return value. Thus it must be used as the only expression.'
+                "The dump function does not have a return value. Thus it must be used as the only expression."
             );
         }
         path.parentPath.replaceWithJS(
             t.expressionStatement(
                 t.callExpression(
                     t.memberExpression(
-                        t.identifier('console'),
-                        t.identifier('log')
+                        t.identifier("console"),
+                        t.identifier("log")
                     ),
                     path.node.arguments
                 )
@@ -70,15 +68,15 @@ export default {
         );
     },
     include(path) {
-        if (!path.parentPath.is('PrintExpressionStatement')) {
+        if (!path.parentPath.is("PrintExpressionStatement")) {
             path.state.error({
-                title: 'Include function does not return value',
+                title: "Include function does not return value",
                 pos: path.node.loc.start,
                 advice: `The include function currently does not return a value.
-                Thus you must use it like a regular include tag.`,
+                Thus you must use it like a regular include tag.`
             });
         }
-        const includeName = path.scope.generateUid('include');
+        const includeName = path.scope.generateUid("include");
         const importDecl = t.importDeclaration(
             [t.importDefaultSpecifier(t.identifier(includeName))],
             path.node.arguments[0]
@@ -92,11 +90,11 @@ export default {
             t.callExpression(
                 t.memberExpression(
                     t.identifier(includeName),
-                    t.identifier('render')
+                    t.identifier("render")
                 ),
                 argument ? [argument] : []
             )
         );
         path.replaceWithJS(includeCall);
-    },
+    }
 };

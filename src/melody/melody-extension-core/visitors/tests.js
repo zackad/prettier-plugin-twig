@@ -13,115 +13,115 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as t from 'babel-types';
+import * as t from "babel-types";
 
 export default {
     convert: {
         TestEvenExpression: {
             exit(path) {
                 const expr = t.unaryExpression(
-                    '!',
+                    "!",
                     t.binaryExpression(
-                        '%',
-                        path.get('expression').node,
+                        "%",
+                        path.get("expression").node,
                         t.numericLiteral(2)
                     )
                 );
                 expr.extra = { parenthesizedArgument: true };
                 path.replaceWithJS(expr);
-            },
+            }
         },
         TestOddExpression: {
             exit(path) {
                 const expr = t.unaryExpression(
-                    '!',
+                    "!",
                     t.unaryExpression(
-                        '!',
+                        "!",
                         t.binaryExpression(
-                            '%',
-                            path.get('expression').node,
+                            "%",
+                            path.get("expression").node,
                             t.numericLiteral(2)
                         )
                     )
                 );
                 expr.extra = { parenthesizedArgument: true };
                 path.replaceWithJS(expr);
-            },
+            }
         },
         TestDefinedExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.binaryExpression(
-                        '!==',
+                        "!==",
                         t.unaryExpression(
-                            'typeof',
-                            path.get('expression').node
+                            "typeof",
+                            path.get("expression").node
                         ),
-                        t.stringLiteral('undefined')
+                        t.stringLiteral("undefined")
                     )
                 );
-            },
+            }
         },
         TestEmptyExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.callExpression(
                         t.identifier(
-                            this.addImportFrom('melody-runtime', 'isEmpty')
+                            this.addImportFrom("melody-runtime", "isEmpty")
                         ),
-                        [path.get('expression').node]
+                        [path.get("expression").node]
                     )
                 );
-            },
+            }
         },
         TestSameAsExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.binaryExpression(
-                        '===',
-                        path.get('expression').node,
-                        path.get('arguments')[0].node
+                        "===",
+                        path.get("expression").node,
+                        path.get("arguments")[0].node
                     )
                 );
-            },
+            }
         },
         TestNullExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.binaryExpression(
-                        '===',
-                        path.get('expression').node,
+                        "===",
+                        path.get("expression").node,
                         t.nullLiteral()
                     )
                 );
-            },
+            }
         },
         TestDivisibleByExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.unaryExpression(
-                        '!',
+                        "!",
                         t.binaryExpression(
-                            '%',
-                            path.get('expression').node,
+                            "%",
+                            path.get("expression").node,
                             path.node.arguments[0]
                         )
                     )
                 );
-            },
+            }
         },
         TestIterableExpression: {
             exit(path) {
                 path.replaceWithJS(
                     t.callExpression(
                         t.memberExpression(
-                            t.identifier('Array'),
-                            t.identifier('isArray')
+                            t.identifier("Array"),
+                            t.identifier("isArray")
                         ),
                         [path.node.expression]
                     )
                 );
-            },
-        },
-    },
+            }
+        }
+    }
 };

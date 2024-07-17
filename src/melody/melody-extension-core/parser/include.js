@@ -13,26 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Types, setStartFromToken, setEndFromToken } from 'melody-parser';
-import { IncludeStatement } from './../types';
+import {
+    Types,
+    setStartFromToken,
+    setEndFromToken
+} from "../../melody-parser/index.js";
+import { IncludeStatement } from "./../types.js";
 
 export const IncludeParser = {
-    name: 'include',
+    name: "include",
     parse(parser, token) {
         const tokens = parser.tokens;
 
         const includeStatement = new IncludeStatement(parser.matchExpression());
 
-        if (tokens.nextIf(Types.SYMBOL, 'ignore')) {
-            tokens.expect(Types.SYMBOL, 'missing');
+        if (tokens.nextIf(Types.SYMBOL, "ignore")) {
+            tokens.expect(Types.SYMBOL, "missing");
             includeStatement.ignoreMissing = true;
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'with')) {
+        if (tokens.nextIf(Types.SYMBOL, "with")) {
             includeStatement.argument = parser.matchExpression();
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'only')) {
+        if (tokens.nextIf(Types.SYMBOL, "only")) {
             includeStatement.contextFree = true;
         }
 
@@ -40,5 +44,5 @@ export const IncludeParser = {
         setEndFromToken(includeStatement, tokens.expect(Types.TAG_END));
 
         return includeStatement;
-    },
+    }
 };

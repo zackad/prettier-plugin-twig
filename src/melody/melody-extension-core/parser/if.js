@@ -18,16 +18,16 @@ import {
     setStartFromToken,
     setEndFromToken,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { IfStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { IfStatement } from "./../types.js";
 
 export const IfParser = {
-    name: 'if',
+    name: "if",
     parse(parser, token) {
         const tokens = parser.tokens;
-        let test = parser.matchExpression(),
-            alternate = null;
+        let test = parser.matchExpression();
+        let alternate = null;
 
         tokens.expect(Types.TAG_END);
         const ifTagEndToken = tokens.la(-1);
@@ -37,37 +37,33 @@ export const IfParser = {
             parser.parse(matchConsequent).expressions
         );
 
-        let elseTagStartToken,
-            elseTagEndToken,
-            elseifTagStartToken,
-            elseifTagEndToken;
+        let elseTagStartToken;
+        let elseTagEndToken;
+        let elseifTagStartToken;
+        let elseifTagEndToken;
 
         do {
-            if (tokens.nextIf(Types.SYMBOL, 'else')) {
+            if (tokens.nextIf(Types.SYMBOL, "else")) {
                 elseTagStartToken = tokens.la(-2);
                 tokens.expect(Types.TAG_END);
                 elseTagEndToken = tokens.la(-1);
-                (alternate || ifStatement).alternate = parser.parse(
-                    matchAlternate
-                ).expressions;
-            } else if (tokens.nextIf(Types.SYMBOL, 'elseif')) {
+                (alternate || ifStatement).alternate =
+                    parser.parse(matchAlternate).expressions;
+            } else if (tokens.nextIf(Types.SYMBOL, "elseif")) {
                 elseifTagStartToken = tokens.la(-2);
                 test = parser.matchExpression();
                 tokens.expect(Types.TAG_END);
                 elseifTagEndToken = tokens.la(-1);
                 const consequent = parser.parse(matchConsequent).expressions;
-                alternate = (
-                    alternate || ifStatement
-                ).alternate = new IfStatement(test, consequent);
-                alternate.trimLeft = hasTagStartTokenTrimLeft(
-                    elseifTagStartToken
-                );
-                alternate.trimRightIf = hasTagEndTokenTrimRight(
-                    elseifTagEndToken
-                );
+                alternate = (alternate || ifStatement).alternate =
+                    new IfStatement(test, consequent);
+                alternate.trimLeft =
+                    hasTagStartTokenTrimLeft(elseifTagStartToken);
+                alternate.trimRightIf =
+                    hasTagEndTokenTrimRight(elseifTagEndToken);
             }
 
-            if (tokens.nextIf(Types.SYMBOL, 'endif')) {
+            if (tokens.nextIf(Types.SYMBOL, "endif")) {
                 break;
             }
         } while (!tokens.test(Types.EOF));
@@ -84,22 +80,21 @@ export const IfParser = {
         ifStatement.trimRightElse = !!(
             elseTagEndToken && hasTagEndTokenTrimRight(elseTagEndToken)
         );
-        ifStatement.trimLeftEndif = hasTagStartTokenTrimLeft(
-            endifTagStartToken
-        );
+        ifStatement.trimLeftEndif =
+            hasTagStartTokenTrimLeft(endifTagStartToken);
 
         return ifStatement;
-    },
+    }
 };
 
 function matchConsequent(tokenText, token, tokens) {
     if (token.type === Types.TAG_START) {
         const next = tokens.la(0).text;
-        return next === 'else' || next === 'endif' || next === 'elseif';
+        return next === "else" || next === "endif" || next === "elseif";
     }
     return false;
 }
 
 function matchAlternate(tokenText, token, tokens) {
-    return token.type === Types.TAG_START && tokens.test(Types.SYMBOL, 'endif');
+    return token.type === Types.TAG_START && tokens.test(Types.SYMBOL, "endif");
 }

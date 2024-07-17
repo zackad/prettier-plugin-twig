@@ -13,30 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
-import { MountStatement } from '../types';
+import { Identifier } from "../../melody-types/index.js";
+import { MountStatement } from "../types.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
 
 export const MountParser = {
-    name: 'mount',
+    name: "mount",
     parse(parser, token) {
         const tokens = parser.tokens;
 
-        let name = null,
-            source = null,
-            key = null,
-            async = false,
-            delayBy = 0,
-            argument = null;
+        let name = null;
+        let source = null;
+        let key = null;
+        let async = false;
+        let delayBy = 0;
+        let argument = null;
 
-        if (tokens.test(Types.SYMBOL, 'async')) {
+        if (tokens.test(Types.SYMBOL, "async")) {
             // we might be looking at an async mount
             const nextToken = tokens.la(1);
             if (nextToken.type === Types.STRING_START) {
@@ -50,28 +50,28 @@ export const MountParser = {
         } else {
             const nameToken = tokens.expect(Types.SYMBOL);
             name = createNode(Identifier, nameToken, nameToken.text);
-            if (tokens.nextIf(Types.SYMBOL, 'from')) {
+            if (tokens.nextIf(Types.SYMBOL, "from")) {
                 source = parser.matchStringExpression();
             }
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'as')) {
+        if (tokens.nextIf(Types.SYMBOL, "as")) {
             key = parser.matchExpression();
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'with')) {
+        if (tokens.nextIf(Types.SYMBOL, "with")) {
             argument = parser.matchExpression();
         }
 
         if (async) {
-            if (tokens.nextIf(Types.SYMBOL, 'delay')) {
-                tokens.expect(Types.SYMBOL, 'placeholder');
-                tokens.expect(Types.SYMBOL, 'by');
+            if (tokens.nextIf(Types.SYMBOL, "delay")) {
+                tokens.expect(Types.SYMBOL, "placeholder");
+                tokens.expect(Types.SYMBOL, "by");
                 delayBy = Number.parseInt(tokens.expect(Types.NUMBER).text, 10);
-                if (tokens.nextIf(Types.SYMBOL, 's')) {
+                if (tokens.nextIf(Types.SYMBOL, "s")) {
                     delayBy *= 1000;
                 } else {
-                    tokens.expect(Types.SYMBOL, 'ms');
+                    tokens.expect(Types.SYMBOL, "ms");
                 }
             }
         }
@@ -85,10 +85,10 @@ export const MountParser = {
             delayBy
         );
 
-        let openingTagEndToken,
-            catchTagStartToken,
-            catchTagEndToken,
-            endmountTagStartToken;
+        let openingTagEndToken;
+        let catchTagStartToken;
+        let catchTagEndToken;
+        let endmountTagStartToken;
 
         if (async) {
             tokens.expect(Types.TAG_END);
@@ -97,12 +97,12 @@ export const MountParser = {
             mountStatement.body = parser.parse((tokenText, token, tokens) => {
                 return (
                     token.type === Types.TAG_START &&
-                    (tokens.test(Types.SYMBOL, 'catch') ||
-                        tokens.test(Types.SYMBOL, 'endmount'))
+                    (tokens.test(Types.SYMBOL, "catch") ||
+                        tokens.test(Types.SYMBOL, "endmount"))
                 );
             });
 
-            if (tokens.nextIf(Types.SYMBOL, 'catch')) {
+            if (tokens.nextIf(Types.SYMBOL, "catch")) {
                 catchTagStartToken = tokens.la(-2);
                 const errorVariableName = tokens.expect(Types.SYMBOL);
                 mountStatement.errorVariableName = createNode(
@@ -116,12 +116,12 @@ export const MountParser = {
                     (tokenText, token, tokens) => {
                         return (
                             token.type === Types.TAG_START &&
-                            tokens.test(Types.SYMBOL, 'endmount')
+                            tokens.test(Types.SYMBOL, "endmount")
                         );
                     }
                 );
             }
-            tokens.expect(Types.SYMBOL, 'endmount');
+            tokens.expect(Types.SYMBOL, "endmount");
             endmountTagStartToken = tokens.la(-2);
         }
 
@@ -143,5 +143,5 @@ export const MountParser = {
         );
 
         return mountStatement;
-    },
+    }
 };

@@ -13,31 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier, PrintExpressionStatement } from 'melody-types';
+import {
+    Identifier,
+    PrintExpressionStatement
+} from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { BlockStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { BlockStatement } from "./../types.js";
 
 export const BlockParser = {
-    name: 'block',
+    name: "block",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            nameToken = tokens.expect(Types.SYMBOL);
+        const tokens = parser.tokens;
+        const nameToken = tokens.expect(Types.SYMBOL);
 
-        let blockStatement, openingTagEndToken, closingTagStartToken;
+        let blockStatement;
+        let openingTagEndToken;
+        let closingTagStartToken;
         if ((openingTagEndToken = tokens.nextIf(Types.TAG_END))) {
             blockStatement = new BlockStatement(
                 createNode(Identifier, nameToken, nameToken.text),
                 parser.parse((tokenText, token, tokens) => {
                     const result = !!(
                         token.type === Types.TAG_START &&
-                        tokens.nextIf(Types.SYMBOL, 'endblock')
+                        tokens.nextIf(Types.SYMBOL, "endblock")
                     );
                     if (result) {
                         closingTagStartToken = token;
@@ -50,7 +55,7 @@ export const BlockParser = {
                 if (tokens.lat(0) !== Types.TAG_END) {
                     const unexpectedToken = tokens.next();
                     parser.error({
-                        title: 'Block name mismatch',
+                        title: "Block name mismatch",
                         pos: unexpectedToken.pos,
                         advice:
                             unexpectedToken.type == Types.SYMBOL
@@ -59,9 +64,10 @@ export const BlockParser = {
                                   } but instead found end of block ${
                                       tokens.la(0).text
                                   }.`
-                                : `endblock must be followed by either '%}' or the name of the open block. Found a token of type ${Types
-                                      .ERROR_TABLE[unexpectedToken.type] ||
-                                      unexpectedToken.type} instead.`,
+                                : `endblock must be followed by either '%}' or the name of the open block. Found a token of type ${
+                                      Types.ERROR_TABLE[unexpectedToken.type] ||
+                                      unexpectedToken.type
+                                  } instead.`
                     });
                 }
             }
@@ -83,5 +89,5 @@ export const BlockParser = {
         );
 
         return blockStatement;
-    },
+    }
 };
