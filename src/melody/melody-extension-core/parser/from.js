@@ -13,29 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
-    createNode,
-} from 'melody-parser';
-import { ImportDeclaration, FromStatement } from './../types';
+    createNode
+} from "../../melody-parser/index.js";
+import { ImportDeclaration, FromStatement } from "./../types.js";
 
 export const FromParser = {
-    name: 'from',
+    name: "from",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            source = parser.matchExpression(),
-            imports = [];
+        const tokens = parser.tokens;
+        const source = parser.matchExpression();
+        const imports = [];
 
-        tokens.expect(Types.SYMBOL, 'import');
+        tokens.expect(Types.SYMBOL, "import");
 
         do {
             const name = tokens.expect(Types.SYMBOL);
 
             let alias = name;
-            if (tokens.nextIf(Types.SYMBOL, 'as')) {
+            if (tokens.nextIf(Types.SYMBOL, "as")) {
                 alias = tokens.expect(Types.SYMBOL);
             }
 
@@ -59,5 +59,5 @@ export const FromParser = {
         setEndFromToken(fromStatement, tokens.expect(Types.TAG_END));
 
         return fromStatement;
-    },
+    }
 };

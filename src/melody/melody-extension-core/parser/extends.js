@@ -13,11 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Types, setStartFromToken, setEndFromToken } from 'melody-parser';
-import { ExtendsStatement } from './../types';
+import {
+    Types,
+    setStartFromToken,
+    setEndFromToken
+} from "../../melody-parser/index.js";
+import { ExtendsStatement } from "./../types.js";
 
 export const ExtendsParser = {
-    name: 'extends',
+    name: "extends",
     parse(parser, token) {
         const tokens = parser.tokens;
 
@@ -27,5 +31,5 @@ export const ExtendsParser = {
         setEndFromToken(extendsStatement, tokens.expect(Types.TAG_END));
 
         return extendsStatement;
-    },
+    }
 };

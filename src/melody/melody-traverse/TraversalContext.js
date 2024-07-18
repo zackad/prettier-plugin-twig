@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Path from './Path';
+import Path from "./Path.js";
 
 export default class TraversalContext {
     constructor(scope, visitor, state, parentPath) {
@@ -26,30 +26,38 @@ export default class TraversalContext {
         this.priorityQueue = null;
     }
 
-    create(parent, container, key, listKey): Path {
+    /**
+     * @returns {Path}
+     */
+    create(parent, container, key, listKey) {
         return Path.get({
             parentPath: this.parentPath,
             parent,
             container,
             key,
-            listKey,
+            listKey
         });
     }
 
-    shouldVisit(node): boolean {
+    /**
+     * @returns {boolean}
+     */
+    shouldVisit(node) {
         const visitor = this.visitor;
 
         if (visitor[node.type]) {
             return true;
         }
 
-        const keys: Array<String> = node.visitorKeys;
+        /** @type {Array<String>} */
+        const keys = node.visitorKeys;
         // this node doesn't have any children
         if (!keys || !keys.length) {
             return false;
         }
 
-        let i, len;
+        let i;
+        let len;
         for (i = 0, len = keys.length; i < len; i++) {
             // check if some of its visitor keys have a value,
             // if so, we need to visit it
@@ -62,24 +70,25 @@ export default class TraversalContext {
     }
 
     visit(node, key) {
-        var nodes = node[key];
+        const nodes = node[key];
         if (!nodes) {
             return false;
         }
 
         if (Array.isArray(nodes)) {
             return this.visitMultiple(nodes, node, key);
-        } else {
-            return this.visitSingle(node, key);
         }
+        return this.visitSingle(node, key);
     }
 
-    visitSingle(node, key): boolean {
+    /**
+     * @returns {boolean}
+     */
+    visitSingle(node, key) {
         if (this.shouldVisit(node[key])) {
             return this.visitQueue([this.create(node, node, key)]);
-        } else {
-            return false;
         }
+        return false;
     }
 
     visitMultiple(container, parent, listKey) {
@@ -99,12 +108,15 @@ export default class TraversalContext {
         return this.visitQueue(queue);
     }
 
-    visitQueue(queue: Array<Path>) {
+    /**
+     * @param {Array<Path>} queue
+     */
+    visitQueue(queue) {
         this.queue = queue;
         this.priorityQueue = [];
 
-        let visited = [],
-            stop = false;
+        const visited = [];
+        let stop = false;
 
         for (const path of queue) {
             path.resync();
@@ -139,7 +151,10 @@ export default class TraversalContext {
         return stop;
     }
 
-    maybeQueue(path, notPriority?: boolean) {
+    /**
+     * @param {boolean} [notPriority]
+     */
+    maybeQueue(path, notPriority) {
         if (this.queue) {
             if (notPriority) {
                 this.queue.push(path);

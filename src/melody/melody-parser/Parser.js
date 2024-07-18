@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as n from 'melody-types';
-import * as Types from './TokenTypes';
-import { LEFT, RIGHT } from './Associativity';
+import * as n from "../melody-types/index.js";
+import * as Types from "./TokenTypes.js";
+import { LEFT, RIGHT } from "./Associativity.js";
 import {
     setStartFromToken,
     setEndFromToken,
@@ -23,31 +23,34 @@ import {
     copyStart,
     copyEnd,
     copyLoc,
-    createNode,
-} from './util';
-import { GenericTagParser } from './GenericTagParser';
-import { createMultiTagParser } from './GenericMultiTagParser';
-import { voidElements } from './elementInfo';
-import * as he from 'he';
+    createNode
+} from "./util.js";
+import { GenericTagParser } from "./GenericTagParser.js";
+import { createMultiTagParser } from "./GenericMultiTagParser.js";
+import { voidElements } from "./elementInfo.js";
+import * as he from "he";
 
-type UnaryOperator = {
-    text: String,
-    precendence: Number,
-    createNode: Function,
-};
+/**
+ * @typedef {Object} UnaryOperator
+ * @property {string} text - The text representation of the unary operator.
+ * @property {number} precedence - The precedence of the unary operator.
+ * @property {Function} createNode - A function to create a node for the unary operator.
+ */
 
-type BinaryOperator = {
-    text: String,
-    precendence: Number,
-    createNode: Function,
-    associativity: LEFT | RIGHT,
-    parse: Function,
-};
+/**
+ * @typedef {Object} BinaryOperator
+ * @property {string} text - The text representation of the binary operator.
+ * @property {number} precedence - The precedence of the binary operator.
+ * @property {Function} createNode - A function to create a node for the binary operator.
+ * @property {('LEFT'|'RIGHT')} associativity - The associativity of the binary operator.
+ * @property {Function} parse - A function to parse the binary operator.
+ */
 
-const UNARY = Symbol(),
-    BINARY = Symbol(),
-    TAG = Symbol(),
-    TEST = Symbol();
+const UNARY = Symbol("UNARY");
+const BINARY = Symbol("BINARY");
+const TAG = Symbol("TAG");
+const TEST = Symbol("TEST");
+
 export default class Parser {
     constructor(tokenStream, options) {
         this.tokens = tokenStream;
@@ -64,7 +67,7 @@ export default class Parser {
                 decodeEntities: true,
                 preserveSourceLiterally: false,
                 allowUnknownTags: false,
-                multiTags: {}, // e.g. { "nav": ["endnav"], "switch": ["case", "default", "endswitch"]}
+                multiTags: {} // e.g. { "nav": ["endnav"], "switch": ["case", "default", "endswitch"]}
             },
             options
         );
@@ -97,12 +100,18 @@ export default class Parser {
         }
     }
 
-    addUnaryOperator(op: UnaryOperator) {
+    /**
+     * @param {UnaryOperator} op
+     */
+    addUnaryOperator(op) {
         this[UNARY][op.text] = op;
         return this;
     }
 
-    addBinaryOperator(op: BinaryOperator) {
+    /**
+     * @param {BinaryOperator} op
+     */
+    addBinaryOperator(op) {
         this[BINARY][op.text] = op;
         return this;
     }
@@ -133,8 +142,8 @@ export default class Parser {
     }
 
     parse(test = null) {
-        let tokens = this.tokens,
-            p = setStartFromToken(new n.SequenceExpression(), tokens.la(0));
+        const tokens = this.tokens;
+        let p = setStartFromToken(new n.SequenceExpression(), tokens.la(0));
         while (!tokens.test(Types.EOF)) {
             const token = tokens.next();
             if (!p) {
@@ -243,17 +252,16 @@ export default class Parser {
      * e.g., <!DOCTYPE html>
      */
     matchDeclaration() {
-        const tokens = this.tokens,
-            declarationStartToken = tokens.la(-1);
-        let declarationType = null,
-            currentToken = null;
+        const tokens = this.tokens;
+        const declarationStartToken = tokens.la(-1);
+        let declarationType = null;
+        let currentToken = null;
 
         if (!(declarationType = tokens.nextIf(Types.SYMBOL))) {
             this.error({
-                title: 'Expected declaration start',
+                title: "Expected declaration start",
                 pos: declarationStartToken.pos,
-                advice:
-                    "After '<!', an unquoted symbol like DOCTYPE is expected",
+                advice: "After '<!', an unquoted symbol like DOCTYPE is expected"
             });
         }
 
@@ -285,10 +293,9 @@ export default class Parser {
                 break;
             } else {
                 this.error({
-                    title: 'Expected string, symbol, or expression',
+                    title: "Expected string, symbol, or expression",
                     pos: currentToken.pos,
-                    advice:
-                        'Only strings or symbols can be part of a declaration',
+                    advice: "Only strings or symbols can be part of a declaration"
                 });
             }
         }
@@ -304,20 +311,20 @@ export default class Parser {
      *              | matchExpression
      */
     matchElement() {
-        const tokens = this.tokens,
-            elementNameToken = tokens.la(0),
-            tagStartToken = tokens.la(-1);
+        const tokens = this.tokens;
+        const elementNameToken = tokens.la(0);
+        const tagStartToken = tokens.la(-1);
         let elementName;
         if (!(elementName = tokens.nextIf(Types.SYMBOL))) {
             this.error({
-                title: 'Expected element start',
+                title: "Expected element start",
                 pos: elementNameToken.pos,
                 advice:
                     tokens.lat(0) === Types.SLASH
                         ? `Unexpected closing "${
                               tokens.la(1).text
                           }" tag. Seems like your DOM is out of control.`
-                        : 'Expected an element to start',
+                        : "Expected an element to start"
             });
         }
 
@@ -333,7 +340,7 @@ export default class Parser {
             if (voidElements[elementName.text]) {
                 element.selfClosing = true;
             } else {
-                element.children = this.parse(function(_, token, tokens) {
+                element.children = this.parse((_, token, tokens) => {
                     if (
                         token.type === Types.ELEMENT_START &&
                         tokens.lat(0) === Types.SLASH
@@ -356,7 +363,7 @@ export default class Parser {
 
         setStartFromToken(element, tagStartToken);
         setEndFromToken(element, tokens.la(-1));
-        setMarkFromToken(element, 'elementNameLoc', elementNameToken);
+        setMarkFromToken(element, "elementNameLoc", elementNameToken);
 
         return element;
     }
@@ -375,9 +382,9 @@ export default class Parser {
                 // match an attribute
                 if (tokens.nextIf(Types.ASSIGNMENT)) {
                     const start = tokens.expect(Types.STRING_START);
-                    let canBeString = true,
-                        nodes = [],
-                        token;
+                    let canBeString = true;
+                    const nodes = [];
+                    let token;
                     while (!tokens.test(Types.STRING_END)) {
                         if (
                             canBeString &&
@@ -401,7 +408,7 @@ export default class Parser {
                     }
                     tokens.expect(Types.STRING_END);
                     if (!nodes.length) {
-                        const node = createNode(n.StringLiteral, start, '');
+                        const node = createNode(n.StringLiteral, start, "");
                         nodes.push(node);
                     }
 
@@ -433,10 +440,9 @@ export default class Parser {
                 tokens.expect(Types.EXPRESSION_END);
             } else {
                 this.error({
-                    title: 'Invalid token',
+                    title: "Invalid token",
                     pos: tokens.la(0).pos,
-                    advice:
-                        'A tag must consist of attributes or expressions. Twig Tags are not allowed.',
+                    advice: "A tag must consist of attributes or expressions. Twig Tags are not allowed."
                 });
             }
         }
@@ -458,9 +464,8 @@ export default class Parser {
                 tagName,
                 this.options.multiTags[tagName]
             );
-        } else {
-            return GenericTagParser;
         }
+        return GenericTagParser;
     }
 
     matchTag() {
@@ -480,7 +485,7 @@ export default class Parser {
                     tag.pos,
                     `Expected a known tag such as\n- ${Object.getOwnPropertyNames(
                         this[TAG]
-                    ).join('\n- ')}`,
+                    ).join("\n- ")}`,
                     tag.length
                 );
             }
@@ -489,28 +494,28 @@ export default class Parser {
         const result = parser.parse(this, tag);
         const tagEndToken = tokens.la(-1);
         if (!isUsingGenericParser) {
-            result.trimLeft = tagStartToken.text.endsWith('-');
-            result.trimRight = tagEndToken.text.startsWith('-');
+            result.trimLeft = tagStartToken.text.endsWith("-");
+            result.trimRight = tagEndToken.text.startsWith("-");
         }
 
         setStartFromToken(result, tagStartToken);
         setEndFromToken(result, tagEndToken);
-        setMarkFromToken(result, 'tagNameLoc', tag);
+        setMarkFromToken(result, "tagNameLoc", tag);
 
         return result;
     }
 
     matchExpression(precedence = 0) {
-        const tokens = this.tokens,
-            exprStartToken = tokens.la(0);
-        let token,
-            op,
-            trimLeft = false;
+        const tokens = this.tokens;
+        const exprStartToken = tokens.la(0);
+        let token;
+        let op;
+        let trimLeft = false;
 
         // Check for {{- (trim preceding whitespace)
         if (
             tokens.la(-1).type === Types.EXPRESSION_START &&
-            tokens.la(-1).text.endsWith('-')
+            tokens.la(-1).text.endsWith("-")
         ) {
             trimLeft = true;
         }
@@ -536,7 +541,7 @@ export default class Parser {
             token = tokens.la(0);
         }
 
-        var result = expr;
+        let result = expr;
         if (precedence === 0) {
             setEndFromToken(expr, tokens.la(-1));
             result = this.matchConditionalExpression(expr);
@@ -545,7 +550,7 @@ export default class Parser {
         }
 
         // Check for -}} (trim following whitespace)
-        if (token.type === Types.EXPRESSION_END && token.text.startsWith('-')) {
+        if (token.type === Types.EXPRESSION_END && token.text.startsWith("-")) {
             result.trimRight = true;
         }
         if (trimLeft) {
@@ -560,8 +565,8 @@ export default class Parser {
     }
 
     getPrimary() {
-        let tokens = this.tokens,
-            token = tokens.la(0);
+        const tokens = this.tokens;
+        const token = tokens.la(0);
         if (this.isUnary(token)) {
             const op = this[UNARY][token.text];
             tokens.next(); // consume operator
@@ -578,9 +583,9 @@ export default class Parser {
     }
 
     matchPrimaryExpression() {
-        let tokens = this.tokens,
-            token = tokens.la(0),
-            node;
+        const tokens = this.tokens;
+        const token = tokens.la(0);
+        let node;
         switch (token.type) {
             case Types.NULL:
                 node = createNode(n.NullLiteral, tokens.next());
@@ -630,12 +635,12 @@ export default class Parser {
                                 '" of value "' +
                                 token.text +
                                 '"',
-                            pos: token.pos,
+                            pos: token.pos
                         },
                         {
-                            errorType: 'UNEXPECTED_TOKEN',
+                            errorType: "UNEXPECTED_TOKEN",
                             tokenText: token.text,
-                            tokenType: token.type,
+                            tokenType: token.type
                         }
                     );
                 }
@@ -646,11 +651,11 @@ export default class Parser {
     }
 
     matchStringExpression() {
-        let canBeString = true,
-            token;
-        const tokens = this.tokens,
-            nodes = [],
-            stringStart = tokens.expect(Types.STRING_START);
+        let canBeString = true;
+        let token;
+        const tokens = this.tokens;
+        const nodes = [];
+        const stringStart = tokens.expect(Types.STRING_START);
         while (!tokens.test(Types.STRING_END)) {
             if (canBeString && (token = tokens.nextIf(Types.STRING))) {
                 nodes[nodes.length] = createNode(
@@ -671,7 +676,7 @@ export default class Parser {
 
         if (!nodes.length) {
             return setEndFromToken(
-                createNode(n.StringLiteral, stringStart, ''),
+                createNode(n.StringLiteral, stringStart, ""),
                 stringEnd
             );
         }
@@ -695,11 +700,14 @@ export default class Parser {
         return expr;
     }
 
-    matchConditionalExpression(test: Node) {
+    /**
+     * @param {Node} test
+     */
+    matchConditionalExpression(test) {
         const tokens = this.tokens;
-        let condition = test,
-            consequent,
-            alternate;
+        let condition = test;
+        let consequent;
+        let alternate;
         while (tokens.nextIf(Types.QUESTION_MARK)) {
             if (!tokens.nextIf(Types.COLON)) {
                 consequent = this.matchExpression();
@@ -725,9 +733,9 @@ export default class Parser {
     }
 
     matchArray() {
-        let tokens = this.tokens,
-            array = new n.ArrayExpression(),
-            start = tokens.expect(Types.LBRACE);
+        const tokens = this.tokens;
+        const array = new n.ArrayExpression();
+        const start = tokens.expect(Types.LBRACE);
         setStartFromToken(array, start);
         while (!tokens.test(Types.RBRACE) && !tokens.test(Types.EOF)) {
             array.elements.push(this.matchExpression());
@@ -744,18 +752,17 @@ export default class Parser {
     }
 
     matchMap() {
-        let tokens = this.tokens,
-            token,
-            obj = new n.ObjectExpression(),
-            startToken = tokens.expect(Types.LBRACKET);
+        const tokens = this.tokens;
+        let token;
+        const obj = new n.ObjectExpression();
+        const startToken = tokens.expect(Types.LBRACKET);
         setStartFromToken(obj, startToken);
         while (!tokens.test(Types.RBRACKET) && !tokens.test(Types.EOF)) {
-            let computed = false,
-                key,
-                value;
+            let computed = false;
+            let key;
             if (tokens.test(Types.STRING_START)) {
                 key = this.matchStringExpression();
-                if (!n.is(key, 'StringLiteral')) {
+                if (!n.is(key, "StringLiteral")) {
                     computed = true;
                 }
             } else if ((token = tokens.nextIf(Types.SYMBOL))) {
@@ -767,15 +774,15 @@ export default class Parser {
                 computed = true;
             } else {
                 this.error({
-                    title: 'Invalid map key',
+                    title: "Invalid map key",
                     pos: tokens.la(0).pos,
                     advice:
-                        'Key must be a string, symbol or a number but was ' +
-                        tokens.next(),
+                        "Key must be a string, symbol or a number but was " +
+                        tokens.next()
                 });
             }
             tokens.expect(Types.COLON);
-            value = this.matchExpression();
+            const value = this.matchExpression();
             const prop = new n.ObjectProperty(key, value, computed);
             copyStart(prop, key);
             copyEnd(prop, value);
@@ -810,12 +817,12 @@ export default class Parser {
     }
 
     matchSubscriptExpression(node) {
-        let tokens = this.tokens,
-            op = tokens.next();
+        const tokens = this.tokens;
+        const op = tokens.next();
         if (op.type === Types.DOT) {
-            let token = tokens.next(),
-                computed = false,
-                property;
+            const token = tokens.next();
+            let computed = false;
+            let property;
             if (token.type === Types.SYMBOL) {
                 property = createNode(n.Identifier, token, token.text);
             } else if (token.type === Types.NUMBER) {
@@ -827,12 +834,10 @@ export default class Parser {
                 computed = true;
             } else {
                 this.error({
-                    title: 'Invalid token',
+                    title: "Invalid token",
                     pos: token.pos,
                     advice:
-                        'Expected number or symbol, found ' +
-                        token +
-                        ' instead',
+                        "Expected number or symbol, found " + token + " instead"
                 });
             }
 
@@ -849,47 +854,46 @@ export default class Parser {
                 return callExpr;
             }
             return memberExpr;
+        }
+        let arg;
+        let start;
+        if (tokens.test(Types.COLON)) {
+            // slice
+            tokens.next();
+            start = null;
         } else {
-            let arg, start;
+            arg = this.matchExpression();
             if (tokens.test(Types.COLON)) {
-                // slice
+                start = arg;
+                arg = null;
                 tokens.next();
-                start = null;
-            } else {
-                arg = this.matchExpression();
-                if (tokens.test(Types.COLON)) {
-                    start = arg;
-                    arg = null;
-                    tokens.next();
-                }
-            }
-
-            if (arg) {
-                return setEndFromToken(
-                    copyStart(new n.MemberExpression(node, arg, true), node),
-                    tokens.expect(Types.RBRACE)
-                );
-            } else {
-                // slice
-                const result = new n.SliceExpression(
-                    node,
-                    start,
-                    tokens.test(Types.RBRACE) ? null : this.matchExpression()
-                );
-                copyStart(result, node);
-                setEndFromToken(result, tokens.expect(Types.RBRACE));
-                return result;
             }
         }
+
+        if (arg) {
+            return setEndFromToken(
+                copyStart(new n.MemberExpression(node, arg, true), node),
+                tokens.expect(Types.RBRACE)
+            );
+        }
+        // slice
+        const result = new n.SliceExpression(
+            node,
+            start,
+            tokens.test(Types.RBRACE) ? null : this.matchExpression()
+        );
+        copyStart(result, node);
+        setEndFromToken(result, tokens.expect(Types.RBRACE));
+        return result;
     }
 
     matchFilterExpression(node) {
-        let tokens = this.tokens,
-            target = node;
+        const tokens = this.tokens;
+        let target = node;
         while (!tokens.test(Types.EOF)) {
-            let token = tokens.expect(Types.SYMBOL),
-                name = createNode(n.Identifier, token, token.text),
-                args;
+            const token = tokens.expect(Types.SYMBOL);
+            const name = createNode(n.Identifier, token, token.text);
+            let args;
             if (tokens.test(Types.LPAREN)) {
                 args = this.matchArguments();
             } else {
@@ -917,8 +921,8 @@ export default class Parser {
     }
 
     matchArguments() {
-        let tokens = this.tokens,
-            args = [];
+        const tokens = this.tokens;
+        const args = [];
         tokens.expect(Types.LPAREN);
         while (!tokens.test(Types.RPAREN) && !tokens.test(Types.EOF)) {
             if (

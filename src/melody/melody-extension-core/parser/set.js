@@ -13,25 +13,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { VariableDeclarationStatement, SetStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { VariableDeclarationStatement, SetStatement } from "./../types.js";
 
 export const SetParser = {
-    name: 'set',
+    name: "set",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            names = [],
-            values = [];
+        const tokens = parser.tokens;
+        const names = [];
+        const values = [];
 
-        let openingTagEndToken, closingTagStartToken;
+        let openingTagEndToken;
+        let closingTagStartToken;
 
         do {
             const name = tokens.expect(Types.SYMBOL);
@@ -45,10 +46,9 @@ export const SetParser = {
         } else {
             if (names.length !== 1) {
                 parser.error({
-                    title: 'Illegal multi-set',
+                    title: "Illegal multi-set",
                     pos: tokens.la(0).pos,
-                    advice:
-                        'When using set with a block, you cannot have multiple targets.',
+                    advice: "When using set with a block, you cannot have multiple targets."
                 });
             }
             tokens.expect(Types.TAG_END);
@@ -57,7 +57,7 @@ export const SetParser = {
             values[0] = parser.parse((tokenText, token, tokens) => {
                 const result = !!(
                     token.type === Types.TAG_START &&
-                    tokens.nextIf(Types.SYMBOL, 'endset')
+                    tokens.nextIf(Types.SYMBOL, "endset")
                 );
                 if (result) {
                     closingTagStartToken = token;
@@ -68,11 +68,11 @@ export const SetParser = {
 
         if (names.length !== values.length) {
             parser.error({
-                title: 'Mismatch of set names and values',
+                title: "Mismatch of set names and values",
                 pos: token.pos,
                 advice: `When using set, you must ensure that the number of
 assigned variable names is identical to the supplied values. However, here I've found
-${names.length} variable names and ${values.length} values.`,
+${names.length} variable names and ${values.length} values.`
             });
         }
 
@@ -99,5 +99,5 @@ ${names.length} variable names and ${values.length} values.`,
         );
 
         return setStatement;
-    },
+    }
 };

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 export class Binding {
-    constructor(identifier, scope, path, kind = 'global') {
+    constructor(identifier, scope, path, kind = "global") {
         this.identifier = identifier;
         this.scope = scope;
         this.path = path;

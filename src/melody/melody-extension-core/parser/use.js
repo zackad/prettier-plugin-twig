@@ -13,31 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     copyStart,
     copyEnd,
-    createNode,
-} from 'melody-parser';
-import { AliasExpression, UseStatement } from './../types';
+    createNode
+} from "../../melody-parser/index.js";
+import { AliasExpression, UseStatement } from "./../types.js";
 
 export const UseParser = {
-    name: 'use',
+    name: "use",
     parse(parser, token) {
         const tokens = parser.tokens;
 
-        const source = parser.matchExpression(),
-            aliases = [];
+        const source = parser.matchExpression();
+        const aliases = [];
 
-        if (tokens.nextIf(Types.SYMBOL, 'with')) {
+        if (tokens.nextIf(Types.SYMBOL, "with")) {
             do {
-                const nameToken = tokens.expect(Types.SYMBOL),
-                    name = createNode(Identifier, nameToken, nameToken.text);
+                const nameToken = tokens.expect(Types.SYMBOL);
+                const name = createNode(Identifier, nameToken, nameToken.text);
                 let alias = name;
-                if (tokens.nextIf(Types.SYMBOL, 'as')) {
+                if (tokens.nextIf(Types.SYMBOL, "as")) {
                     const aliasToken = tokens.expect(Types.SYMBOL);
                     alias = createNode(Identifier, aliasToken, aliasToken.text);
                 }
@@ -54,5 +54,5 @@ export const UseParser = {
         setEndFromToken(useStatement, tokens.expect(Types.TAG_END));
 
         return useStatement;
-    },
+    }
 };

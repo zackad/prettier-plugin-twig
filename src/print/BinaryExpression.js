@@ -1,6 +1,6 @@
 import { doc } from "prettier";
-import { Node } from "melody-types";
-import { extension as coreExtension } from "melody-extension-core";
+import { Node } from "../melody/melody-types/index.js";
+import { extension as coreExtension } from "../melody/melody-extension-core/index.js";
 import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,

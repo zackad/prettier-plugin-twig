@@ -1,4 +1,4 @@
-import { Node } from "melody-types";
+import { Node } from "../melody/melody-types/index.js";
 import { EXPRESSION_NEEDED, STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const mayCorrectWhitespace = attrName =>

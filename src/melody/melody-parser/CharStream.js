@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-export const EOF = Symbol();
+export const EOF = Symbol("EOF");
 
 export class CharStream {
     constructor(input) {
@@ -33,8 +33,8 @@ export class CharStream {
     }
 
     mark() {
-        let { line, column } = this.position,
-            index = this.index;
+        const { line, column } = this.position;
+        const index = this.index;
         return { line, column, index };
     }
 
@@ -45,12 +45,12 @@ export class CharStream {
     }
 
     la(offset) {
-        var index = this.index + offset;
+        const index = this.index + offset;
         return index < this.length ? this.input.charAt(index) : EOF;
     }
 
     lac(offset) {
-        var index = this.index + offset;
+        const index = this.index + offset;
         return index < this.length ? this.input.charCodeAt(index) : EOF;
     }
 
@@ -58,10 +58,10 @@ export class CharStream {
         if (this.index === this.length) {
             return EOF;
         }
-        var ch = this.input.charAt(this.index);
+        const ch = this.input.charAt(this.index);
         this.index++;
         this.position.column++;
-        if (ch === '\n') {
+        if (ch === "\n") {
             this.position.line += 1;
             this.position.column = 0;
         }

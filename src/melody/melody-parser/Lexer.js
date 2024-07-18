@@ -13,41 +13,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import * as TokenTypes from './TokenTypes';
-import { EOF } from './CharStream';
+import * as TokenTypes from "./TokenTypes.js";
+import { EOF } from "./CharStream.js";
 
 const State = {
-    TEXT: 'TEXT',
-    EXPRESSION: 'EXPRESSION',
-    TAG: 'TAG',
-    INTERPOLATION: 'INTERPOLATION',
-    STRING_SINGLE: 'STRING_SINGLE',
-    STRING_DOUBLE: 'STRING_DOUBLE',
-    ELEMENT: 'ELEMENT',
-    ATTRIBUTE_VALUE: 'ATTRIBUTE_VALUE',
-    DECLARATION: 'DECLARATION',
+    TEXT: "TEXT",
+    EXPRESSION: "EXPRESSION",
+    TAG: "TAG",
+    INTERPOLATION: "INTERPOLATION",
+    STRING_SINGLE: "STRING_SINGLE",
+    STRING_DOUBLE: "STRING_DOUBLE",
+    ELEMENT: "ELEMENT",
+    ATTRIBUTE_VALUE: "ATTRIBUTE_VALUE",
+    DECLARATION: "DECLARATION"
 };
 
-const STATE = Symbol(),
-    OPERATORS = Symbol(),
-    STRING_START = Symbol();
+const STATE = Symbol("STATE");
+const OPERATORS = Symbol("OPERATORS");
+const STRING_START = Symbol("STRING_START");
 
 const CHAR_TO_TOKEN = {
-    '[': TokenTypes.LBRACE,
-    ']': TokenTypes.RBRACE,
-    '(': TokenTypes.LPAREN,
-    ')': TokenTypes.RPAREN,
-    '{': TokenTypes.LBRACKET,
-    '}': TokenTypes.RBRACKET,
-    ':': TokenTypes.COLON,
-    '.': TokenTypes.DOT,
-    '|': TokenTypes.PIPE,
-    ',': TokenTypes.COMMA,
-    '?': TokenTypes.QUESTION_MARK,
-    '=': TokenTypes.ASSIGNMENT,
+    "[": TokenTypes.LBRACE,
+    "]": TokenTypes.RBRACE,
+    "(": TokenTypes.LPAREN,
+    ")": TokenTypes.RPAREN,
+    "{": TokenTypes.LBRACKET,
+    "}": TokenTypes.RBRACKET,
+    ":": TokenTypes.COLON,
+    ".": TokenTypes.DOT,
+    "|": TokenTypes.PIPE,
+    ",": TokenTypes.COMMA,
+    "?": TokenTypes.QUESTION_MARK,
+    "=": TokenTypes.ASSIGNMENT,
     //'<': TokenTypes.ELEMENT_START,
     //'>': TokenTypes.ELEMENT_END,
-    '/': TokenTypes.SLASH,
+    "/": TokenTypes.SLASH
 };
 
 export default class Lexer {
@@ -57,8 +57,7 @@ export default class Lexer {
         this[OPERATORS] = [];
         this[STRING_START] = null;
         this.options = {
-            preserveSourceLiterally:
-                preserveSourceLiterally === true ? true : false,
+            preserveSourceLiterally: preserveSourceLiterally === true
         };
     }
 
@@ -98,9 +97,9 @@ export default class Lexer {
     }
 
     createToken(type, pos) {
-        let input = this.input,
-            endPos = input.mark(),
-            end = endPos.index;
+        const input = this.input;
+        const endPos = input.mark();
+        const end = endPos.index;
         return {
             type,
             pos,
@@ -109,16 +108,16 @@ export default class Lexer {
             length: end - pos.index,
             source: input.input,
             text: input.input.substr(pos.index, end - pos.index),
-            toString: function() {
+            toString: function () {
                 return this.text;
-            },
+            }
         };
     }
 
     next() {
-        let input = this.input,
-            pos,
-            c;
+        const input = this.input;
+        let pos;
+        let c;
         while ((c = input.la(0)) !== EOF) {
             pos = input.mark();
             if (
@@ -134,20 +133,20 @@ export default class Lexer {
                 }
                 return this.createToken(TokenTypes.WHITESPACE, pos);
             }
-            if (c === '{' && input.la(1) === '#') {
+            if (c === "{" && input.la(1) === "#") {
                 input.next();
                 input.next();
-                if (input.la(0) === '-') {
+                if (input.la(0) === "-") {
                     input.next();
                 }
                 while ((c = input.la(0)) !== EOF) {
                     if (
-                        (c === '#' && input.la(1) === '}') ||
-                        (c === '-' &&
-                            input.la(1) === '#' &&
-                            input.la(2) === '}')
+                        (c === "#" && input.la(1) === "}") ||
+                        (c === "-" &&
+                            input.la(1) === "#" &&
+                            input.la(2) === "}")
                     ) {
-                        if (c === '-') {
+                        if (c === "-") {
                             input.next();
                         }
                         input.next();
@@ -159,19 +158,19 @@ export default class Lexer {
             }
             if (this.state === State.TEXT) {
                 let entityToken;
-                if (c === '<') {
+                if (c === "<") {
                     if (
-                        input.la(1) === '{' ||
+                        input.la(1) === "{" ||
                         isAlpha(input.lac(1)) ||
-                        input.la(1) === '/'
+                        input.la(1) === "/"
                     ) {
                         input.next();
                         this.pushState(State.ELEMENT);
                         return this.createToken(TokenTypes.ELEMENT_START, pos);
                     } else if (
-                        input.la(1) === '!' &&
-                        input.la(2) === '-' &&
-                        input.la(3) === '-'
+                        input.la(1) === "!" &&
+                        input.la(2) === "-" &&
+                        input.la(3) === "-"
                     ) {
                         // match HTML comment
                         input.next(); // <
@@ -179,12 +178,12 @@ export default class Lexer {
                         input.next(); // -
                         input.next(); // -
                         while ((c = input.la(0)) !== EOF) {
-                            if (c === '-' && input.la(1) === '-') {
+                            if (c === "-" && input.la(1) === "-") {
                                 input.next();
                                 input.next();
-                                if (!(c = input.next()) === '>') {
+                                if (!(c = input.next()) === ">") {
                                     this.error(
-                                        'Unexpected end for HTML comment',
+                                        "Unexpected end for HTML comment",
                                         input.mark(),
                                         `Expected comment to end with '>' but found '${c}' instead.`
                                     );
@@ -195,7 +194,7 @@ export default class Lexer {
                         }
                         return this.createToken(TokenTypes.HTML_COMMENT, pos);
                     } else if (
-                        input.la(1) === '!' &&
+                        input.la(1) === "!" &&
                         (isAlpha(input.lac(2)) || isWhitespace(input.la(2)))
                     ) {
                         input.next();
@@ -205,22 +204,20 @@ export default class Lexer {
                             TokenTypes.DECLARATION_START,
                             pos
                         );
-                    } else {
-                        return this.matchText(pos);
                     }
-                } else if (c === '{') {
-                    return this.matchExpressionToken(pos);
-                } else if (c === '&' && (entityToken = this.matchEntity(pos))) {
-                    return entityToken;
-                } else {
                     return this.matchText(pos);
+                } else if (c === "{") {
+                    return this.matchExpressionToken(pos);
+                } else if (c === "&" && (entityToken = this.matchEntity(pos))) {
+                    return entityToken;
                 }
+                return this.matchText(pos);
             } else if (this.state === State.EXPRESSION) {
                 if (
-                    (c === '}' && input.la(1) === '}') ||
-                    (c === '-' && input.la(1) === '}' && input.la(2) === '}')
+                    (c === "}" && input.la(1) === "}") ||
+                    (c === "-" && input.la(1) === "}" && input.la(2) === "}")
                 ) {
-                    if (c === '-') {
+                    if (c === "-") {
                         input.next();
                     }
                     input.next();
@@ -231,10 +228,10 @@ export default class Lexer {
                 return this.matchExpression(pos);
             } else if (this.state === State.TAG) {
                 if (
-                    (c === '%' && input.la(1) === '}') ||
-                    (c === '-' && input.la(1) === '%' && input.la(2) === '}')
+                    (c === "%" && input.la(1) === "}") ||
+                    (c === "-" && input.la(1) === "%" && input.la(2) === "}")
                 ) {
-                    if (c === '-') {
+                    if (c === "-") {
                         input.next();
                     }
                     input.next();
@@ -249,7 +246,7 @@ export default class Lexer {
             ) {
                 return this.matchString(pos, true);
             } else if (this.state === State.INTERPOLATION) {
-                if (c === '}') {
+                if (c === "}") {
                     input.next();
                     this.popState(); // pop interpolation
                     return this.createToken(TokenTypes.INTERPOLATION_END, pos);
@@ -257,12 +254,12 @@ export default class Lexer {
                 return this.matchExpression(pos);
             } else if (this.state === State.ELEMENT) {
                 switch (c) {
-                    case '/':
+                    case "/":
                         input.next();
                         return this.createToken(TokenTypes.SLASH, pos);
-                    case '{':
+                    case "{":
                         return this.matchExpressionToken(pos);
-                    case '>':
+                    case ">":
                         input.next();
                         this.popState();
                         return this.createToken(TokenTypes.ELEMENT_END, pos);
@@ -270,7 +267,7 @@ export default class Lexer {
                         input.next();
                         this.pushState(State.ATTRIBUTE_VALUE);
                         return this.createToken(TokenTypes.STRING_START, pos);
-                    case '=':
+                    case "=":
                         input.next();
                         return this.createToken(TokenTypes.ASSIGNMENT, pos);
                     default:
@@ -281,12 +278,11 @@ export default class Lexer {
                     input.next();
                     this.popState();
                     return this.createToken(TokenTypes.STRING_END, pos);
-                } else {
-                    return this.matchAttributeValue(pos);
                 }
+                return this.matchAttributeValue(pos);
             } else if (this.state === State.DECLARATION) {
                 switch (c) {
-                    case '>':
+                    case ">":
                         input.next();
                         this.popState();
                         return this.createToken(TokenTypes.ELEMENT_END, pos);
@@ -294,7 +290,7 @@ export default class Lexer {
                         input.next();
                         this.pushState(State.STRING_DOUBLE);
                         return this.createToken(TokenTypes.STRING_START, pos);
-                    case '{':
+                    case "{":
                         return this.matchExpressionToken(pos);
                     default:
                         return this.matchSymbol(pos);
@@ -309,26 +305,26 @@ export default class Lexer {
     matchExpressionToken(pos) {
         const input = this.input;
         switch (input.la(1)) {
-            case '{':
+            case "{":
                 input.next();
                 input.next();
                 this.pushState(State.EXPRESSION);
-                if (input.la(0) === '-') {
+                if (input.la(0) === "-") {
                     input.next();
                 }
                 return this.createToken(TokenTypes.EXPRESSION_START, pos);
-            case '%':
+            case "%":
                 input.next();
                 input.next();
                 this.pushState(State.TAG);
-                if (input.la(0) === '-') {
+                if (input.la(0) === "-") {
                     input.next();
                 }
                 return this.createToken(TokenTypes.TAG_START, pos);
-            case '#':
+            case "#":
                 input.next();
                 input.next();
-                if (input.la(0) === '-') {
+                if (input.la(0) === "-") {
                     input.next();
                 }
                 return this.matchComment(pos);
@@ -338,8 +334,8 @@ export default class Lexer {
     }
 
     matchExpression(pos) {
-        let input = this.input,
-            c = input.la(0);
+        const input = this.input;
+        const c = input.la(0);
         switch (c) {
             case "'":
                 this.pushState(State.STRING_SINGLE);
@@ -355,28 +351,26 @@ export default class Lexer {
                     return this.matchNumber(pos);
                 }
                 if (
-                    (c === 't' && input.match('true')) ||
-                    (c === 'T' && input.match('TRUE'))
+                    (c === "t" && input.match("true")) ||
+                    (c === "T" && input.match("TRUE"))
                 ) {
                     return this.createToken(TokenTypes.TRUE, pos);
                 }
                 if (
-                    (c === 'f' && input.match('false')) ||
-                    (c === 'F' && input.match('FALSE'))
+                    (c === "f" && input.match("false")) ||
+                    (c === "F" && input.match("FALSE"))
                 ) {
                     return this.createToken(TokenTypes.FALSE, pos);
                 }
                 if (
-                    (c === 'n' &&
-                        (input.match('null') || input.match('none'))) ||
-                    (c === 'N' && (input.match('NULL') || input.match('NONE')))
+                    (c === "n" &&
+                        (input.match("null") || input.match("none"))) ||
+                    (c === "N" && (input.match("NULL") || input.match("NONE")))
                 ) {
                     return this.createToken(TokenTypes.NULL, pos);
                 }
-                const {
-                    longestMatchingOperator,
-                    longestMatchEndPos,
-                } = this.findLongestMatchingOperator();
+                const { longestMatchingOperator, longestMatchEndPos } =
+                    this.findLongestMatchingOperator();
                 const cc = input.lac(0);
                 if (cc === 95 /* _ */ || isAlpha(cc) || isDigit(cc)) {
                     // okay... this could be either a symbol or an operator
@@ -392,26 +386,27 @@ export default class Lexer {
                 } else if (longestMatchingOperator) {
                     input.rewind(longestMatchEndPos);
                     return this.createToken(TokenTypes.OPERATOR, pos);
-                } else if (CHAR_TO_TOKEN.hasOwnProperty(c)) {
+                } else if (
+                    Object.prototype.hasOwnProperty.call(CHAR_TO_TOKEN, c)
+                ) {
                     input.next();
                     return this.createToken(CHAR_TO_TOKEN[c], pos);
-                } else if (c === '\xa0') {
+                } else if (c === "\xa0") {
                     return this.error(
-                        'Unsupported token: Non-breaking space',
+                        "Unsupported token: Non-breaking space",
                         pos
                     );
-                } else {
-                    return this.error(`Unknown token ${c}`, pos);
                 }
+                return this.error(`Unknown token ${c}`, pos);
             }
         }
     }
 
     findLongestMatchingOperator() {
-        const input = this.input,
-            start = input.mark();
-        let longestMatchingOperator = '',
-            longestMatchEndPos = null;
+        const input = this.input;
+        const start = input.mark();
+        let longestMatchingOperator = "";
+        let longestMatchEndPos = null;
         for (let i = 0, ops = this[OPERATORS], len = ops.length; i < len; i++) {
             const op = ops[i];
             if (op.length > longestMatchingOperator.length && input.match(op)) {
@@ -419,7 +414,7 @@ export default class Lexer {
 
                 // prevent mixing up operators with symbols (e.g. matching
                 // 'not in' in 'not invalid').
-                if (op.indexOf(' ') === -1 || !(isAlpha(cc) || isDigit(cc))) {
+                if (op.indexOf(" ") === -1 || !(isAlpha(cc) || isDigit(cc))) {
                     longestMatchingOperator = op;
                     longestMatchEndPos = input.mark();
                 }
@@ -431,7 +426,7 @@ export default class Lexer {
         return { longestMatchingOperator, longestMatchEndPos };
     }
 
-    error(message, pos, advice = '') {
+    error(message, pos, advice = "") {
         const errorToken = this.createToken(TokenTypes.ERROR, pos);
         errorToken.message = message;
         errorToken.advice = advice;
@@ -441,21 +436,21 @@ export default class Lexer {
     matchEntity(pos) {
         const input = this.input;
         input.next(); // &
-        if (input.la(0) === '#') {
+        if (input.la(0) === "#") {
             input.next(); // #
-            if (input.la(0) === 'x') {
+            if (input.la(0) === "x") {
                 // hexadecimal numeric character reference
                 input.next(); // x
                 let c = input.la(0);
                 while (
-                    ('a' <= c && c <= 'f') ||
-                    ('A' <= c && c <= 'F') ||
+                    ("a" <= c && c <= "f") ||
+                    ("A" <= c && c <= "F") ||
                     isDigit(input.lac(0))
                 ) {
                     input.next();
                     c = input.la(0);
                 }
-                if (input.la(0) === ';') {
+                if (input.la(0) === ";") {
                     input.next();
                 } else {
                     input.rewind(pos);
@@ -468,7 +463,7 @@ export default class Lexer {
                     input.next();
                 } while (isDigit(input.lac(0)));
                 // check for final ";"
-                if (input.la(0) === ';') {
+                if (input.la(0) === ";") {
                     input.next();
                 } else {
                     input.rewind(pos);
@@ -483,7 +478,7 @@ export default class Lexer {
             while (isAlpha(input.lac(0))) {
                 input.next();
             }
-            if (input.la(0) === ';') {
+            if (input.la(0) === ";") {
                 input.next();
             } else {
                 input.rewind(pos);
@@ -494,9 +489,9 @@ export default class Lexer {
     }
 
     matchSymbol(pos) {
-        let input = this.input,
-            inElement = this.state === State.ELEMENT,
-            c;
+        const input = this.input;
+        const inElement = this.state === State.ELEMENT;
+        let c;
         while (
             (c = input.lac(0)) &&
             (c === 95 ||
@@ -506,10 +501,10 @@ export default class Lexer {
         ) {
             input.next();
         }
-        var end = input.mark();
+        const end = input.mark();
         if (pos.index === end.index) {
             return this.error(
-                'Expected an Identifier',
+                "Expected an Identifier",
                 pos,
                 inElement
                     ? `Expected a valid attribute name, but instead found "${input.la(
@@ -524,11 +519,11 @@ export default class Lexer {
     }
 
     matchString(pos, allowInterpolation = true) {
-        const input = this.input,
-            start = this.state === State.STRING_SINGLE ? "'" : '"';
+        const input = this.input;
+        const start = this.state === State.STRING_SINGLE ? "'" : '"';
         let c;
         // string starts with an interpolation
-        if (allowInterpolation && input.la(0) === '#' && input.la(1) === '{') {
+        if (allowInterpolation && input.la(0) === "#" && input.la(1) === "{") {
             this.pushState(State.INTERPOLATION);
             input.next();
             input.next();
@@ -540,11 +535,11 @@ export default class Lexer {
             return this.createToken(TokenTypes.STRING_END, pos);
         }
         while ((c = input.la(0)) !== start && c !== EOF) {
-            if (c === '\\' && input.la(1) === start) {
+            if (c === "\\" && input.la(1) === start) {
                 // escape sequence for string start
                 input.next();
                 input.next();
-            } else if (allowInterpolation && c === '#' && input.la(1) === '{') {
+            } else if (allowInterpolation && c === "#" && input.la(1) === "{") {
                 // found interpolation start, string part matched
                 // next iteration will match the interpolation
                 break;
@@ -552,29 +547,29 @@ export default class Lexer {
                 input.next();
             }
         }
-        var result = this.createToken(TokenTypes.STRING, pos);
+        const result = this.createToken(TokenTypes.STRING, pos);
         // Replace double backslash before escaped quotes
         if (!this.options.preserveSourceLiterally) {
             result.text = result.text.replace(
-                new RegExp('(?:\\\\)(' + start + ')', 'g'),
-                '$1'
+                new RegExp("(?:\\\\)(" + start + ")", "g"),
+                "$1"
             );
         }
         return result;
     }
 
     matchAttributeValue(pos) {
-        let input = this.input,
-            start = this.state === State.STRING_SINGLE ? "'" : '"',
-            c;
-        if (input.la(0) === '{') {
+        const input = this.input;
+        const start = this.state === State.STRING_SINGLE ? "'" : '"';
+        let c;
+        if (input.la(0) === "{") {
             return this.matchExpressionToken(pos);
         }
         while ((c = input.la(0)) !== start && c !== EOF) {
-            if (c === '\\' && input.la(1) === start) {
+            if (c === "\\" && input.la(1) === start) {
                 input.next();
                 input.next();
-            } else if (c === '{') {
+            } else if (c === "{") {
                 // interpolation start
                 break;
             } else if (c === start) {
@@ -583,27 +578,27 @@ export default class Lexer {
                 input.next();
             }
         }
-        var result = this.createToken(TokenTypes.STRING, pos);
+        const result = this.createToken(TokenTypes.STRING, pos);
         // Replace double backslash before escaped quotes
         if (!this.options.preserveSourceLiterally) {
             result.text = result.text.replace(
-                new RegExp('(?:\\\\)(' + start + ')', 'g'),
-                '$1'
+                new RegExp("(?:\\\\)(" + start + ")", "g"),
+                "$1"
             );
         }
         return result;
     }
 
     matchNumber(pos) {
-        let input = this.input,
-            c;
+        const input = this.input;
+        let c;
         while ((c = input.lac(0)) !== EOF) {
             if (!isDigit(c)) {
                 break;
             }
             input.next();
         }
-        if (input.la(0) === '.' && isDigit(input.lac(1))) {
+        if (input.la(0) === "." && isDigit(input.lac(1))) {
             input.next();
             while ((c = input.lac(0)) !== EOF) {
                 if (!isDigit(c)) {
@@ -616,25 +611,25 @@ export default class Lexer {
     }
 
     matchText(pos) {
-        let input = this.input,
-            c;
+        const input = this.input;
+        let c;
         while ((c = input.la(0)) && c !== EOF) {
-            if (c === '{') {
+            if (c === "{") {
                 const c2 = input.la(1);
-                if (c2 === '{' || c2 === '#' || c2 === '%') {
+                if (c2 === "{" || c2 === "#" || c2 === "%") {
                     break;
                 }
-            } else if (c === '<') {
+            } else if (c === "<") {
                 const nextChar = input.la(1);
                 if (
-                    nextChar === '/' || // closing tag
-                    nextChar === '!' || // HTML comment
+                    nextChar === "/" || // closing tag
+                    nextChar === "!" || // HTML comment
                     isAlpha(input.lac(1)) // opening tag
                 ) {
                     break;
-                } else if (input.la(1) === '{') {
+                } else if (input.la(1) === "{") {
                     const c2 = input.la(1);
-                    if (c2 === '{' || c2 === '#' || c2 === '%') {
+                    if (c2 === "{" || c2 === "#" || c2 === "%") {
                         break;
                     }
                 }
@@ -645,10 +640,10 @@ export default class Lexer {
     }
 
     matchComment(pos) {
-        let input = this.input,
-            c;
+        const input = this.input;
+        let c;
         while ((c = input.next()) !== EOF) {
-            if (c === '#' && input.la(0) === '}') {
+            if (c === "#" && input.la(0) === "}") {
                 input.next(); // consume '}'
                 break;
             }
@@ -658,7 +653,7 @@ export default class Lexer {
 }
 
 function isWhitespace(c) {
-    return c === '\n' || c === ' ' || c === '\t';
+    return c === "\n" || c === " " || c === "\t";
 }
 
 function isAlpha(c) {
@@ -666,5 +661,5 @@ function isAlpha(c) {
 }
 
 function isDigit(c) {
-    return 48 <= c && c <= 57;
+    return c >= 48 && c <= 57;
 }

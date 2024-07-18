@@ -13,34 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Node } from 'melody-types';
+import { Node } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { filter } from 'lodash';
-import { EmbedStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import filter from "lodash/filter.js";
+import { EmbedStatement } from "./../types.js";
 
 export const EmbedParser = {
-    name: 'embed',
+    name: "embed",
     parse(parser, token) {
         const tokens = parser.tokens;
 
         const embedStatement = new EmbedStatement(parser.matchExpression());
 
-        if (tokens.nextIf(Types.SYMBOL, 'ignore')) {
-            tokens.expect(Types.SYMBOL, 'missing');
+        if (tokens.nextIf(Types.SYMBOL, "ignore")) {
+            tokens.expect(Types.SYMBOL, "missing");
             embedStatement.ignoreMissing = true;
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'with')) {
+        if (tokens.nextIf(Types.SYMBOL, "with")) {
             embedStatement.argument = parser.matchExpression();
         }
 
-        if (tokens.nextIf(Types.SYMBOL, 'only')) {
+        if (tokens.nextIf(Types.SYMBOL, "only")) {
             embedStatement.contextFree = true;
         }
 
@@ -52,7 +52,7 @@ export const EmbedParser = {
             parser.parse((tokenText, token, tokens) => {
                 const result = !!(
                     token.type === Types.TAG_START &&
-                    tokens.nextIf(Types.SYMBOL, 'endembed')
+                    tokens.nextIf(Types.SYMBOL, "endembed")
                 );
                 if (result) {
                     closingTagStartToken = token;
@@ -65,13 +65,12 @@ export const EmbedParser = {
         setStartFromToken(embedStatement, token);
         setEndFromToken(embedStatement, tokens.expect(Types.TAG_END));
 
-        embedStatement.trimRightEmbed = hasTagEndTokenTrimRight(
-            openingTagEndToken
-        );
+        embedStatement.trimRightEmbed =
+            hasTagEndTokenTrimRight(openingTagEndToken);
         embedStatement.trimLeftEndembed =
             closingTagStartToken &&
             hasTagStartTokenTrimLeft(closingTagStartToken);
 
         return embedStatement;
-    },
+    }
 };

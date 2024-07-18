@@ -13,10 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { PATH_CACHE_KEY } from 'melody-types';
-import { Node, is } from 'melody-types';
-import { visit } from './traverse';
-import Scope from './Scope';
+import { PATH_CACHE_KEY, Node, is } from "../melody-types/index.js";
+import { visit } from "./traverse.js";
+import Scope from "./Scope.js";
 
 export default class Path {
     //region Path creation
@@ -45,11 +44,14 @@ export default class Path {
         this.removed = false;
     }
 
-    static get({ parentPath, parent, container, listKey, key }): Path {
-        const targetNode = container[key],
-            paths =
-                (parent && parent[PATH_CACHE_KEY]) ||
-                (parent ? (parent[PATH_CACHE_KEY] = []) : []);
+    /**
+     * @returns {Path}
+     */
+    static get({ parentPath, parent, container, listKey, key }) {
+        const targetNode = container[key];
+        const paths =
+            (parent && parent[PATH_CACHE_KEY]) ||
+            (parent ? (parent[PATH_CACHE_KEY] = []) : []);
         let path;
 
         for (let i = 0, len = paths.length; i < len; i++) {
@@ -77,7 +79,7 @@ export default class Path {
         if (!path.node) {
             /*eslint no-console: off*/
             console.log(
-                'Path has no node ' + path.parentKey + ' > ' + path.key
+                "Path has no node " + path.parentKey + " > " + path.key
             );
         }
         paths.push(path);
@@ -88,11 +90,17 @@ export default class Path {
     //endregion
 
     //region Generic data
-    setData(key: string, val: any): any {
+    /**
+     * @param {string} key
+     */
+    setData(key, val) {
         return (this.data[key] = val);
     }
 
-    getData(key: string, def?: any): any {
+    /**
+     * @param {string} key
+     */
+    getData(key, def) {
         const val = this.data[key];
         if (!val && def) {
             return (this.data[key] = def);
@@ -128,9 +136,12 @@ export default class Path {
         return this;
     }
 
-    getScope(scope: Scope) {
+    /**
+     * @param {Scope} scope
+     */
+    getScope(scope) {
         if (Node.isScope(this.node)) {
-            if (this.node.type === 'BlockStatement') {
+            if (this.node.type === "BlockStatement") {
                 return Scope.get(this, scope.getRootScope());
             }
             return Scope.get(this, scope);
@@ -152,18 +163,21 @@ export default class Path {
         this.scope = this.getScope(target);
     }
 
-    visit(): boolean {
+    /**
+     * @returns {boolean}
+     */
+    visit() {
         if (!this.node) {
             return false;
         }
 
-        if (call(this, 'enter') || this.shouldSkip) {
+        if (call(this, "enter") || this.shouldSkip) {
             return this.shouldStop;
         }
 
         visit(this.node, this.visitor, this.scope, this.state, this);
 
-        call(this, 'exit');
+        call(this, "exit");
 
         return this.shouldStop;
     }
@@ -196,7 +210,8 @@ export default class Path {
         if (this.container && this.node !== this.container[this.key]) {
             this.key = null;
             if (Array.isArray(this.container)) {
-                let i, len;
+                let i;
+                let len;
                 for (i = 0, len = this.container.length; i < len; i++) {
                     if (this.container[i] === this.node) {
                         this.setKey(i);
@@ -261,10 +276,10 @@ export default class Path {
         this.resync();
 
         if (!this.container) {
-            throw new Error('Path does not have a container');
+            throw new Error("Path does not have a container");
         }
         if (!Array.isArray(this.container)) {
-            throw new Error('Container of path is not an array');
+            throw new Error("Container of path is not an array");
         }
 
         this.container.splice(this.key, 1, ...replacements);
@@ -292,7 +307,8 @@ export default class Path {
             return;
         }
 
-        const paths: Array<Path> = this.parent[PATH_CACHE_KEY];
+        /** @type {Array<Path>} */
+        const paths = this.parent[PATH_CACHE_KEY];
         for (const path of paths) {
             if (path.key >= fromIndex) {
                 path.key += incrementBy;
@@ -301,11 +317,16 @@ export default class Path {
     }
     //endregion
 
-    is(type: String) {
+    /**
+     * @param {String} type
+     */
+    is(type) {
         return is(this.node, type);
     }
-
-    findParentPathOfType(type: String) {
+    /**
+     * @param {String} type
+     */
+    findParentPathOfType(type) {
         let path = this.parentPath;
         while (path && !path.is(type)) {
             path = path.parentPath;
@@ -314,11 +335,12 @@ export default class Path {
     }
 
     get(key) {
-        let parts: Array = key.split('.'),
-            context = this.context;
+        /** @type {Array} */
+        const parts = key.split(".");
+        const context = this.context;
         if (parts.length === 1) {
-            let node = this.node,
-                container = node[key];
+            const node = this.node;
+            const container = node[key];
             if (Array.isArray(container)) {
                 return container.map((_, i) =>
                     Path.get({
@@ -326,28 +348,26 @@ export default class Path {
                         parentPath: this,
                         parent: node,
                         container,
-                        key: i,
+                        key: i
                     }).setContext(context)
                 );
-            } else {
-                return Path.get({
-                    parentPath: this,
-                    parent: node,
-                    container: node,
-                    key,
-                }).setContext(context);
             }
-        } else {
-            let path = this;
-            for (const part of parts) {
-                if (Array.isArray(path)) {
-                    path = path[part];
-                } else {
-                    path = path.get(part);
-                }
-            }
-            return path;
+            return Path.get({
+                parentPath: this,
+                parent: node,
+                container: node,
+                key
+            }).setContext(context);
         }
+        let path = this;
+        for (const part of parts) {
+            if (Array.isArray(path)) {
+                path = path[part];
+            } else {
+                path = path.get(part);
+            }
+        }
+        return path;
     }
 }
 
@@ -359,13 +379,16 @@ function markRemoved(path) {
 
 function replaceWith(path, node) {
     if (!path.container) {
-        throw new Error('Path does not have a container');
+        throw new Error("Path does not have a container");
     }
 
     path.node = path.container[path.key] = node;
 }
 
-function call(path, key): boolean {
+/**
+ * @returns {boolean}
+ */
+function call(path, key) {
     if (!path.node) {
         return false;
     }
@@ -375,7 +398,8 @@ function call(path, key): boolean {
         return false;
     }
 
-    const fns: Array<Function> = visitor[key];
+    /** @type {Array<Function>} */
+    const fns = visitor[key];
     for (let i = 0, len = fns.length; i < len; i++) {
         const fn = fns[i];
         if (!fn) {

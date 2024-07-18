@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Parser from './Parser';
-import TokenStream from './TokenStream';
-import * as Types from './TokenTypes';
-import Lexer from './Lexer';
-import { EOF, CharStream } from './CharStream';
-import { LEFT, RIGHT } from './Associativity';
+import Parser from "./Parser.js";
+import TokenStream from "./TokenStream.js";
+import * as Types from "./TokenTypes.js";
+import Lexer from "./Lexer.js";
+import { EOF, CharStream } from "./CharStream.js";
+import { LEFT, RIGHT } from "./Associativity.js";
 import {
     setStartFromToken,
     setEndFromToken,
@@ -29,8 +29,8 @@ import {
     createNode,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight,
-    isMelodyExtension,
-} from './util';
+    isMelodyExtension
+} from "./util.js";
 
 function parse(code, options, ...extensions) {
     return createExtendedParser(code, options, ...extensions).parse();
@@ -90,5 +90,5 @@ export {
     createNode,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight,
-    Types,
+    Types
 };

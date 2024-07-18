@@ -20,8 +20,9 @@ import {
     UnaryExpression,
     type,
     alias,
-    visitor,
-} from 'melody-types';
+    visitor
+} from "../melody-types/index.js";
+
 import {
     Types,
     setStartFromToken,
@@ -29,8 +30,8 @@ import {
     copyStart,
     copyEnd,
     copyLoc,
-    LEFT,
-} from 'melody-parser';
+    LEFT
+} from "../melody-parser/index.js";
 
 export const unaryOperators = [];
 export const binaryOperators = [];
@@ -38,144 +39,144 @@ export const tests = [];
 
 //region Unary Expressions
 export const UnaryNotExpression = createUnaryOperator(
-    'not',
-    'UnaryNotExpression',
+    "not",
+    "UnaryNotExpression",
     50
 );
 export const UnaryNeqExpression = createUnaryOperator(
-    '-',
-    'UnaryNeqExpression',
+    "-",
+    "UnaryNeqExpression",
     500
 );
 export const UnaryPosExpression = createUnaryOperator(
-    '+',
-    'UnaryPosExpression',
+    "+",
+    "UnaryPosExpression",
     500
 );
 //endregion
 
 //region Binary Expressions
 export const BinaryOrExpression = createBinaryOperatorNode({
-    text: 'or',
-    type: 'BinaryOrExpression',
+    text: "or",
+    type: "BinaryOrExpression",
     precedence: 10,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryAndExpression = createBinaryOperatorNode({
-    text: 'and',
-    type: 'BinaryAndExpression',
+    text: "and",
+    type: "BinaryAndExpression",
     precedence: 15,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 export const BitwiseOrExpression = createBinaryOperatorNode({
-    text: 'b-or',
-    type: 'BitwiseOrExpression',
+    text: "b-or",
+    type: "BitwiseOrExpression",
     precedence: 16,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BitwiseXorExpression = createBinaryOperatorNode({
-    text: 'b-xor',
-    type: 'BitwiseXOrExpression',
+    text: "b-xor",
+    type: "BitwiseXOrExpression",
     precedence: 17,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BitwiseAndExpression = createBinaryOperatorNode({
-    text: 'b-and',
-    type: 'BitwiseAndExpression',
+    text: "b-and",
+    type: "BitwiseAndExpression",
     precedence: 18,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 export const BinaryEqualsExpression = createBinaryOperatorNode({
-    text: '==',
-    type: 'BinaryEqualsExpression',
+    text: "==",
+    type: "BinaryEqualsExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryNotEqualsExpression = createBinaryOperatorNode({
-    text: '!=',
-    type: 'BinaryNotEqualsExpression',
+    text: "!=",
+    type: "BinaryNotEqualsExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryLessThanExpression = createBinaryOperatorNode({
-    text: '<',
-    type: 'BinaryLessThanExpression',
+    text: "<",
+    type: "BinaryLessThanExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryGreaterThanExpression = createBinaryOperatorNode({
-    text: '>',
-    type: 'BinaryGreaterThanExpression',
+    text: ">",
+    type: "BinaryGreaterThanExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryLessThanOrEqualExpression = createBinaryOperatorNode({
-    text: '<=',
-    type: 'BinaryLessThanOrEqualExpression',
+    text: "<=",
+    type: "BinaryLessThanOrEqualExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryGreaterThanOrEqualExpression = createBinaryOperatorNode({
-    text: '>=',
-    type: 'BinaryGreaterThanOrEqualExpression',
+    text: ">=",
+    type: "BinaryGreaterThanOrEqualExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 export const BinaryNotInExpression = createBinaryOperatorNode({
-    text: 'not in',
-    type: 'BinaryNotInExpression',
+    text: "not in",
+    type: "BinaryNotInExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryInExpression = createBinaryOperatorNode({
-    text: 'in',
-    type: 'BinaryInExpression',
+    text: "in",
+    type: "BinaryInExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryMatchesExpression = createBinaryOperatorNode({
-    text: 'matches',
-    type: 'BinaryMatchesExpression',
+    text: "matches",
+    type: "BinaryMatchesExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryStartsWithExpression = createBinaryOperatorNode({
-    text: 'starts with',
-    type: 'BinaryStartsWithExpression',
+    text: "starts with",
+    type: "BinaryStartsWithExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryEndsWithExpression = createBinaryOperatorNode({
-    text: 'ends with',
-    type: 'BinaryEndsWithExpression',
+    text: "ends with",
+    type: "BinaryEndsWithExpression",
     precedence: 20,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 export const BinaryRangeExpression = createBinaryOperatorNode({
-    text: '..',
-    type: 'BinaryRangeExpression',
+    text: "..",
+    type: "BinaryRangeExpression",
     precedence: 25,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 export const BinaryAddExpression = createBinaryOperatorNode({
-    text: '+',
-    type: 'BinaryAddExpression',
+    text: "+",
+    type: "BinaryAddExpression",
     precedence: 30,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinarySubExpression = createBinaryOperatorNode({
-    text: '-',
-    type: 'BinarySubExpression',
+    text: "-",
+    type: "BinarySubExpression",
     precedence: 30,
-    associativity: LEFT,
+    associativity: LEFT
 });
 binaryOperators.push({
-    text: '~',
+    text: "~",
     precedence: 40,
     associativity: LEFT,
     createNode(token, lhs, rhs) {
@@ -183,42 +184,42 @@ binaryOperators.push({
         copyStart(op, lhs);
         copyEnd(op, rhs);
         return op;
-    },
+    }
 });
 export const BinaryMulExpression = createBinaryOperatorNode({
-    text: '*',
-    type: 'BinaryMulExpression',
+    text: "*",
+    type: "BinaryMulExpression",
     precedence: 60,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryDivExpression = createBinaryOperatorNode({
-    text: '/',
-    type: 'BinaryDivExpression',
+    text: "/",
+    type: "BinaryDivExpression",
     precedence: 60,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryFloorDivExpression = createBinaryOperatorNode({
-    text: '//',
-    type: 'BinaryFloorDivExpression',
+    text: "//",
+    type: "BinaryFloorDivExpression",
     precedence: 60,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryModExpression = createBinaryOperatorNode({
-    text: '%',
-    type: 'BinaryModExpression',
+    text: "%",
+    type: "BinaryModExpression",
     precedence: 60,
-    associativity: LEFT,
+    associativity: LEFT
 });
 
 binaryOperators.push({
-    text: 'is',
+    text: "is",
     precedence: 100,
     associativity: LEFT,
     parse(parser, token, expr) {
         const tokens = parser.tokens;
 
         let not = false;
-        if (tokens.nextIf(Types.OPERATOR, 'not')) {
+        if (tokens.nextIf(Types.OPERATOR, "not")) {
             not = true;
         }
 
@@ -237,7 +238,7 @@ binaryOperators.push({
             );
         }
         return testExpression;
-    },
+    }
 });
 
 function getTest(parser) {
@@ -252,11 +253,11 @@ function getTest(parser) {
     if (!parser.hasTest(testName)) {
         // try 2-words tests
         const continuedNameToken = tokens.expect(Types.SYMBOL);
-        testName += ' ' + continuedNameToken.text;
+        testName += " " + continuedNameToken.text;
         if (!parser.hasTest(testName)) {
             parser.error({
                 title: `Unknown test "${testName}"`,
-                pos: nameToken.pos,
+                pos: nameToken.pos
             });
         }
     }
@@ -265,84 +266,88 @@ function getTest(parser) {
 }
 
 export const BinaryPowerExpression = createBinaryOperatorNode({
-    text: '**',
-    type: 'BinaryPowerExpression',
+    text: "**",
+    type: "BinaryPowerExpression",
     precedence: 200,
-    associativity: LEFT,
+    associativity: LEFT
 });
 export const BinaryNullCoalesceExpression = createBinaryOperatorNode({
-    text: '??',
-    type: 'BinaryNullCoalesceExpression',
+    text: "??",
+    type: "BinaryNullCoalesceExpression",
     precedence: 300,
-    associativity: LEFT,
+    associativity: LEFT
 });
 //endregion
 
 //region Test Expressions
-export const TestEvenExpression = createTest('even', 'TestEvenExpression');
-export const TestOddExpression = createTest('odd', 'TestOddExpression');
+export const TestEvenExpression = createTest("even", "TestEvenExpression");
+export const TestOddExpression = createTest("odd", "TestOddExpression");
 export const TestDefinedExpression = createTest(
-    'defined',
-    'TestDefinedExpression'
+    "defined",
+    "TestDefinedExpression"
 );
 export const TestSameAsExpression = createTest(
-    'same as',
-    'TestSameAsExpression'
+    "same as",
+    "TestSameAsExpression"
 );
 tests.push({
-    text: 'sameas',
+    text: "sameas",
     createNode(expr, args) {
         // todo: add deprecation warning
         return new TestSameAsExpression(expr, args);
-    },
+    }
 });
-export const TestNullExpression = createTest('null', 'TestNullExpression');
+export const TestNullExpression = createTest("null", "TestNullExpression");
 tests.push({
-    text: 'none',
+    text: "none",
     createNode(expr, args) {
         return new TestNullExpression(expr, args);
-    },
+    }
 });
 export const TestDivisibleByExpression = createTest(
-    'divisible by',
-    'TestDivisibleByExpression'
+    "divisible by",
+    "TestDivisibleByExpression"
 );
 tests.push({
-    text: 'divisibleby',
+    text: "divisibleby",
     createNode(expr, args) {
         // todo: add deprecation warning
         return new TestDivisibleByExpression(expr, args);
-    },
+    }
 });
 export const TestConstantExpression = createTest(
-    'constant',
-    'TestConstantExpression'
+    "constant",
+    "TestConstantExpression"
 );
-export const TestEmptyExpression = createTest('empty', 'TestEmptyExpression');
+export const TestEmptyExpression = createTest("empty", "TestEmptyExpression");
 export const TestIterableExpression = createTest(
-    'iterable',
-    'TestIterableExpression'
+    "iterable",
+    "TestIterableExpression"
 );
 //endregion
 
 //region Utilities
 function createTest(text, typeName) {
     const TestExpression = class extends Node {
-        constructor(expr: Node, args?: Array<Node>) {
+        /**
+         * @param {Node} expr
+         * @param {Array<Node>} [args]
+         */
+        constructor(expr, args) {
             super();
             this.expression = expr;
             this.arguments = args;
         }
     };
     type(TestExpression, typeName);
-    alias(TestExpression, 'Expression', 'TestExpression');
-    visitor(TestExpression, 'expression', 'arguments');
+    alias(TestExpression, "Expression", "TestExpression");
+    visitor(TestExpression, "expression", "arguments");
 
     tests.push({
         text,
         createNode(expr, args) {
             return new TestExpression(expr, args);
-        },
+        }
     });
 
     return TestExpression;
@@ -351,18 +356,22 @@ function createTest(text, typeName) {
 function createBinaryOperatorNode(options) {
     const { text, precedence, associativity } = options;
     const BinarySubclass = class extends BinaryExpression {
-        constructor(left: Node, right: Node) {
+        /**
+         * @param {Node} left
+         * @param {Node} right
+         */
+        constructor(left, right) {
             super(text, left, right);
         }
     };
     type(BinarySubclass, options.type);
-    alias(BinarySubclass, 'BinaryExpression', 'Binary', 'Expression');
-    visitor(BinarySubclass, 'left', 'right');
+    alias(BinarySubclass, "BinaryExpression", "Binary", "Expression");
+    visitor(BinarySubclass, "left", "right");
 
     const operator = {
         text,
         precedence,
-        associativity,
+        associativity
     };
     if (options.parse) {
         operator.parse = options.parse;
@@ -378,13 +387,16 @@ function createBinaryOperatorNode(options) {
 
 function createUnaryOperator(operator, typeName, precedence) {
     const UnarySubclass = class extends UnaryExpression {
-        constructor(argument: Node) {
+        /**
+         * @param {Node} argument
+         */
+        constructor(argument) {
             super(operator, argument);
         }
     };
     type(UnarySubclass, typeName);
-    alias(UnarySubclass, 'Expression', 'UnaryLike');
-    visitor(UnarySubclass, 'argument');
+    alias(UnarySubclass, "Expression", "UnaryLike");
+    visitor(UnarySubclass, "argument");
 
     unaryOperators.push({
         text: operator,
@@ -394,7 +406,7 @@ function createUnaryOperator(operator, typeName, precedence) {
             setStartFromToken(op, token);
             copyEnd(op, expr);
             return op;
-        },
+        }
     });
 
     return UnarySubclass;

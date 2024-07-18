@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { ALIAS_TO_TYPE } from 'melody-types';
+import { ALIAS_TO_TYPE } from "../melody-types/index.js";
 
-const EXPLODED = Symbol();
+const EXPLODED = Symbol("EXPLODED");
 
 export function explode(visitor) {
     if (visitor[EXPLODED]) {
@@ -26,7 +26,7 @@ export function explode(visitor) {
     for (const key of Object.getOwnPropertyNames(visitor)) {
         // make sure all members are objects with enter and exit methods
         let fns = visitor[key];
-        if (typeof fns === 'function') {
+        if (typeof fns === "function") {
             fns = visitor[key] = { enter: fns };
         }
 
@@ -71,7 +71,10 @@ export function explode(visitor) {
     }
 }
 
-export function merge(...visitors: Array) {
+/**
+ * @param {...Array} visitors
+ */
+export function merge(...visitors) {
     const rootVisitor = {};
 
     let i = 0;

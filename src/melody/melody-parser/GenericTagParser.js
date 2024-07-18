@@ -13,15 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { hasTagStartTokenTrimLeft, hasTagEndTokenTrimRight } from './util';
-import * as Types from './TokenTypes';
-import * as n from 'melody-types';
+import { hasTagStartTokenTrimLeft, hasTagEndTokenTrimRight } from "./util.js";
+import * as Types from "./TokenTypes.js";
+import * as n from "../melody-types/index.js";
 
 export const GenericTagParser = {
-    name: 'genericTwigTag',
+    name: "genericTwigTag",
     parse(parser) {
-        const tokens = parser.tokens,
-            tagStartToken = tokens.la(-2);
+        const tokens = parser.tokens;
+        const tagStartToken = tokens.la(-2);
         let currentToken;
 
         const twigTag = new n.GenericTwigTag(tokens.la(-1).text);
@@ -32,7 +32,7 @@ export const GenericTagParser = {
                 try {
                     twigTag.parts.push(parser.matchExpression());
                 } catch (e) {
-                    if (e.errorType === 'UNEXPECTED_TOKEN') {
+                    if (e.errorType === "UNEXPECTED_TOKEN") {
                         twigTag.parts.push(
                             new n.GenericToken(e.tokenType, e.tokenText)
                         );
@@ -49,5 +49,5 @@ export const GenericTagParser = {
         twigTag.trimRight = hasTagEndTokenTrimRight(currentToken);
 
         return twigTag;
-    },
+    }
 };

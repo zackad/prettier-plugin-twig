@@ -1,5 +1,10 @@
-import { CharStream, Lexer, TokenStream, Parser } from "melody-parser";
-import { extension as coreExtension } from "melody-extension-core";
+import {
+    CharStream,
+    Lexer,
+    TokenStream,
+    Parser
+} from "./melody/melody-parser/index.js";
+import { extension as coreExtension } from "./melody/melody-extension-core/index.js";
 
 const ORIGINAL_SOURCE = Symbol("ORIGINAL_SOURCE");
 

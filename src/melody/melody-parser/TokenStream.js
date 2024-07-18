@@ -25,14 +25,14 @@ import {
     EXPRESSION_START,
     EXPRESSION_END,
     TEXT,
-    STRING,
-} from './TokenTypes';
-import trimEnd from 'lodash/trimEnd';
-import trimStart from 'lodash/trimStart';
-import codeFrame from 'melody-code-frame';
+    STRING
+} from "./TokenTypes.js";
+import trimEnd from "lodash/trimEnd.js";
+import trimStart from "lodash/trimStart.js";
+import codeFrame from "../melody-code-frame/index.js";
 
-const TOKENS = Symbol(),
-    LENGTH = Symbol();
+const TOKENS = Symbol("TOKENS");
+const LENGTH = Symbol("LENGTH");
 
 export default class TokenStream {
     constructor(lexer, options) {
@@ -44,7 +44,7 @@ export default class TokenStream {
                 ignoreComments: true,
                 ignoreHtmlComments: true,
                 ignoreWhitespace: true,
-                applyWhitespaceTrimming: true,
+                applyWhitespaceTrimming: true
             },
             options
         );
@@ -66,7 +66,7 @@ export default class TokenStream {
     }
 
     la(offset) {
-        var index = this.index + offset;
+        const index = this.index + offset;
         return index < this[LENGTH] ? this[TOKENS][index] : EOF_TOKEN;
     }
 
@@ -101,13 +101,11 @@ export default class TokenStream {
             return this.next();
         }
         this.error(
-            'Invalid Token',
+            "Invalid Token",
             token.pos,
-            `Expected ${ERROR_TABLE[type] ||
-                type ||
-                text} but found ${ERROR_TABLE[token.type] ||
-                token.type ||
-                token.text} instead.`,
+            `Expected ${ERROR_TABLE[type] || type || text} but found ${
+                ERROR_TABLE[token.type] || token.type || token.text
+            } instead.`,
             token.length
         );
     }
@@ -122,11 +120,11 @@ export default class TokenStream {
             tokens: getAllTokens(this.input, {
                 ignoreWhitespace: false,
                 ignoreComments: false,
-                ignoreHtmlComments: false,
-            }),
+                ignoreHtmlComments: false
+            })
         });
         if (advice) {
-            errorMessage += '\n\n' + advice;
+            errorMessage += "\n\n" + advice;
         }
         const result = new Error(errorMessage);
         Object.assign(result, metadata);
@@ -135,10 +133,10 @@ export default class TokenStream {
 }
 
 function getAllTokens(lexer, options) {
-    let token,
-        tokens = [],
-        acceptWhitespaceControl = false,
-        trimNext = false;
+    let token;
+    const tokens = [];
+    let acceptWhitespaceControl = false;
+    let trimNext = false;
     while ((token = lexer.next()) !== EOF_TOKEN) {
         const shouldTrimNext = trimNext;
         trimNext = false;
@@ -146,7 +144,7 @@ function getAllTokens(lexer, options) {
             switch (token.type) {
                 case EXPRESSION_START:
                 case TAG_START:
-                    if (token.text[token.text.length - 1] === '-') {
+                    if (token.text[token.text.length - 1] === "-") {
                         tokens[tokens.length - 1].text = trimEnd(
                             tokens[tokens.length - 1].text
                         );
@@ -154,7 +152,7 @@ function getAllTokens(lexer, options) {
                     break;
                 case EXPRESSION_END:
                 case TAG_END:
-                    if (token.text[0] === '-') {
+                    if (token.text[0] === "-") {
                         trimNext = true;
                     }
                     break;

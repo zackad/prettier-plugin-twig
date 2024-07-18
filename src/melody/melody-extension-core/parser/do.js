@@ -13,16 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Types, setStartFromToken, setEndFromToken } from 'melody-parser';
-import { DoStatement } from './../types';
+import {
+    Types,
+    setStartFromToken,
+    setEndFromToken
+} from "../../melody-parser/index.js";
+import { DoStatement } from "./../types.js";
 
 export const DoParser = {
-    name: 'do',
+    name: "do",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            doStatement = new DoStatement(parser.matchExpression());
+        const tokens = parser.tokens;
+        const doStatement = new DoStatement(parser.matchExpression());
         setStartFromToken(doStatement, token);
         setEndFromToken(doStatement, tokens.expect(Types.TAG_END));
         return doStatement;
-    },
+    }
 };

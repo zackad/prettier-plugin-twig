@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { setStartFromToken, setEndFromToken } from './util';
-import { GenericTagParser } from './GenericTagParser';
-import * as Types from './TokenTypes';
+import { setStartFromToken, setEndFromToken } from "./util.js";
+import { GenericTagParser } from "./GenericTagParser.js";
+import * as Types from "./TokenTypes.js";
 
 const tagMatchesOneOf = (tokenStream, tagNames) => {
     for (let i = 0; i < tagNames.length; i++) {
@@ -27,13 +27,13 @@ const tagMatchesOneOf = (tokenStream, tagNames) => {
 };
 
 export const createMultiTagParser = (tagName, subTags = []) => ({
-    name: 'genericTwigMultiTag',
+    name: "genericTwigMultiTag",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            tagStartToken = tokens.la(-1);
+        const tokens = parser.tokens;
+        const tagStartToken = tokens.la(-1);
 
         if (subTags.length === 0) {
-            subTags.push('end' + tagName);
+            subTags.push("end" + tagName);
         }
 
         const twigTag = GenericTagParser.parse(parser, token);
@@ -62,5 +62,5 @@ export const createMultiTagParser = (tagName, subTags = []) => ({
         setEndFromToken(twigTag, tokens.la(0));
 
         return twigTag;
-    },
+    }
 });

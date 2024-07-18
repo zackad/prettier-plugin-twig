@@ -1,5 +1,5 @@
 import { doc } from "prettier";
-import { Node } from "melody-types";
+import { Node } from "../melody/melody-types/index.js";
 import {
     printChildBlock,
     isNotExpression,

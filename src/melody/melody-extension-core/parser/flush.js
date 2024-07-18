@@ -13,17 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Types, setStartFromToken, setEndFromToken } from 'melody-parser';
-import { FlushStatement } from './../types';
+import {
+    Types,
+    setStartFromToken,
+    setEndFromToken
+} from "../../melody-parser/index.js";
+import { FlushStatement } from "./../types.js";
 
 export const FlushParser = {
-    name: 'flush',
+    name: "flush",
     parse(parser, token) {
-        const tokens = parser.tokens,
-            flushStatement = new FlushStatement();
+        const tokens = parser.tokens;
+        const flushStatement = new FlushStatement();
 
         setStartFromToken(flushStatement, token);
         setEndFromToken(flushStatement, tokens.expect(Types.TAG_END));
         return flushStatement;
-    },
+    }
 };

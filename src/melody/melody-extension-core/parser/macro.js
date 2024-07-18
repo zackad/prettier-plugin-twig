@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from 'melody-types';
+import { Identifier } from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
     setEndFromToken,
     createNode,
     hasTagStartTokenTrimLeft,
-    hasTagEndTokenTrimRight,
-} from 'melody-parser';
-import { MacroDeclarationStatement } from './../types';
+    hasTagEndTokenTrimRight
+} from "../../melody-parser/index.js";
+import { MacroDeclarationStatement } from "./../types.js";
 
 export const MacroParser = {
-    name: 'macro',
+    name: "macro",
     parse(parser, token) {
         const tokens = parser.tokens;
 
@@ -42,8 +42,7 @@ export const MacroParser = {
                 parser.error({
                     title: 'Expected comma or ")"',
                     pos: tokens.la(0).pos,
-                    advice:
-                        'The argument list of a macro can only consist of parameter names separated by commas.',
+                    advice: "The argument list of a macro can only consist of parameter names separated by commas."
                 });
             }
         }
@@ -55,7 +54,7 @@ export const MacroParser = {
         const body = parser.parse((tokenText, token, tokens) => {
             const result = !!(
                 token.type === Types.TAG_START &&
-                tokens.nextIf(Types.SYMBOL, 'endmacro')
+                tokens.nextIf(Types.SYMBOL, "endmacro")
             );
             if (result) {
                 closingTagStartToken = token;
@@ -64,13 +63,11 @@ export const MacroParser = {
         });
 
         if (tokens.test(Types.SYMBOL)) {
-            var nameEndToken = tokens.next();
+            const nameEndToken = tokens.next();
             if (nameToken.text !== nameEndToken.text) {
                 parser.error({
-                    title: `Macro name mismatch, expected "${
-                        nameToken.text
-                    }" but found "${nameEndToken.text}"`,
-                    pos: nameEndToken.pos,
+                    title: `Macro name mismatch, expected "${nameToken.text}" but found "${nameEndToken.text}"`,
+                    pos: nameEndToken.pos
                 });
             }
         }
@@ -87,13 +84,11 @@ export const MacroParser = {
             tokens.expect(Types.TAG_END)
         );
 
-        macroDeclarationStatement.trimRightMacro = hasTagEndTokenTrimRight(
-            openingTagEndToken
-        );
-        macroDeclarationStatement.trimLeftEndmacro = hasTagStartTokenTrimLeft(
-            closingTagStartToken
-        );
+        macroDeclarationStatement.trimRightMacro =
+            hasTagEndTokenTrimRight(openingTagEndToken);
+        macroDeclarationStatement.trimLeftEndmacro =
+            hasTagStartTokenTrimLeft(closingTagStartToken);
 
         return macroDeclarationStatement;
-    },
+    }
 };
