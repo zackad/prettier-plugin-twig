@@ -19,8 +19,8 @@
         "test": "vitest --run"
     },
     "dependencies": {
-        "babel-template": "^6.26.0",
-        "babel-types": "^6.26.0",
+        "@babel/template": "^7.24.7",
+        "@babel/types": "^7.24.9",
         "he": "^1.2.0",
         "lodash": "^4.17.21",
         "prettier": "^3.0.0",
