@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 import { traverse } from "../../melody-traverse/index.js";
-import * as t from "babel-types";
-import babelTemplate from "babel-template";
+import * as t from "@babel/types";
+import _template from "@babel/template";
+const babelTemplate = _template.default;
 
 // @param template
 // @returns function
