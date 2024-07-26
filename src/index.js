@@ -10,16 +10,9 @@ import * as publicFunctions from "./util/publicFunctions.js";
  */
 const languages = [
     {
-        name: "melody",
-        parsers: ["melody"],
-        group: "Melody",
-        tmScope: "melody.twig",
-        aceMode: "html",
-        codemirrorMode: "clike",
-        codemirrorMimeType: "text/melody-twig",
-        extensions: [".melody.twig", ".html.twig", ".twig"],
-        linguistLanguageId: 0,
-        vscodeLanguageIds: ["twig"]
+        name: "twig",
+        parsers: ["twig"],
+        extensions: [".html.twig", ".twig"]
     }
 ];
 
@@ -29,9 +22,9 @@ const languages = [
  * @type Record<string, Parser>
  */
 const parsers = {
-    melody: {
+    twig: {
         parse,
-        astFormat: "melody",
+        astFormat: "twig",
         hasPragma() {
             return false;
         },
@@ -50,7 +43,7 @@ const parsers = {
  * @type Record<string, Printer>
  */
 const printers = {
-    melody: {
+    twig: {
         print,
         printComment(commentPath) {
             const comment = commentPath.getValue();
