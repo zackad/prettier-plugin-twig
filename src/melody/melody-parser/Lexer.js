@@ -561,17 +561,15 @@ export default class Lexer {
     matchAttributeValue(pos) {
         const input = this.input;
         const start = this.state === State.STRING_SINGLE ? "'" : '"';
-        let c;
-        if (input.la(0) === "{") {
+        let c = input.la(0);
+        const c2 = input.la(1);
+        if (c === "{" && (c2 === "{" || c2 === "#" || c2 === "%")) {
             return this.matchExpressionToken(pos);
         }
         while ((c = input.la(0)) !== start && c !== EOF) {
             if (c === "\\" && input.la(1) === start) {
                 input.next();
                 input.next();
-            } else if (c === "{") {
-                // interpolation start
-                break;
             } else if (c === start) {
                 break;
             } else {
