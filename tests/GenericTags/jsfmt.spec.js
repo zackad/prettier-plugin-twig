@@ -1,4 +1,4 @@
-run_spec(__dirname, ["melody"], {
+run_spec(__dirname, ["twig"], {
     twigMultiTags: [
         "nav,endnav",
         "switch,case,default,endswitch",
