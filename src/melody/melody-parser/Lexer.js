@@ -497,7 +497,7 @@ export default class Lexer {
             (c === 95 ||
                 isAlpha(c) ||
                 isDigit(c) ||
-                (inElement && (c === 45 || c === 58)))
+                (inElement && isValidAttributeName(c)))
         ) {
             input.next();
         }
@@ -662,4 +662,49 @@ function isAlpha(c) {
 
 function isDigit(c) {
     return c >= 48 && c <= 57;
+}
+
+// https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
+function isValidAttributeName(c) {
+    const is_c0_control = c >= 0 && c <= 31;
+    const is_control = is_c0_control || (c >= 127 && c <= 159);
+    const is_invalid =
+        c === 32 || c === 34 || c === 39 || c === 62 || c === 47 || c === 61;
+    const is_noncharacter =
+        (c >= 64976 && c <= 65007) ||
+        c === 65534 ||
+        c === 65535 ||
+        c === 131070 ||
+        c === 131071 ||
+        c === 196606 ||
+        c === 196607 ||
+        c === 262142 ||
+        c === 262143 ||
+        c === 327678 ||
+        c === 327679 ||
+        c === 393214 ||
+        c === 393215 ||
+        c === 458750 ||
+        c === 458751 ||
+        c === 524286 ||
+        c === 524287 ||
+        c === 589822 ||
+        c === 589823 ||
+        c === 655358 ||
+        c === 655359 ||
+        c === 720894 ||
+        c === 720895 ||
+        c === 786430 ||
+        c === 786431 ||
+        c === 851966 ||
+        c === 851967 ||
+        c === 917502 ||
+        c === 917503 ||
+        c === 983038 ||
+        c === 983039 ||
+        c === 1048574 ||
+        c === 1048575 ||
+        c === 1114106 ||
+        c === 1114107;
+    return !is_control && !is_invalid && !is_noncharacter;
 }
