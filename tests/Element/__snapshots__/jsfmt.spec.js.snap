@@ -1,5 +1,128 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`alpinejs.twig - twig-verify > alpinejs.twig 1`] = `
+<div x-data="{ open: false }">
+    ...
+</div>
+
+<div x-bind:class="! open ? 'hidden' : ''">
+  ...
+</div>
+
+<button x-on:click="open = ! open">
+  Toggle
+</button>
+
+<div>
+  Copyright ©
+
+  <span x-text="new Date().getFullYear()"></span>
+</div>
+
+<div x-html="(await axios.get('/some/html/partial')).data">
+  ...
+</div>
+
+<div x-data="{ search: '' }">
+  <input type="text" x-model="search">
+
+  Searching for: <span x-text="search"></span>
+</div>
+
+<div x-show="open">
+  ...
+</div>
+
+<div x-show="open" x-transition>
+  ...
+</div>
+
+<template x-for="post in posts">
+  <h2 x-text="post.title"></h2>
+</template>
+
+<template x-if="open">
+  <div>...</div>
+</template>
+
+<div x-init="date = new Date()"></div>
+
+<div x-effect="console.log('Count is '+count)"></div>
+
+<input type="text" x-ref="content">
+<button x-on:click="navigator.clipboard.writeText($refs.content.value)">
+  Copy
+</button>
+
+<div x-cloak>
+  ...
+</div>
+
+<div x-ignore>
+  ...
+</div>
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+<div x-data="{ open: false }">
+    ...
+</div>
+
+<div x-bind:class="! open ? 'hidden' : ''">
+    ...
+</div>
+
+<button x-on:click="open = ! open">Toggle</button>
+
+<div>
+    Copyright ©
+
+    <span x-text="new Date().getFullYear()"></span>
+</div>
+
+<div x-html="(await axios.get('/some/html/partial')).data">
+    ...
+</div>
+
+<div x-data="{ search: '' }">
+    <input type="text" x-model="search" />Searching for: <span x-text="search"></span>
+</div>
+
+<div x-show="open">
+    ...
+</div>
+
+<div x-show="open" x-transition>
+    ...
+</div>
+
+<template x-for="post in posts">
+    <h2 x-text="post.title"></h2>
+</template>
+
+<template x-if="open">
+    <div>
+        ...
+    </div>
+</template>
+
+<div x-init="date = new Date()"></div>
+
+<div x-effect="console.log('Count is '+count)"></div>
+
+<input type="text" x-ref="content" />
+<button x-on:click="navigator.clipboard.writeText($refs.content.value)">
+    Copy
+</button>
+
+<div x-cloak>
+    ...
+</div>
+
+<div x-ignore>
+    ...
+</div>
+
+`;
+
 exports[`attributes.twig - twig-verify > attributes.twig 1`] = `
 <a href="#abcd"  target="_blank"   lang="en" >Link</a>
 
