@@ -1,1 +1,1 @@
-run_spec(__dirname, ["melody"], { twigAlwaysBreakObjects: false });
+run_spec(__dirname, ["twig"], { twigAlwaysBreakObjects: false });

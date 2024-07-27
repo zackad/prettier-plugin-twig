@@ -15,7 +15,7 @@
     ],
     "scripts": {
         "lint": "DEBUG=eslint:cli-engine eslint .",
-        "prettier": "prettier --plugin=./src/index.js --parser=melody",
+        "prettier": "prettier --plugin=./src/index.js --parser=twig",
         "test": "vitest --run"
     },
     "dependencies": {

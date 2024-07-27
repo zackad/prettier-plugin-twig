@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`controversial.melody.twig - melody-verify > controversial.melody.twig 1`] = `
+exports[`controversial.melody.twig - twig-verify > controversial.melody.twig 1`] = `
 {% set isRewardRate = isMarriottRewardRate or (rewardRateAltIds and deal.dealId in rewardRateAltIds[accommodation.id.id]) %}
 
 <!-- Alternatively, introduce another variable -->
@@ -89,7 +89,7 @@ exports[`controversial.melody.twig - melody-verify > controversial.melody.twig 1
 
 `;
 
-exports[`failing.melody.twig - melody-verify > failing.melody.twig 1`] = `
+exports[`failing.melody.twig - twig-verify > failing.melody.twig 1`] = `
 {# IF tag in element not allowed
 <option {% if not purchasable.isAvailable %}disabled{% endif %}>
     {{ purchasable.description }}
