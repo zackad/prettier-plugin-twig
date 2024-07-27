@@ -2,7 +2,7 @@
 
 ## unreleased
 
-### Breaking Changes
+### BREAKING CHANGES
 - Drop compatibility support for prettier 2
 - Plugin system has been removed from this project
 - Package has been renamed `@zackad/prettier-plugin-twig-melody` -> `@zackad/prettier-plugin-twig`
