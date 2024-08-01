@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.7.0 (2024-08-01)
+
 ### BREAKING CHANGES
 - Drop compatibility support for prettier 2
 - Plugin system has been removed from this project
