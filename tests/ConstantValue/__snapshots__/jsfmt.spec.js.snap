@@ -1,20 +1,20 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`constant-value-int.melody.twig - twig-verify > constant-value-int.melody.twig 1`] = `
+exports[`constant-value-int.twig - twig-verify > constant-value-int.twig 1`] = `
     123
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 123
 
 `;
 
-exports[`constant-value-string.melody.twig - twig-verify > constant-value-string.melody.twig 1`] = `
+exports[`constant-value-string.twig - twig-verify > constant-value-string.twig 1`] = `
   Test string
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Test string
 
 `;
 
-exports[`special-cases.melody.twig - twig-verify > special-cases.melody.twig 1`] = `
+exports[`special-cases.twig - twig-verify > special-cases.twig 1`] = `
 {% if isRTL %}&#8206;{% endif %}
 
 {% if searchResultFailing %}

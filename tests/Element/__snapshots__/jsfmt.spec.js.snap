@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`attributes.melody.twig - twig-verify > attributes.melody.twig 1`] = `
+exports[`attributes.twig - twig-verify > attributes.twig 1`] = `
 <a href="#abcd"  target="_blank"   lang="en" >Link</a>
 
 <fantasy {{ {
@@ -35,7 +35,7 @@ exports[`attributes.melody.twig - twig-verify > attributes.melody.twig 1`] = `
 
 `;
 
-exports[`breakingSiblings.melody.twig - twig-verify > breakingSiblings.melody.twig 1`] = `
+exports[`breakingSiblings.twig - twig-verify > breakingSiblings.twig 1`] = `
 <span>One</span><b>Two</b><i>Three</i><span>Four</span><b>Five</b><i>Six</i><span>Seven</span>
 
 <span>One</span>
@@ -60,7 +60,7 @@ exports[`breakingSiblings.melody.twig - twig-verify > breakingSiblings.melody.tw
 
 `;
 
-exports[`children.melody.twig - twig-verify > children.melody.twig 1`] = `
+exports[`children.twig - twig-verify > children.twig 1`] = `
 <div class="{{ css.loader }}">
     <div class="{{ css.barWrapper }}">
         <span class="{{ css.bar }}"></span>
@@ -77,7 +77,7 @@ exports[`children.melody.twig - twig-verify > children.melody.twig 1`] = `
 
 `;
 
-exports[`emptyLines.melody.twig - twig-verify > emptyLines.melody.twig 1`] = `
+exports[`emptyLines.twig - twig-verify > emptyLines.twig 1`] = `
 <div>
     <img src="/img/posts/08/07/dns-resolution-expl.png" alt="DNS explained">
 
@@ -105,14 +105,14 @@ exports[`emptyLines.melody.twig - twig-verify > emptyLines.melody.twig 1`] = `
 
 `;
 
-exports[`extraSpaces.melody.twig - twig-verify > extraSpaces.melody.twig 1`] = `
+exports[`extraSpaces.twig - twig-verify > extraSpaces.twig 1`] = `
 <span  >Text</span >
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <span>Text</span>
 
 `;
 
-exports[`manyAttributes.melody.twig - twig-verify > manyAttributes.melody.twig 1`] = `
+exports[`manyAttributes.twig - twig-verify > manyAttributes.twig 1`] = `
 <span attr1="one" attr2="two" attr3="three" attr4="four" attr5="five" attr6="six" attr7="seven" attr8="eight">Text</span>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <span attr1="one"
@@ -128,7 +128,7 @@ exports[`manyAttributes.melody.twig - twig-verify > manyAttributes.melody.twig 1
 
 `;
 
-exports[`oneLine.melody.twig - twig-verify > oneLine.melody.twig 1`] = `
+exports[`oneLine.twig - twig-verify > oneLine.twig 1`] = `
 <a href="{{ url }}">
     Next
 </a>
@@ -137,7 +137,7 @@ exports[`oneLine.melody.twig - twig-verify > oneLine.melody.twig 1`] = `
 
 `;
 
-exports[`selfClosing.melody.twig - twig-verify > selfClosing.melody.twig 1`] = `
+exports[`selfClosing.twig - twig-verify > selfClosing.twig 1`] = `
 <input type="text" name="user" />
 
 <input attr1="one" attr2="two" attr3="three" attr4="four" attr5="five" attr6="six" attr7="seven" attr8="eight" />
@@ -161,14 +161,14 @@ exports[`selfClosing.melody.twig - twig-verify > selfClosing.melody.twig 1`] = `
 
 `;
 
-exports[`siblings.melody.twig - twig-verify > siblings.melody.twig 1`] = `
+exports[`siblings.twig - twig-verify > siblings.twig 1`] = `
 <span>One</span><b>Two</b><i>Three</i>
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 <span>One</span><b>Two</b><i>Three</i>
 
 `;
 
-exports[`whitespace.melody.twig - twig-verify > whitespace.melody.twig 1`] = `
+exports[`whitespace.twig - twig-verify > whitespace.twig 1`] = `
 <span class="price">{{ price }} {{ currencySymbol }}</span>
 
 <span class="price">Price: {{ price }} {{ currencySymbol }} per night</span>

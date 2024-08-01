@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`controversial.melody.twig - twig-verify > controversial.melody.twig 1`] = `
+exports[`controversial.twig - twig-verify > controversial.twig 1`] = `
 {% set isRewardRate = isMarriottRewardRate or (rewardRateAltIds and deal.dealId in rewardRateAltIds[accommodation.id.id]) %}
 
 <!-- Alternatively, introduce another variable -->
@@ -31,7 +31,7 @@ exports[`controversial.melody.twig - twig-verify > controversial.melody.twig 1`]
 </article>
 
 <!-- Parentheses stripped. Cannot fix this. Either always parentheses, or never when args empty. -->
-{% include './partials/arrowBtn.melody.twig' with {
+{% include './partials/arrowBtn.twig' with {
     ref: prev | default(),
 } only %}
 
@@ -72,7 +72,7 @@ exports[`controversial.melody.twig - twig-verify > controversial.melody.twig 1`]
 </article>
 
 <!-- Parentheses stripped. Cannot fix this. Either always parentheses, or never when args empty. -->
-{% include './partials/arrowBtn.melody.twig' with {
+{% include './partials/arrowBtn.twig' with {
     ref: prev | default
 } only %}
 
@@ -89,7 +89,7 @@ exports[`controversial.melody.twig - twig-verify > controversial.melody.twig 1`]
 
 `;
 
-exports[`failing.melody.twig - twig-verify > failing.melody.twig 1`] = `
+exports[`failing.twig - twig-verify > failing.twig 1`] = `
 {# IF tag in element not allowed
 <option {% if not purchasable.isAvailable %}disabled{% endif %}>
     {{ purchasable.description }}
@@ -110,7 +110,7 @@ exports[`failing.melody.twig - twig-verify > failing.melody.twig 1`] = `
 %}
 
 {# "only" dropped, comment dropped #}
-{% embed '@hotelsearch/common/tooltip/tooltip.melody.twig' with {
+{% embed '@hotelsearch/common/tooltip/tooltip.twig' with {
             position: 'bottomTrailing',
             id: 'most-popular-badge',
             classList: tooltipOpen ? 'show-tooltip',
@@ -171,7 +171,7 @@ exports[`failing.melody.twig - twig-verify > failing.melody.twig 1`] = `
 %}
 
 {# "only" dropped, comment dropped #}
-{% embed '@hotelsearch/common/tooltip/tooltip.melody.twig'
+{% embed '@hotelsearch/common/tooltip/tooltip.twig'
     with {
         position: 'bottomTrailing',
         id: 'most-popular-badge',

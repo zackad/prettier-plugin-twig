@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`htmlComments.melody.twig - twig-verify > htmlComments.melody.twig 1`] = `
+exports[`htmlComments.twig - twig-verify > htmlComments.twig 1`] = `
 <!-- I am a comment -->
 This is a paragraph
 
@@ -34,7 +34,7 @@ A third paragraph
 
 `;
 
-exports[`twigComments.melody.twig - twig-verify > twigComments.melody.twig 1`] = `
+exports[`twigComments.twig - twig-verify > twigComments.twig 1`] = `
 {# One #}
 
 {# Two #}

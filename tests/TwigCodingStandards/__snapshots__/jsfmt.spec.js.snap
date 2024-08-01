@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`twigCodingStandards.melody.twig - twig-verify > twigCodingStandards.melody.twig 1`] = `
+exports[`twigCodingStandards.twig - twig-verify > twigCodingStandards.twig 1`] = `
 {{ foo }}
 {# comment #}
 {% if foo %}{% endif %}

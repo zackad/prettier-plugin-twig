@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`for.melody.twig - twig-verify > for.melody.twig 1`] = `
+exports[`for.twig - twig-verify > for.twig 1`] = `
 <ul>
     {% for item in items %}
         <li class="{{ loop.last ? 'last' : '' }}">
@@ -35,7 +35,7 @@ exports[`for.melody.twig - twig-verify > for.melody.twig 1`] = `
 
 `;
 
-exports[`forIfElse.melody.twig - twig-verify > forIfElse.melody.twig 1`] = `
+exports[`forIfElse.twig - twig-verify > forIfElse.twig 1`] = `
 <ul>
 {% for a,b in c | slice(3, c.length) if b is even -%}
     <li>{{ a }} - {{ b }}</li>
@@ -75,7 +75,7 @@ exports[`forIfElse.melody.twig - twig-verify > forIfElse.melody.twig 1`] = `
 
 `;
 
-exports[`forInclude.melody.twig - twig-verify > forInclude.melody.twig 1`] = `
+exports[`forInclude.twig - twig-verify > forInclude.twig 1`] = `
 {% for foo in range(1, category) %}
 <span key="{{ foo }}" class="qtp-item__star icon-ic icon-icn_star--white {{ foo }}">
   {% include './Star.twig' only %}
@@ -91,7 +91,7 @@ exports[`forInclude.melody.twig - twig-verify > forInclude.melody.twig 1`] = `
 
 `;
 
-exports[`forWithBlock.melody.twig - twig-verify > forWithBlock.melody.twig 1`] = `
+exports[`forWithBlock.twig - twig-verify > forWithBlock.twig 1`] = `
 <h1>{{ title | title }}</h1>
 <ul>
     {% for item in items %}
@@ -118,7 +118,7 @@ exports[`forWithBlock.melody.twig - twig-verify > forWithBlock.melody.twig 1`] =
 
 `;
 
-exports[`if.melody.twig - twig-verify > if.melody.twig 1`] = `
+exports[`if.twig - twig-verify > if.twig 1`] = `
 <div>
     {%- if foo %}
         <div class="foo"></div>

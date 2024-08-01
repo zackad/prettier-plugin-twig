@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`element.melody.twig - twig-verify > element.melody.twig 1`] = `
+exports[`element.twig - twig-verify > element.twig 1`] = `
 <div>
     <img src="person.jpg">
 </div>
