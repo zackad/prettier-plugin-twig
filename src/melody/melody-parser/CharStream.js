@@ -51,7 +51,7 @@ export class CharStream {
 
     lac(offset) {
         const index = this.index + offset;
-        return index < this.length ? this.input.charCodeAt(index) : EOF;
+        return index < this.length ? this.input.codePointAt(index) : EOF;
     }
 
     next() {
