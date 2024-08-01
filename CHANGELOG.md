@@ -8,6 +8,9 @@
 - Package has been renamed `@zackad/prettier-plugin-twig-melody` -> `@zackad/prettier-plugin-twig`
 - The parser has been renamed from `melody` into `twig`
 
+### Features
+- Add support attribute names according to html5 specs
+
 ### Internals
 - Remove npm script to publish
 - Integrate devenv into nix flakes
