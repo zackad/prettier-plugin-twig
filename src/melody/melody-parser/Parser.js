@@ -926,9 +926,18 @@ export default class Parser {
         tokens.expect(Types.LPAREN);
         while (!tokens.test(Types.RPAREN) && !tokens.test(Types.EOF)) {
             if (
+                tokens.test(Types.LPAREN) ||
+                (tokens.test(Types.SYMBOL) && tokens.lat(1) === Types.ARROW)
+            ) {
+                // OPTION 1: filter argument with arrow function
+                const arrowFunction = this.matchArrowFunction();
+                copyEnd(arrowFunction, arrowFunction.body);
+                args.push(arrowFunction);
+            } else if (
                 tokens.test(Types.SYMBOL) &&
                 tokens.lat(1) === Types.ASSIGNMENT
             ) {
+                // OPTION 2: named filter argument(s)
                 const name = tokens.next();
                 tokens.next();
                 const value = this.matchExpression();
@@ -939,16 +948,63 @@ export default class Parser {
                 copyEnd(arg, value);
                 args.push(arg);
             } else {
+                // OPTION 3: unnamed filter argument(s)
                 args.push(this.matchExpression());
             }
 
+            // No comma means end of filter arguments, return filter arguments to matchFilterExpression()
             if (!tokens.test(Types.COMMA)) {
                 tokens.expect(Types.RPAREN);
                 return args;
             }
+            // Otherwise, expect a comma and run again
             tokens.expect(Types.COMMA);
         }
+        // End of arguments
         tokens.expect(Types.RPAREN);
         return args;
+    }
+
+    matchArrowFunction() {
+        const tokens = this.tokens;
+
+        // Arrow arguments
+        const arrowArguments = [];
+
+        if (tokens.test(Types.LPAREN)) {
+            // OPTION 1: Multiple arguments in parentheses, e.g. (value, key) => expression
+            tokens.next(); // Consume the LPAREN
+
+            while (!tokens.test(Types.EOF) && !tokens.test(Types.RPAREN)) {
+                const arg = this.matchExpression(); // Adjust this line to match arguments properly
+                arrowArguments.push(arg);
+                if (tokens.test(Types.COMMA)) {
+                    tokens.next(); // Consume the comma
+                }
+            }
+
+            if (tokens.test(Types.RPAREN)) {
+                tokens.next(); // Consume the RPAREN
+            }
+        } else {
+            // OPTION 2: Single argument, e.g. item => expression
+            const arg = this.matchExpression(); // Adjust this line to match arguments properly
+            arrowArguments.push(arg);
+        }
+
+        // Skip arrow
+        if (tokens.test(Types.ARROW)) {
+            tokens.next();
+        }
+
+        // Body
+        const arrowBody = this.matchExpression();
+
+        const result = new n.ArrowFunction(
+            arrowArguments,
+            arrowBody.length === 1 ? arrowBody[0] : arrowBody // If single expression, return it directly
+        );
+
+        return result;
     }
 }

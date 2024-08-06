@@ -44,6 +44,7 @@ export const COMMA = ",";
 export const DOT = ".";
 export const PIPE = "|";
 export const QUESTION_MARK = "?";
+export const ARROW = "=>";
 export const ASSIGNMENT = "=";
 export const ELEMENT_START = "<";
 export const SLASH = "/";

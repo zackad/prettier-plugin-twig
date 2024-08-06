@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- Add support for arrow function inside `filter, map, reduce` filter
+
 ### Internals
 - Optimize test runner by defining where to look for test files
 - NPM script alias to run `prettier` has been removed
