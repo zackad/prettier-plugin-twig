@@ -1,0 +1,8 @@
+Arrow function with one argument:
+{{ someArray|filter(item => item.amount > 5) }}
+
+Arrow function with multiple arguments:
+{{ someArray|map((value, key) => "key #{key} with value #{value}") }}
+
+Arrow function with multiple arguments and second filter argument:
+{{ numbers|reduce((carry, v, k) => carry + v * k, 10) }}
