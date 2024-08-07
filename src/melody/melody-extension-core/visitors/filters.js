@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 import * as t from "@babel/types";
-import _template from "@babel/template";
-const template = _template.default;
+import template from "@babel/template";
 // use default value if var is null, undefined or an empty string
 // but use var if value is 0, false, an empty array or an empty object
 const defaultFilter = template("VAR != null && VAR !== '' ? VAR : DEFAULT");

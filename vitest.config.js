@@ -1,19 +1,19 @@
 import { resolve } from "path";
+import { URL, fileURLToPath } from "url";
 import { defineConfig } from "vitest/config";
 
-const ENABLE_COVERAGE = false; // !!process.env.CI;
+const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
     resolve: {
         alias: {
-            src: resolve(__dirname, "./src"),
-            tests: resolve(__dirname, "./tests")
+            src: resolve(__dirname, "src"),
+            tests: resolve(__dirname, "tests")
         }
     },
     test: {
         dir: "tests",
         setupFiles: ["./tests_config/run_spec.js"],
-        snapshotSerializers: ["./tests_config/raw-serializer.js"],
         testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$"
     }
 });

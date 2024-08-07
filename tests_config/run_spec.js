@@ -1,117 +1,81 @@
-import fs from "fs";
-import prettier from "prettier";
-import { extname } from "path";
-import { beforeAll, test, expect } from "vitest";
+import { readFileSync } from "fs";
+import { resolve, extname, basename } from "path";
+import { URL, fileURLToPath } from "url";
+import { format, Options as PrettierOptions } from "prettier";
+import plugin from "src/index";
 
-function run_spec(dirname, parsers, options) {
-    options = Object.assign(
-        {
-            plugins: ["./src/index.js"],
-            tabWidth: 4
-        },
-        options
-    );
+/** @type {PrettierOptions} */
+const defaultOptions = {
+    parser: "twig",
+    plugins: [plugin],
+    tabWidth: 4
+};
 
-    /* instabul ignore if */
-    if (!parsers || !parsers.length) {
-        throw new Error(`No parsers were specified for ${dirname}`);
+/**
+ * @typedef TwigOptions
+ * @property {string[]} [twigMultiTags] List of multi-line tags to treat as single-line. Default `[]`
+ * @property {boolean} [twigSingleQuote] Use single quotes instead of double quotes. Default `true`
+ * @property {boolean} [twigAlwaysBreakObjects] Should objects always break in Twig files? Default `true`
+ * @property {int} [twigPrintWidth] Print width for Twig files. Default `80`
+ * @property {boolean} [twigFollowOfficialCodingStandards] See https://twig.symfony.com/doc/3.x/coding_standards.html. Default `true`
+ * @property {boolean} [twigOutputEndblockName] Output the Twig block name in the 'endblock' tag. Default `false`
+ */
+
+/**
+ * @typedef {PrettierOptions & TwigOptions} FormattingOptions
+ */
+
+/**
+ * Generate the snapshot file name from the source file name.
+ *
+ * @param {string} sourceFile The sourcefile
+ * @returns {string} The snapshot file name
+ */
+function generateSnapshotFileName(sourceFile) {
+    const ext = extname(sourceFile);
+    let base = basename(sourceFile, ext);
+    if (base === "unformatted") {
+        base = "formatted";
     }
-
-    fs.readdirSync(dirname).forEach(filename => {
-        const path = dirname + "/" + filename;
-        if (
-            extname(filename) !== ".snap" &&
-            fs.lstatSync(path).isFile() &&
-            filename[0] !== "." &&
-            filename !== "jsfmt.spec.js"
-        ) {
-            const source = read(path).replace(/\r\n/g, "\n");
-
-            const mergedOptions = Object.assign({}, options, {
-                parser: parsers[0]
-            });
-
-            let output;
-            beforeAll(async () => {
-                output = await prettyprint(source, path, mergedOptions);
-            });
-
-            test(`${filename} - ${mergedOptions.parser}-verify`, () => {
-                expect(
-                    raw(source + "~".repeat(80) + "\n" + output)
-                ).toMatchSnapshot(filename);
-            });
-
-            parsers.slice(1).forEach(parserName => {
-                test(`${filename} - ${parserName}-verify`, () => {
-                    const verifyOptions = Object.assign(mergedOptions, {
-                        parser: parserName
-                    });
-                    const verifyOutput = prettyprint(
-                        source,
-                        path,
-                        verifyOptions
-                    );
-                    expect(output).toEqual(verifyOutput);
-                });
-            });
-        }
-    });
-}
-global.run_spec = run_spec;
-
-function stripLocation(ast) {
-    if (Array.isArray(ast)) {
-        return ast.map(e => stripLocation(e));
-    }
-    if (typeof ast === "object") {
-        const newObj = {};
-        for (const key in ast) {
-            if (
-                key === "loc" ||
-                key === "range" ||
-                key === "raw" ||
-                key === "comments" ||
-                key === "parent" ||
-                key === "prev"
-            ) {
-                continue;
-            }
-            newObj[key] = stripLocation(ast[key]);
-        }
-        return newObj;
-    }
-    return ast;
-}
-
-function parse(string, opts) {
-    return stripLocation(prettier.__debug.parse(string, opts));
-}
-
-function prettyprint(src, filename, options) {
-    return prettier.format(
-        src,
-        Object.assign(
-            {
-                filepath: filename
-            },
-            options
-        )
-    );
-}
-
-function read(filename) {
-    return fs.readFileSync(filename, "utf8");
+    return `${base}.snap${ext}`;
 }
 
 /**
- * Wraps a string in a marker object that is used by `./raw-serializer.js` to
- * directly print that string in a snapshot without escaping all double quotes.
- * Backticks will still be escaped.
+ * @typedef RunSpecOptions
+ * @property {string} [source] The source file. Default `"unformatted.twig"`.
+ * @property {FormattingOptions} [formatOptions] Combined formatting options. Default `defaultOptions`.
  */
-function raw(string) {
-    if (typeof string !== "string") {
-        throw new Error("Raw snapshots have to be strings.");
-    }
-    return { [Symbol.for("raw")]: string };
+
+/**
+ * @typedef RunSpecResult
+ * @property {string} snapshotFile The snapshot file name.
+ * @property {string} code The source code.
+ * @property {string} actual The formatted code.
+ */
+
+/**
+ * Compare two files with each other and returns the result to be passed in expect calls.
+ *
+ * @param {string} metaUrl Pass `import.meta.url`, so the function can resolve the files relatively.
+ * @param {RunSpecOptions} [options] The source file and formatting options.
+ * @returns {Promise<RunSpecResult>} The result to be passed in expect calls.
+ */
+export async function run_spec(metaUrl, options = {}) {
+    const { source = "unformatted.twig", formatOptions = {} } = options;
+    const dirname = fileURLToPath(new URL(".", metaUrl));
+
+    const code = readFileSync(resolve(dirname, source), "utf8");
+    const snapshotFile = resolve(
+        dirname,
+        "__snapshots__",
+        generateSnapshotFileName(source)
+    );
+    const actual = await format(code, {
+        parser: "twig",
+        plugins: [plugin],
+        tabWidth: 4,
+        ...formatOptions
+    });
+
+    return { snapshotFile, code, actual };
 }
