@@ -4,6 +4,7 @@
 
 ### Internals
 - Optimize test runner by defining where to look for test files
+- NPM script alias to run `prettier` has been removed
 
 ---
 ## 0.7.0 (2024-08-01)
