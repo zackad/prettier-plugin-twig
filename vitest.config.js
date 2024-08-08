@@ -11,6 +11,7 @@ export default defineConfig({
         }
     },
     test: {
+        dir: "tests",
         setupFiles: ["./tests_config/run_spec.js"],
         snapshotSerializers: ["./tests_config/raw-serializer.js"],
         testRegex: "jsfmt\\.spec\\.js$|__tests__/.*\\.js$"
