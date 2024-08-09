@@ -7,6 +7,7 @@ import { printIdentifier } from "./print/Identifier.js";
 import { printExpressionStatement } from "./print/ExpressionStatement.js";
 import { printMemberExpression } from "./print/MemberExpression.js";
 import { printFilterExpression } from "./print/FilterExpression.js";
+import { printArrowFunction } from "./print/ArrowFunction.js";
 import { printObjectExpression } from "./print/ObjectExpression.js";
 import { printObjectProperty } from "./print/ObjectProperty.js";
 import { printCallExpression } from "./print/CallExpression.js";
@@ -194,6 +195,7 @@ printFunctions["PrintTextStatement"] = printTextStatement;
 printFunctions["PrintExpressionStatement"] = printExpressionStatement;
 printFunctions["MemberExpression"] = printMemberExpression;
 printFunctions["FilterExpression"] = printFilterExpression;
+printFunctions["ArrowFunction"] = printArrowFunction;
 printFunctions["ObjectExpression"] = printObjectExpression;
 printFunctions["ObjectProperty"] = printObjectProperty;
 

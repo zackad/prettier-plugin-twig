@@ -18,6 +18,7 @@ rules:
         - error
         - devDependencies: ["tests*/**", "scripts/**"]
     no-else-return: error
+    no-fallthrough: off
     no-inner-declarations: error
     no-unneeded-ternary: error
     no-debugger: off

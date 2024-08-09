@@ -44,6 +44,7 @@ const CHAR_TO_TOKEN = {
     "|": TokenTypes.PIPE,
     ",": TokenTypes.COMMA,
     "?": TokenTypes.QUESTION_MARK,
+    "=>": TokenTypes.ARROW,
     "=": TokenTypes.ASSIGNMENT,
     //'<': TokenTypes.ELEMENT_START,
     //'>': TokenTypes.ELEMENT_END,
@@ -345,6 +346,13 @@ export default class Lexer {
                 this.pushState(State.STRING_DOUBLE);
                 input.next();
                 return this.createToken(TokenTypes.STRING_START, pos);
+            case "=":
+                // Lookahead for '>'
+                if (input.la(1) === ">") {
+                    input.next(); // Advance to '='
+                    input.next(); // Advance to '>'
+                    return this.createToken(TokenTypes.ARROW, pos);
+                }
             default: {
                 if (isDigit(input.lac(0))) {
                     input.next();

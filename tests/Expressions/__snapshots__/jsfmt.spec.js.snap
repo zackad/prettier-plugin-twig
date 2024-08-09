@@ -42,6 +42,27 @@ exports[`arrayExpression.twig - twig-verify > arrayExpression.twig 1`] = `
 
 `;
 
+exports[`arrowFunctions.twig - twig-verify > arrowFunctions.twig 1`] = `
+Arrow function with one argument:
+{{ someArray|filter(item => item.amount > 5) }}
+
+Arrow function with multiple arguments:
+{{ someArray|map((value, key) => "key #{key} with value #{value}") }}
+
+Arrow function with multiple arguments and second filter argument:
+{{ numbers|reduce((carry, v, k) => carry + v * k, 10) }}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Arrow function with one argument:
+{{ someArray|filter(item => item.amount > 5) }}
+
+Arrow function with multiple arguments:
+{{ someArray|map((value, key) => "key #{key} with value #{value}") }}
+
+Arrow function with multiple arguments and second filter argument:
+{{ numbers|reduce((carry, v, k) => carry + v * k, 10) }}
+
+`;
+
 exports[`binaryExpressions.twig - twig-verify > binaryExpressions.twig 1`] = `
 {% set highlightValueForMoney = isFeatureEnabled('vFMV5') or isCTestActive('WEB-48935') or isCTestActive('WEB-48956') or isCTestActive('WEB-48955')%}
 

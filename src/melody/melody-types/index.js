@@ -323,6 +323,21 @@ type(NamedArgumentExpression, "NamedArgumentExpression");
 alias(NamedArgumentExpression, "Expression");
 visitor(NamedArgumentExpression, "name", "value");
 
+export class ArrowFunction extends Node {
+    /**
+     * @param {Array<Node>} args
+     * @param {Node} body
+     */
+    constructor(args, body) {
+        super();
+        this.args = args;
+        this.body = body;
+    }
+}
+type(ArrowFunction, "ArrowFunction");
+alias(ArrowFunction, "Expression");
+visitor(ArrowFunction, "args", "body");
+
 export class ObjectExpression extends Node {
     /**
      * @param {Array<ObjectProperty>} properties
