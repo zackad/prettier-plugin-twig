@@ -15,8 +15,7 @@
  */
 import { traverse } from "../../melody-traverse/index.js";
 import * as t from "@babel/types";
-import _template from "@babel/template";
-const babelTemplate = _template.default;
+import babelTemplate from "@babel/template";
 
 // @param template
 // @returns function

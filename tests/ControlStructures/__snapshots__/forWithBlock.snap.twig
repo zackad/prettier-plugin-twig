@@ -1,9 +1,11 @@
-<h1>{{ title | title }}</h1>
+<h1>
+    {{ title|title }}
+</h1>
 <ul>
     {% for item in items %}
         <li class="{{ loop.last ? 'last' : '' }}">
             {% block title %}
-                {{ loop.index0 }} {{ item.name | title }} {{ loop.index }}
+                {{ loop.index0 }} {{ item.name|title }} {{ loop.index }}
             {% endblock %}
         </li>
     {% endfor %}

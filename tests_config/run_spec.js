@@ -1,117 +1,53 @@
-import fs from "fs";
-import prettier from "prettier";
-import { extname } from "path";
-import { beforeAll, test, expect } from "vitest";
+import { readFileSync } from "fs";
+import { resolve, extname, basename } from "path";
+import { URL, fileURLToPath } from "url";
+import { format } from "prettier";
+import plugin from "src/index";
 
-function run_spec(dirname, parsers, options) {
-    options = Object.assign(
-        {
-            plugins: ["./src/index.js"],
-            tabWidth: 4
-        },
-        options
-    );
-
-    /* instabul ignore if */
-    if (!parsers || !parsers.length) {
-        throw new Error(`No parsers were specified for ${dirname}`);
+/**
+ * Generate the snapshot file name from the source file name.
+ *
+ * @param {string} sourceFile The sourcefile
+ * @returns {string} The snapshot file name
+ */
+function generateSnapshotFileName(sourceFile) {
+    const ext = extname(sourceFile);
+    let base = basename(sourceFile, ext);
+    if (base === "unformatted") {
+        base = "formatted";
     }
-
-    fs.readdirSync(dirname).forEach(filename => {
-        const path = dirname + "/" + filename;
-        if (
-            extname(filename) !== ".snap" &&
-            fs.lstatSync(path).isFile() &&
-            filename[0] !== "." &&
-            filename !== "jsfmt.spec.js"
-        ) {
-            const source = read(path).replace(/\r\n/g, "\n");
-
-            const mergedOptions = Object.assign({}, options, {
-                parser: parsers[0]
-            });
-
-            let output;
-            beforeAll(async () => {
-                output = await prettyprint(source, path, mergedOptions);
-            });
-
-            test(`${filename} - ${mergedOptions.parser}-verify`, () => {
-                expect(
-                    raw(source + "~".repeat(80) + "\n" + output)
-                ).toMatchSnapshot(filename);
-            });
-
-            parsers.slice(1).forEach(parserName => {
-                test(`${filename} - ${parserName}-verify`, () => {
-                    const verifyOptions = Object.assign(mergedOptions, {
-                        parser: parserName
-                    });
-                    const verifyOutput = prettyprint(
-                        source,
-                        path,
-                        verifyOptions
-                    );
-                    expect(output).toEqual(verifyOutput);
-                });
-            });
-        }
-    });
-}
-global.run_spec = run_spec;
-
-function stripLocation(ast) {
-    if (Array.isArray(ast)) {
-        return ast.map(e => stripLocation(e));
-    }
-    if (typeof ast === "object") {
-        const newObj = {};
-        for (const key in ast) {
-            if (
-                key === "loc" ||
-                key === "range" ||
-                key === "raw" ||
-                key === "comments" ||
-                key === "parent" ||
-                key === "prev"
-            ) {
-                continue;
-            }
-            newObj[key] = stripLocation(ast[key]);
-        }
-        return newObj;
-    }
-    return ast;
-}
-
-function parse(string, opts) {
-    return stripLocation(prettier.__debug.parse(string, opts));
-}
-
-function prettyprint(src, filename, options) {
-    return prettier.format(
-        src,
-        Object.assign(
-            {
-                filepath: filename
-            },
-            options
-        )
-    );
-}
-
-function read(filename) {
-    return fs.readFileSync(filename, "utf8");
+    return `${base}.snap${ext}`;
 }
 
 /**
- * Wraps a string in a marker object that is used by `./raw-serializer.js` to
- * directly print that string in a snapshot without escaping all double quotes.
- * Backticks will still be escaped.
+ * @typedef {import("prettier").Options} PrettierOptions
  */
-function raw(string) {
-    if (typeof string !== "string") {
-        throw new Error("Raw snapshots have to be strings.");
-    }
-    return { [Symbol.for("raw")]: string };
+
+/**
+ * Compare two files with each other and returns the result to be passed in expect calls.
+ *
+ * @param {string} metaUrl - Pass `import.meta.url`, so the function can resolve the files relatively.
+ * @param {Object} [compareOptions] - Compare options.
+ * @param {string} [compareOptions.source='unformatted.twig'] - The source file.
+ * @param {PrettierOptions} [compareOptions.formatOptions] - Further format options.
+ * @returns {Promise<{snapshotFile: string, code: string, actual: string}>} - The result to be passed in expect calls.
+ */
+export async function run_spec(metaUrl, compareOptions = {}) {
+    const { source = "unformatted.twig", formatOptions = {} } = compareOptions;
+    const dirname = fileURLToPath(new URL(".", metaUrl));
+
+    const code = readFileSync(resolve(dirname, source), "utf8");
+    const snapshotFile = resolve(
+        dirname,
+        "__snapshots__",
+        generateSnapshotFileName(source)
+    );
+    const actual = await format(code, {
+        parser: "twig",
+        plugins: [plugin],
+        tabWidth: 4,
+        ...formatOptions
+    });
+
+    return { snapshotFile, code, actual };
 }

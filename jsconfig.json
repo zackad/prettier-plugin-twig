@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "module": "ES2022",
+        "moduleResolution": "Bundler"
+    },
+    "exclude": ["node_modules"]
+}
