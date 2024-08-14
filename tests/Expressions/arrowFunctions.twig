@@ -6,3 +6,6 @@ Arrow function with multiple arguments:
 
 Arrow function with multiple arguments and second filter argument:
 {{ numbers|reduce((carry, v, k) => carry + v * k, 10) }}
+
+Arrow function with three-way-comparison (spaceship) operator
+{{ array|sort((a, b) => a.value <=> b.value) }}

@@ -124,6 +124,12 @@ export const BinaryGreaterThanOrEqualExpression = createBinaryOperatorNode({
     precedence: 20,
     associativity: LEFT
 });
+export const BinaryThreeWayComparisonExpression = createBinaryOperatorNode({
+    text: "<=>",
+    type: "BinaryThreeWayComparisonExpression",
+    precedence: 20,
+    associativity: LEFT
+});
 
 export const BinaryNotInExpression = createBinaryOperatorNode({
     text: "not in",

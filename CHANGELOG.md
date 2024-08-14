@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- Add support for three-way-comparion operator (spaceship operator)
+
 ### Bugfixes
 - Fix handling mapping that omit key part
 - Fix documentation about `twigAlwaysBreakObjects` option to reflect actual default value
