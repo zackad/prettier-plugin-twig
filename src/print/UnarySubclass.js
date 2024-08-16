@@ -5,7 +5,9 @@ import {
     findParentNode,
     isMultipartExpression,
     IS_ROOT_LOGICAL_EXPRESSION,
-    GROUP_TOP_LEVEL_LOGICAL
+    GROUP_TOP_LEVEL_LOGICAL,
+    wrapExpressionIfNeeded,
+    EXPRESSION_NEEDED
 } from "../util/index.js";
 
 const { softline, indent, group } = doc.builders;
@@ -41,6 +43,16 @@ const printLogicalExpression = (node, path, print) => {
 };
 
 const p = (node, path, print) => {
+    // We need this part to prevent argument being wrapped into expression separated from operator
+    // Example:
+    // with node[EXPRESSION_NEEDED] = true; // default value
+    //    input: {{ ...vars }}
+    //    output: ...{{ vars }}
+    // with node[EXPRESSION_NEEDED] = false;
+    //    input: {{ ...vars }}
+    //    output: {{ ...vars }}
+    node[EXPRESSION_NEEDED] = false;
+
     const parts = [];
     // Example: a is not same as ... => Here, the "not" is printed "inline"
     // Therefore, we do not output it here
@@ -48,10 +60,14 @@ const p = (node, path, print) => {
     if (isLogicalOperator(node.operator) && !hasTestExpressionArgument) {
         return printLogicalExpression(node, path, print);
     }
-    if (!hasTestExpressionArgument) {
+    if (node.operator === "...") {
+        parts.push(node.operator);
+    } else if (!hasTestExpressionArgument) {
         parts.push(node.operator, " ");
     }
     parts.push(path.call(print, "argument"));
+    wrapExpressionIfNeeded(path, parts, node);
+
     return parts;
 };
 

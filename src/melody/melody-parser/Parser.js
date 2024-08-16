@@ -764,6 +764,8 @@ export default class Parser {
         while (!tokens.test(Types.RBRACKET) && !tokens.test(Types.EOF)) {
             let computed = false;
             let key;
+
+            // find the key part of object property
             if (tokens.test(Types.STRING_START)) {
                 key = this.matchStringExpression();
                 if (!n.is(key, "StringLiteral")) {
@@ -780,14 +782,11 @@ export default class Parser {
                 key = this.matchExpression();
                 computed = true;
             } else {
-                this.error({
-                    title: "Invalid map key",
-                    pos: tokens.la(0).pos,
-                    advice:
-                        "Key must be a string, symbol or a number but was " +
-                        tokens.next()
-                });
+                // if none above check is matches, we can assume that key part is being omitted
+                // noop
             }
+
+            // find the value part of object property
             if (tokens.test(Types.COLON)) {
                 tokens.expect(Types.COLON);
                 const value = this.matchExpression();
@@ -796,12 +795,18 @@ export default class Parser {
                 copyEnd(prop, value);
                 obj.properties.push(prop);
             } else {
+                // when the part is missing, we can assume that it is being omitted
+                if (key === undefined) {
+                    computed = true;
+                    key = this.matchExpression();
+                }
                 const value = key;
                 const prop = new n.ObjectProperty(value, computed);
                 copyStart(prop, key);
                 copyEnd(prop, value);
                 obj.properties.push(prop);
             }
+
             if (!tokens.test(Types.RBRACKET)) {
                 tokens.expect(Types.COMMA);
                 // support trailing comma

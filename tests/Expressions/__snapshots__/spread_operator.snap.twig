@@ -1,0 +1,17 @@
+Some variation of spread operator
+
+{{ ...some_var }}
+<twig:Component {{ ...vars }} />
+
+{% set numbers = [1, 2, ...moreNumbers] %}
+{% set ratings = {
+    q1: 10,
+    ...options,
+    q2: 5,
+    ...moreRatings,
+    q3,
+    option: '',
+    'other-option'
+} %}
+
+{{ 'Hello %s %s!'|format(...['Fabien', 'Potencier']) }}

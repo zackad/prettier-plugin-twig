@@ -24,6 +24,18 @@ __Example__
 +       printWidth: 120
 ```
 
+### Features
+- Add support for spread operator
+
+__Example__
+```twig
+<twig:Component {{ ...vars }} />
+
+{% set numbers = [1, 2, ...moreNumbers] %}
+{% set ratings = {'q1': 10, 'q2': 5, ...moreRatings} %}
+
+{{ 'Hello %s %s!'|format(...['Fabien', 'Potencier']) }}
+```
 ---
 ## 0.11.1 (2024-11-13)
 
