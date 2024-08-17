@@ -625,7 +625,7 @@ export default class Parser {
                 if (token.type === Types.LBRACE) {
                     node = this.matchArray();
                 } else if (token.type === Types.LBRACKET) {
-                    node = this.matchMap();
+                    node = this.matchMapping();
                 } else {
                     this.error(
                         {
@@ -751,7 +751,7 @@ export default class Parser {
         return array;
     }
 
-    matchMap() {
+    matchMapping() {
         const tokens = this.tokens;
         let token;
         const obj = new n.ObjectExpression();
