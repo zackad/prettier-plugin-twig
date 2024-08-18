@@ -52,6 +52,10 @@ const TAG = Symbol("TAG");
 const TEST = Symbol("TEST");
 
 export default class Parser {
+    /**
+     * @param {TokenStream} tokenStream
+     * @param {Object} options
+     */
     constructor(tokenStream, options) {
         this.tokens = tokenStream;
         this[UNARY] = {};
@@ -765,6 +769,9 @@ export default class Parser {
                 if (!n.is(key, "StringLiteral")) {
                     computed = true;
                 }
+            } else if ((token = tokens.nextIf(Types.EXPRESSION_START))) {
+                key = this.matchExpression();
+                computed = true;
             } else if ((token = tokens.nextIf(Types.SYMBOL))) {
                 key = createNode(n.Identifier, token, token.text);
             } else if ((token = tokens.nextIf(Types.NUMBER))) {
@@ -781,12 +788,20 @@ export default class Parser {
                         tokens.next()
                 });
             }
-            tokens.expect(Types.COLON);
-            const value = this.matchExpression();
-            const prop = new n.ObjectProperty(key, value, computed);
-            copyStart(prop, key);
-            copyEnd(prop, value);
-            obj.properties.push(prop);
+            if (tokens.test(Types.COLON)) {
+                tokens.expect(Types.COLON);
+                const value = this.matchExpression();
+                const prop = new n.ObjectProperty(key, value, computed);
+                copyStart(prop, key);
+                copyEnd(prop, value);
+                obj.properties.push(prop);
+            } else {
+                const value = key;
+                const prop = new n.ObjectProperty(key, value, computed, true);
+                copyStart(prop, key);
+                copyEnd(prop, value);
+                obj.properties.push(prop);
+            }
             if (!tokens.test(Types.RBRACKET)) {
                 tokens.expect(Types.COMMA);
                 // support trailing comma

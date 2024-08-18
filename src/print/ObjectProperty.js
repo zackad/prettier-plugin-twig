@@ -16,6 +16,10 @@ const p = (node, path, print, options) => {
     if (needsParentheses) {
         parts.push(")");
     }
+    // handle property that omit key
+    if (node.omitKey) {
+        return parts;
+    }
     parts.push(": ");
     node[STRING_NEEDS_QUOTES] = true;
     parts.push(path.call(print, "value"));
