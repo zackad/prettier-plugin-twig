@@ -4,6 +4,7 @@
 
 ### Bugfixes
 - Fix handling mapping that omit key part
+- Fix documentation about `twigAlwaysBreakObjects` option to reflect actual default value
 
 ---
 ## 0.8.0 (2024-08-09)
