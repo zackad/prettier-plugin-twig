@@ -356,12 +356,14 @@ export class ObjectProperty extends Node {
      * @param {Node} key
      * @param {Node} value
      * @param {boolean} computed
+     * @param {boolean} omitKey
      */
-    constructor(key, value, computed) {
+    constructor(key, value, computed, omitKey = false) {
         super();
         this.key = key;
         this.value = value;
         this.computed = computed;
+        this.omitKey = omitKey;
     }
 }
 type(ObjectProperty, "ObjectProperty");
