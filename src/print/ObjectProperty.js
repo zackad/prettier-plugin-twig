@@ -6,21 +6,23 @@ const p = (node, path, print, options) => {
         !node.computed &&
         Node.isStringLiteral(node.key) &&
         !isValidIdentifierName(node.key.value);
-    const shouldPrintKeyAsString = node.key.wasImplicitConcatenation;
+    const shouldPrintKeyAsString = node.key?.wasImplicitConcatenation;
     const needsParentheses = node.computed && !shouldPrintKeyAsString;
     const parts = [];
-    if (needsParentheses) {
-        parts.push("(");
+
+    // print "key" part if they exist
+    if (node.key !== null) {
+        if (needsParentheses) {
+            parts.push("(");
+        }
+        parts.push(path.call(print, "key"));
+        if (needsParentheses) {
+            parts.push(")");
+        }
+        parts.push(": ");
     }
-    parts.push(path.call(print, "key"));
-    if (needsParentheses) {
-        parts.push(")");
-    }
-    // handle property that omit key
-    if (node.omitKey) {
-        return parts;
-    }
-    parts.push(": ");
+
+    // print "value" part
     node[STRING_NEEDS_QUOTES] = true;
     parts.push(path.call(print, "value"));
     return parts;

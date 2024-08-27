@@ -791,13 +791,13 @@ export default class Parser {
             if (tokens.test(Types.COLON)) {
                 tokens.expect(Types.COLON);
                 const value = this.matchExpression();
-                const prop = new n.ObjectProperty(key, value, computed);
+                const prop = new n.ObjectProperty(value, computed, key);
                 copyStart(prop, key);
                 copyEnd(prop, value);
                 obj.properties.push(prop);
             } else {
                 const value = key;
-                const prop = new n.ObjectProperty(key, value, computed, true);
+                const prop = new n.ObjectProperty(value, computed);
                 copyStart(prop, key);
                 copyEnd(prop, value);
                 obj.properties.push(prop);

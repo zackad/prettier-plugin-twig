@@ -353,17 +353,15 @@ visitor(ObjectExpression, "properties");
 
 export class ObjectProperty extends Node {
     /**
-     * @param {Node} key
-     * @param {Node} value
-     * @param {boolean} computed
-     * @param {boolean} omitKey
+     * @param {Node} value          Actual object property value
+     * @param {boolean} computed    Whether or not the Node require additional processing
+     * @param {Node|null} [key]     Optional that would allow omitting key part
      */
-    constructor(key, value, computed, omitKey = false) {
+    constructor(value, computed, key = null) {
         super();
-        this.key = key;
         this.value = value;
+        this.key = key;
         this.computed = computed;
-        this.omitKey = omitKey;
     }
 }
 type(ObjectProperty, "ObjectProperty");

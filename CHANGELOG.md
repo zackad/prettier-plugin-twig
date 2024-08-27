@@ -3,11 +3,14 @@
 ## unreleased
 
 ### Features
-- Add support for three-way-comparion operator (spaceship operator)
+- Add support for three-way-comparison operator (spaceship operator)
 
 ### Bugfixes
 - Fix handling mapping that omit key part
 - Fix documentation about `twigAlwaysBreakObjects` option to reflect actual default value
+
+### Internals
+- Make `key` part of `ObjectProperty` type optional to support object declaration that omit key part
 
 ---
 ## 0.8.0 (2024-08-09)
