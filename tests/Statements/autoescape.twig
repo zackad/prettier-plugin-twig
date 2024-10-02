@@ -9,3 +9,29 @@
 {%- autoescape 'html' -%}
 <button type="button">Click me</button>
 {%- endautoescape -%}
+
+{# Test case from https://twig.symfony.com/doc/3.x/tags/autoescape.html #}
+
+{% autoescape %}
+    Everything will be automatically escaped in this block
+    using the HTML strategy
+{% endautoescape %}
+
+{% autoescape 'html' %}
+    Everything will be automatically escaped in this block
+    using the HTML strategy
+{% endautoescape %}
+
+{% autoescape 'js' %}
+    Everything will be automatically escaped in this block
+    using the js escaping strategy
+{% endautoescape %}
+
+{% autoescape false %}
+    Everything will be outputted as is in this block
+{% endautoescape %}
+
+{% autoescape true %}
+    Everything will be automatically escaped in this block
+    using the HTML strategy
+{% endautoescape %}

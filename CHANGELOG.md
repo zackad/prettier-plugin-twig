@@ -8,6 +8,7 @@
 ### Bugfixes
 - Fix handling mapping that omit key part
 - Fix documentation about `twigAlwaysBreakObjects` option to reflect actual default value
+- Fix autoescape block which allow boolean value (`true` and `false`) as a valid escape type
 
 ### Internals
 - Make `key` part of `ObjectProperty` type optional to support object declaration that omit key part
