@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.9.0 (2024-10-03)
+
 ### Features
 - Add support for three-way-comparison operator (spaceship operator)
 
