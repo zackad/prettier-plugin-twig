@@ -14,7 +14,22 @@
  * limitations under the License.
  */
 import * as t from "@babel/types";
-import template from "@babel/template";
+import isFunction from "lodash/isFunction.js";
+import _template from "@babel/template";
+
+/**
+ * For some reason there's inconsistency when importing "@babel/template" on
+ * vitest environment and loading this plugin directly on cli. I have no idea why
+ * this happens but this workaround seems to be fixed it.
+ *
+ * Without this workaround, an error will occur either on test or when loading
+ * plugin on cli. This error doesn't happen on `src/melody/melody-extension-core/visitors/for.js`.
+ * ```
+ * [error] template is not a function
+ * ```
+ */
+const template = isFunction(_template) ? _template : _template.default;
+
 // use default value if var is null, undefined or an empty string
 // but use var if value is 0, false, an empty array or an empty object
 const defaultFilter = template("VAR != null && VAR !== '' ? VAR : DEFAULT");

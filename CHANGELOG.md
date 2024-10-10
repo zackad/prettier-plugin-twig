@@ -2,6 +2,10 @@
 
 ## unreleased
 
+### Bugfixes
+- Fix importing lodash function syntax
+- Fix import template function from `@babel/template`
+
 ---
 ## 0.9.0 (2024-10-03)
 

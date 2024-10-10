@@ -1,5 +1,5 @@
 import { doc } from "prettier";
-import { isBoolean } from "lodash";
+import isBoolean from "lodash/isBoolean.js";
 import { printChildBlock, quoteChar } from "../util/index.js";
 
 const { hardline } = doc.builders;
