@@ -7,7 +7,7 @@ Forked from [trivago/prettier-plugin-twig-melody](https://github.com/trivago/pre
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/zackad/prettier-plugin-twig-melody/ci.yaml?branch=master&style=for-the-badge&logo=github)
 ![GitHub License](https://img.shields.io/github/license/zackad/prettier-plugin-twig-melody?style=for-the-badge)
-![GitHub Release](https://img.shields.io/github/v/release/zackad/prettier-plugin-twig-melody?display_name=release&style=for-the-badge&logo=github)
+![NPM Version](https://img.shields.io/npm/v/%40zackad%2Fprettier-plugin-twig?style=for-the-badge&logo=npm)
 ![GitHub Tag](https://img.shields.io/github/v/tag/zackad/prettier-plugin-twig-melody?style=for-the-badge)
 
 ---
