@@ -48,7 +48,9 @@ const p = (node, path, print) => {
     if (isLogicalOperator(node.operator) && !hasTestExpressionArgument) {
         return printLogicalExpression(node, path, print);
     }
-    if (!hasTestExpressionArgument) {
+    if (node.operator === "...") {
+        parts.push(node.operator);
+    } else if (!hasTestExpressionArgument) {
         parts.push(node.operator, " ");
     }
     parts.push(path.call(print, "argument"));

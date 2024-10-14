@@ -38,6 +38,13 @@ export const binaryOperators = [];
 export const tests = [];
 
 //region Unary Expressions
+export const SpreadExpression = createUnaryOperator(
+    "...",
+    "SpreadExpression",
+    // I can't find precedence reference for spread operator
+    // Ref: https://twig.symfony.com/doc/3.x/templates.html#operators
+    20
+);
 export const UnaryNotExpression = createUnaryOperator(
     "not",
     "UnaryNotExpression",
