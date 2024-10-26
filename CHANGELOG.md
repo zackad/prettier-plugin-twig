@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- Add support for default value on macros
+
 ---
 ## 0.9.1 (2024-10-10)
 

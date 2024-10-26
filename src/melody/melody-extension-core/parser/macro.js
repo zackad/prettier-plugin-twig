@@ -13,7 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { Identifier } from "../../melody-types/index.js";
+import {
+    BooleanLiteral,
+    Identifier,
+    NullLiteral,
+    NumericLiteral,
+    StringLiteral
+} from "../../melody-types/index.js";
 import {
     Types,
     setStartFromToken,
@@ -35,7 +41,36 @@ export const MacroParser = {
         tokens.expect(Types.LPAREN);
         while (!tokens.test(Types.RPAREN) && !tokens.test(Types.EOF)) {
             const arg = tokens.expect(Types.SYMBOL);
-            args.push(createNode(Identifier, arg, arg.text));
+            // if default value is defined
+            if (!tokens.test(Types.ASSIGNMENT)) {
+                args.push(createNode(Identifier, arg, arg.text));
+            } else {
+                tokens.expect(Types.ASSIGNMENT);
+                let value;
+                let node;
+                if (tokens.nextIf(Types.STRING_START)) {
+                    value = tokens.expect(Types.STRING);
+                    tokens.expect(Types.STRING_END);
+                    node = createNode(StringLiteral, value, value.text);
+                }
+                if (tokens.test(Types.NUMBER)) {
+                    value = tokens.expect(Types.NUMBER);
+                    node = createNode(NumericLiteral, value, value.text);
+                }
+                if (tokens.test(Types.NULL)) {
+                    value = tokens.expect(Types.NULL);
+                    node = createNode(NullLiteral, value, value.text);
+                }
+                if (tokens.test(Types.TRUE)) {
+                    value = tokens.expect(Types.TRUE);
+                    node = createNode(BooleanLiteral, value, value.text);
+                }
+                if (tokens.test(Types.FALSE)) {
+                    value = tokens.expect(Types.FALSE);
+                    node = createNode(BooleanLiteral, value, value.text);
+                }
+                args.push(createNode(Identifier, arg, arg.text, node));
+            }
 
             if (!tokens.nextIf(Types.COMMA) && !tokens.test(Types.RPAREN)) {
                 // not followed by comma or rparen
