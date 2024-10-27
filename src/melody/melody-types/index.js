@@ -195,9 +195,10 @@ type(NullLiteral, "NullLiteral");
 alias(NullLiteral, "Expression", "Literal", "Immutable");
 
 export class Identifier extends Node {
-    constructor(name) {
+    constructor(name, value = undefined) {
         super();
         this.name = name;
+        this.value = value;
     }
 }
 type(Identifier, "Identifier");

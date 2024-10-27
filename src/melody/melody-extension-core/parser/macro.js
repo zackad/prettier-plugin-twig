@@ -35,7 +35,30 @@ export const MacroParser = {
         tokens.expect(Types.LPAREN);
         while (!tokens.test(Types.RPAREN) && !tokens.test(Types.EOF)) {
             const arg = tokens.expect(Types.SYMBOL);
-            args.push(createNode(Identifier, arg, arg.text));
+            // if default value is defined
+            if (!tokens.test(Types.ASSIGNMENT)) {
+                args.push(createNode(Identifier, arg, arg.text));
+            } else {
+                tokens.expect(Types.ASSIGNMENT);
+                let value;
+                if (tokens.nextIf(Types.STRING_START)) {
+                    value = tokens.expect(Types.STRING);
+                    tokens.expect(Types.STRING_END);
+                }
+                if (tokens.test(Types.NUMBER)) {
+                    value = tokens.expect(Types.NUMBER);
+                }
+                if (tokens.test(Types.NULL)) {
+                    value = tokens.expect(Types.NULL);
+                }
+                if (tokens.test(Types.TRUE)) {
+                    value = tokens.expect(Types.TRUE);
+                }
+                if (tokens.test(Types.FALSE)) {
+                    value = tokens.expect(Types.FALSE);
+                }
+                args.push(createNode(Identifier, arg, arg.text, value.text));
+            }
 
             if (!tokens.nextIf(Types.COMMA) && !tokens.test(Types.RPAREN)) {
                 // not followed by comma or rparen
