@@ -8,6 +8,7 @@
 
 ### Internals
 - Test with Node.js 22, current active lts version
+- Add smoke test to make sure that the plugin can be loaded properly
 
 ---
 ## 0.9.1 (2024-10-10)

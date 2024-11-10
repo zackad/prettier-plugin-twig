@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>
+            Document
+        </title>
+    </head>
+    <body>
+        <ul id="navigation">
+            {% for item in navigation %}
+                <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h1>
+            My Webpage
+        </h1>
+        {{ a_variable }}
+        {% set name = 'Fabien' %}
+        {% set numbers = [1, 2] %}
+        {% set map = {
+            city: 'Paris'
+        } %}
+        {{ data|convert_encoding(from = 'iso-2022-jp', to = 'UTF-8') }}
+    </body>
+</html>

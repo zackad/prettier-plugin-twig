@@ -39,3 +39,6 @@ jobs:
 
             -   name: Run Test
                 run: yarn test
+
+            -   name: Run smoke test
+                run: yarn test-smoke

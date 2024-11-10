@@ -15,7 +15,8 @@
     ],
     "scripts": {
         "lint": "DEBUG=eslint:cli-engine eslint .",
-        "test": "vitest --run"
+        "test": "vitest --run",
+        "test-smoke": "prettier --check --parser=twig --plugin=./src/index.js tests/smoke-test.twig"
     },
     "dependencies": {
         "@babel/template": "^7.24.7",
