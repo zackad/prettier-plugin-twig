@@ -6,6 +6,9 @@
 - Add support for default value on macros
 - Add support for test expression `instance of`, feature of [Craft CMS](https://craftcms.com/docs/5.x/reference/twig/tests.html#instance-of)
 
+### Internals
+- Test with Node.js 22, current active lts version
+
 ---
 ## 0.9.1 (2024-10-10)
 
