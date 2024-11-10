@@ -46,6 +46,12 @@
 {{ a is not same as(b) }}
 {{ a is not same as(banana, apple, orange, lemonade, kiwi, coconut, pineapple, pomegrenade) }}
 
+{# Craft CMS specific feature #}
+{# Ref: https://craftcms.com/docs/5.x/reference/twig/tests.html#instance-of #}
+{% if element is instance of('craft\\elements\\Entry') or element is instance of(constant('Namespace\\Classname::CONSTANT_NAME')) %}
+    <h1>{{ entry.title }}</h1>
+{% endif %}
+
 {{ dump(test) }}
 {{ range(2, 3) | sort | join(',') }}
 {{ range(3) | sort | join(',') }}

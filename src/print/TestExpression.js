@@ -1,5 +1,5 @@
 import { doc } from "prettier";
-import { findParentNode } from "../util/index.js";
+import { findParentNode, STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const { softline, line, group, join, indent } = doc.builders;
 
@@ -11,13 +11,15 @@ const textMap = {
     TestEvenExpression: "even",
     TestOddExpression: "odd",
     TestIterableExpression: "iterable",
-    TestSameAsExpression: "same as"
+    TestSameAsExpression: "same as",
+    TestInstanceOfExpression: "instance of"
 };
 
 const isNegator = node =>
     node.constructor.name === "UnarySubclass" && node.operator === "not";
 
 const p = (node, path, print) => {
+    node[STRING_NEEDS_QUOTES] = true;
     const expressionType = node.__proto__.type;
     const parts = [path.call(print, "expression"), " is "];
     const parent = findParentNode(path);

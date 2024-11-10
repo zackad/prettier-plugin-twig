@@ -330,6 +330,11 @@ export const TestIterableExpression = createTest(
     "iterable",
     "TestIterableExpression"
 );
+
+export const TestInstanceOfExpression = createTest(
+    "instance of",
+    "TestInstanceOfExpression"
+);
 //endregion
 
 //region Utilities
