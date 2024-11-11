@@ -2,6 +2,10 @@
 
 {{ date('d/m/Y H:i', timezone="Europe/Paris") }}
 
+{# Colon as separator for named argument, require twig 3.12 or later #}
+{# Ref: https://github.com/zackad/prettier-plugin-twig/issues/74 #}
+{{ date('d/m/Y H:i', timezone:"Europe/Paris") }}
+
 <span class="{{ css.partner }}">
     <div>
         <div>

@@ -950,7 +950,8 @@ export default class Parser {
                 args.push(arrowFunction);
             } else if (
                 tokens.test(Types.SYMBOL) &&
-                tokens.lat(1) === Types.ASSIGNMENT
+                (tokens.lat(1) === Types.ASSIGNMENT ||
+                    tokens.lat(1) === Types.COLON)
             ) {
                 // OPTION 2: named filter argument(s)
                 const name = tokens.next();
