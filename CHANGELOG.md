@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.10.0 (2024-11-11)
+
 ### Features
 - Add support for default value on macros
 - Add support for test expression `instance of`, feature of [Craft CMS](https://craftcms.com/docs/5.x/reference/twig/tests.html#instance-of)
