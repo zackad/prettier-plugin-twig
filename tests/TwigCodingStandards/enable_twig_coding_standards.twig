@@ -11,13 +11,9 @@
 {{ true ? true : false }}
 
 {{ [1, 2, 3] }}
-{{
-    {
-        foo: 'bar'
-    }
-}}
+{{ {'foo': 'bar'} }}
 
-{{ 1 + 2 * 3 }}
+{{ 1 + (2 * 3) }}
 
 {{ foo|upper|lower }}
 {{ user.name }}
@@ -28,7 +24,10 @@
 {{ range(1..10) }}
 
 {% block foo %}
-    {% if true %}
-        true
-    {% endif %}
+  {% if true %}
+    true
+  {% endif %}
 {% endblock %}
+
+{# Introduced in twig version 3.12 #}
+{{ data|convert_encoding(from: 'iso-2022-jp', to= 'UTF-8') }}

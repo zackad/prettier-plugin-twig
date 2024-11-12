@@ -28,3 +28,6 @@
         true
     {% endif %}
 {% endblock %}
+
+{# Introduced in twig version 3.12 #}
+{{ data|convert_encoding(from: 'iso-2022-jp', to= 'UTF-8') }}

@@ -2,6 +2,35 @@
 
 ## unreleased
 
+> [!IMPORTANT]
+> Twig coding standard has been updated to version 3.x. This contains BREAKING CHANGES.
+
+### BREAKING CHANGES
+This release contains breaking changes, check your setup before upgrading.
+Option `twigFollowOfficialCodingStandards` is set to `true` by default. If you're
+using twig version _3.11_ or older it will break your setup. Notable changes on
+twig coding standard on version 3.x is added support for using colon `:` as separator
+for argument names and values (which is enabled by default with this plugin).
+
+__Example__
+```twig
+{# Input #}
+{{ data|convert_encoding(from= 'iso-2022-jp', to: 'UTF-8') }}
+
+{# Before #}
+{{ data|convert_encoding(from = 'iso-2022-jp', to = 'UTF-8') }}
+
+{# After #}
+{{ data|convert_encoding(from: 'iso-2022-jp', to: 'UTF-8') }}
+```
+
+__What to do?__
+- If you want to upgrade this plugin, make sure that you're using twig version 3.12 or later
+- If you want to keep using older version of twig, you can set option `twigFollowOfficialCodingStandards` to false (your code style might become inconsistent)
+
+### Features
+- BREAKING CHANGES: Update twig coding standard to follow version 3.x
+
 ---
 ## 0.10.0 (2024-11-11)
 
