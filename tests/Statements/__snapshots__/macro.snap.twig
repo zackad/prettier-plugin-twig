@@ -40,10 +40,12 @@
 
 {% macro hosted(
     fontFamily,
-    filenameWithoutExt = false,
+    filenameWithoutExt = true,
     fontWeight = 400,
+    fontSize = '16',
     fontStyle = 'normal',
-    preload = false)
+    preload = false,
+    content = '')
 %}
 
 {% endmacro %}

@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Bugfixes
+- Fix handling empty string as default value on macros declaration
+
 ---
 ## 0.11.0 (2024-11-12)
 

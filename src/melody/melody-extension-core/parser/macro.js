@@ -49,9 +49,16 @@ export const MacroParser = {
                 let value;
                 let node;
                 if (tokens.nextIf(Types.STRING_START)) {
-                    value = tokens.expect(Types.STRING);
-                    tokens.expect(Types.STRING_END);
-                    node = createNode(StringLiteral, value, value.text);
+                    if (tokens.test(Types.STRING_END)) {
+                        // handle empty string as default value
+                        value = tokens.expect(Types.STRING_END);
+                        node = createNode(StringLiteral, value, "");
+                    } else {
+                        // handle non-empty string as default value
+                        value = tokens.expect(Types.STRING);
+                        tokens.expect(Types.STRING_END);
+                        node = createNode(StringLiteral, value, value.text);
+                    }
                 }
                 if (tokens.test(Types.NUMBER)) {
                     value = tokens.expect(Types.NUMBER);
