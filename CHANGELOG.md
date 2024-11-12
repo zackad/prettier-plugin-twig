@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.11.0 (2024-11-12)
+
 > [!IMPORTANT]
 > Twig coding standard has been updated to version 3.x. This contains BREAKING CHANGES.
 
