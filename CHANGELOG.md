@@ -2,6 +2,28 @@
 
 ## unreleased
 
+> [!IMPORTANT]
+> Yet another breaking changes. See release notes or changelog before upgrading.
+
+### BREAKING CHANGES
+- Option `twigPrintWidth` has been removed
+
+I don't see any reason why we should keep the option `twigPrintWidth`. Prettier provide mechanism to use different `printWidth` for different file types by using _override_ (see example below).
+
+__What to do?__
+
+Remove `twigPrintWidth` from your prettier config and use [override](https://prettier.io/docs/en/configuration.html#configuration-overrides) instead.
+
+__Example__
+```diff
+  # ./.prettierrc.yaml
+- twigPrintWidth: 120
++ overrides:
++   - files: "*.twig"
++     options:
++       printWidth: 120
+```
+
 ---
 ## 0.11.1 (2024-11-13)
 

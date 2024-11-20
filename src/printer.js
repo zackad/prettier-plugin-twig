@@ -97,10 +97,6 @@ const print = (path, options, print) => {
         originalSource = node[ORIGINAL_SOURCE];
     }
 
-    if (options.twigPrintWidth) {
-        options.printWidth = options.twigPrintWidth;
-    }
-
     checkForIgnoreEnd(node);
     const useOriginalSource =
         (shouldApplyIgnoreNext(node) && ignoreNext) || ignoreRegion;

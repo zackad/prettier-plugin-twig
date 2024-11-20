@@ -44,10 +44,6 @@ This Prettier plugin comes with some options that you can add to your Prettier c
 
 Values can be `true` or `false`. If `true`, single quotes will be used for string literals in Twig files.
 
-### twigPrintWidth (default: `80`)
-
-Because Twig files might have a lot of nesting, it can be useful to define a separate print width for Twig files. This can be done with this option. If it is not set, the standard `printWidth` option is used.
-
 ### twigAlwaysBreakObjects (default: `true`)
 
 If set to `true`, objects will always be wrapped/broken, even if they would fit on one line:

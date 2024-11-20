@@ -24,7 +24,7 @@ describe("Options", () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "printWidth.twig",
             formatOptions: {
-                twigPrintWidth: 120
+                printWidth: 120
             }
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);

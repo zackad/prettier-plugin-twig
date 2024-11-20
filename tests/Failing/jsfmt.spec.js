@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 
 /** @type {import('tests_config/run_spec').PrettierOptions} */
 const formatOptions = {
-    twigPrintWidth: 120,
+    printWidth: 120,
     twigAlwaysBreakObjects: true,
     twigFollowOfficialCodingStandards: false
 };

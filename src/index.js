@@ -91,12 +91,6 @@ const options = {
         default: true,
         description: "Should objects always break in Twig files?"
     },
-    twigPrintWidth: {
-        type: "int",
-        category: "Global",
-        default: 80,
-        description: "Print width for Twig files"
-    },
     twigFollowOfficialCodingStandards: {
         type: "boolean",
         category: "Global",
