@@ -18,6 +18,11 @@ const p = (node, path, print, options) => {
             node.trimRightBlock ? " -%}" : " %}"
         ];
         const parts = [opener];
+
+        if (node.body.length === 0) {
+            parts.push(hardline);
+        }
+
         if (node.body.length > 0) {
             const indentedBody = printChildBlock(node, path, print, "body");
             parts.push(indentedBody);
@@ -30,10 +35,9 @@ const p = (node, path, print, options) => {
             node.trimRight ? " -%}" : " %}"
         );
 
-        const result = group(parts);
-        return result;
+        return group(parts);
     } else if (Node.isPrintExpressionStatement(node.body)) {
-        const parts = [
+        return [
             node.trimLeft ? "{%-" : "{%",
             " block ",
             path.call(print, "name"),
@@ -41,7 +45,6 @@ const p = (node, path, print, options) => {
             path.call(print, "body", "value"),
             node.trimRight ? " -%}" : " %}"
         ];
-        return parts;
     }
 };
 

@@ -10,7 +10,21 @@
 
 {{ block('hello') }}
 
-{% block content %}{% endblock %}
+{% block content_empty %}{% endblock %}
+
+{% block content_noline %}
+{% endblock %}
+
+{% block content_multiline %}
+
+
+
+
+
+{% endblock %}
+
+    {% block content_empty_indented %}
+    {% endblock %}
 
 {%- block hello -%}
     Hello

@@ -36,6 +36,10 @@ __Example__
 
 {{ 'Hello %s %s!'|format(...['Fabien', 'Potencier']) }}
 ```
+
+### Bugfixes
+- Make sure that empty block statement will have empty line in between for consistency
+
 ---
 ## 0.11.1 (2024-11-13)
 
