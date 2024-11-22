@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.12.0 (2024-11-22)
+
 > [!IMPORTANT]
 > Yet another breaking changes. See release notes or changelog before upgrading.
 
