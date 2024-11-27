@@ -56,7 +56,7 @@ If set to `true`, objects will always be wrapped/broken, even if they would fit 
 ></section>
 ```
 
-If set to `false` (default value), this would be printed as:
+If set to `false`, this would be printed as:
 
 ```html
 <section class="{{ { base: css.prices } | classes }}"></section>
