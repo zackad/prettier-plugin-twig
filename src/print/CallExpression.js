@@ -22,6 +22,8 @@ const printCallExpression = (node, path, print) => {
         // Optimization: No line break between "(" and "{" if
         // there is exactly one object parameter
         parts.push(mappedArguments[0], ")");
+    } else if (options.experimentalMethodChainIndentation) {
+        parts.push(indent([join([","], mappedArguments)]), ")");
     } else {
         parts.push(
             indent([softline, join([",", line], mappedArguments)]),
