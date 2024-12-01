@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Internals
+- Remove unused dependencies `resolve`
+
 ---
 ## 0.12.0 (2024-11-22)
 
