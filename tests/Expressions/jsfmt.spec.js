@@ -91,4 +91,11 @@ describe("Expressions", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("Print expression wrapper on same line", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "wrapper_same_line.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });
