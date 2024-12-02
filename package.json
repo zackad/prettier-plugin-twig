@@ -9,7 +9,12 @@
     "license": "Apache-2.0",
     "author": "Tom Bartel <thomas.bartel@trivago.com>",
     "type": "module",
-    "exports": "./src/index.js",
+    "exports": {
+        ".": {
+            "default": "./src/index.js"
+        },
+        "./package.json": "./package.json"
+    },
     "files": [
         "src"
     ],
