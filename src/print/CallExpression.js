@@ -23,7 +23,7 @@ const p = (node, path, print, options) => {
         // there is exactly one object parameter
         parts.push(mappedArguments[0], ")");
     } else if (options.experimentalMethodChainIndentation) {
-        parts.push(indent([join([","], mappedArguments)]), ")");
+        parts.push(indent([join([", "], mappedArguments)]), ")");
     } else {
         parts.push(
             indent([softline, join([",", line], mappedArguments)]),
