@@ -290,6 +290,14 @@ export const BinaryNullCoalesceExpression = createBinaryOperatorNode({
     precedence: 300,
     associativity: LEFT
 });
+
+// Ref: https://plugins.craftcms.com/empty-coalesce
+export const BinaryEmptyCoalesceExpression = createBinaryOperatorNode({
+    text: "???",
+    type: "BinaryEmptyCoalesceExpression",
+    precedence: 300,
+    associativity: LEFT
+});
 //endregion
 
 //region Test Expressions

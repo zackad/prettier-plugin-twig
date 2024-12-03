@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- Add support for [empty coalesce operator](https://plugins.craftcms.com/empty-coalesce), a CraftCMS extension
+
 ### Internals
 - Remove unused dependencies `resolve`
 
