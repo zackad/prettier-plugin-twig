@@ -7,7 +7,8 @@
 {% set isRewardRate = isMarriottRewardRate or (rewardRateAltIds and deal.dealId in altIds) %}
 
 <!-- Always break objects -->
-<section class="{{ {
+<section
+    class="{{ {
         base: css.prices
     } | classes }}"></section>
 

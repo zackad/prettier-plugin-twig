@@ -5,6 +5,27 @@
 ### Features
 - Add support for [empty coalesce operator](https://plugins.craftcms.com/empty-coalesce), a CraftCMS extension
 
+### Bugfixes
+- Fix indentation for html attribute when printed on multiline. All attribute will be indented on each line.
+
+__Input__
+```twig
+<iframe class=""
+    src="https://www.google.com/maps/embed"
+    frameborder="0"
+    allowfullscreen></iframe>
+```
+
+__Output__
+```twig
+- <iframe class=""
++ <iframe
++     class=""
+      src="https://www.google.com/maps/embed"
+      frameborder="0"
+      allowfullscreen></iframe>
+```
+
 ### Internals
 - Remove unused dependencies `resolve`
 

@@ -16,7 +16,7 @@ const printOpeningTag = (node, path, print) => {
     const hasAttributes = node.attributes && node.attributes.length > 0;
 
     if (hasAttributes) {
-        return [opener, indent([" ", printedAttributes]), openingTagEnd];
+        return [opener, indent([line, printedAttributes]), openingTagEnd];
     }
     return [opener, openingTagEnd];
 };
