@@ -29,20 +29,24 @@ const defaultOptions = {
  * Generate the snapshot file name from the source file name.
  *
  * @param {string} sourceFile The sourcefile
+ * @param {string} prefix Add prefix to output filename
+ * @param {string} suffix Add suffix to output filename
  * @returns {string} The snapshot file name
  */
-function generateSnapshotFileName(sourceFile) {
+function generateSnapshotFileName(sourceFile, prefix = "", suffix = "") {
     const ext = extname(sourceFile);
     let base = basename(sourceFile, ext);
     if (base === "unformatted") {
         base = "formatted";
     }
-    return `${base}.snap${ext}`;
+    return `${prefix}${base}${suffix}.snap${ext}`;
 }
 
 /**
  * @typedef RunSpecOptions
  * @property {string} [source] The source file. Default `"unformatted.twig"`.
+ * @property {string} [prefix] Add prefix to output filename.
+ * @property {string} [suffix] Add suffix to output filename.
  * @property {FormattingOptions} [formatOptions] Combined formatting options. Default `defaultOptions`.
  */
 
@@ -61,14 +65,19 @@ function generateSnapshotFileName(sourceFile) {
  * @returns {Promise<RunSpecResult>} The result to be passed in expect calls.
  */
 export async function run_spec(metaUrl, options = {}) {
-    const { source = "unformatted.twig", formatOptions = {} } = options;
+    const {
+        prefix,
+        suffix,
+        source = "unformatted.twig",
+        formatOptions = {}
+    } = options;
     const dirname = fileURLToPath(new URL(".", metaUrl));
 
     const code = readFileSync(resolve(dirname, source), "utf8");
     const snapshotFile = resolve(
         dirname,
         "__snapshots__",
-        generateSnapshotFileName(source)
+        generateSnapshotFileName(source, prefix, suffix)
     );
     const actual = await format(code, {
         parser: "twig",

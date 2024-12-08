@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Internals
+- Add option to add prefix/suffix for test snapshot output. This will allow to reuse single input file to produce several snapshot output with different configuration
+
 ---
 ## 0.13.0 (2024-12-09)
 
