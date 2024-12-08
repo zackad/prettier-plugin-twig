@@ -8,7 +8,7 @@ import {
 
 const { group, softline, line, indent, join } = doc.builders;
 
-const p = (node, path, print) => {
+const p = (node, path, print, options) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const mappedArguments = path.map(print, "arguments");
@@ -22,6 +22,8 @@ const p = (node, path, print) => {
         // Optimization: No line break between "(" and "{" if
         // there is exactly one object parameter
         parts.push(mappedArguments[0], ")");
+    } else if (options.experimentalMethodChainIndentation) {
+        parts.push(indent([join([", "], mappedArguments)]), ")");
     } else {
         parts.push(
             indent([softline, join([",", line], mappedArguments)]),
