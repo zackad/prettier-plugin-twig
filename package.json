@@ -6,6 +6,7 @@
         "type": "git",
         "url": "git+https://github.com/zackad/prettier-plugin-twig.git"
     },
+    "funding": "https://github.com/zackad/prettier-plugin-twig?sponsor=1",
     "license": "Apache-2.0",
     "author": "Tom Bartel <thomas.bartel@trivago.com>",
     "type": "module",
