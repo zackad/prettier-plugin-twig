@@ -1,6 +1,6 @@
 {
     "name": "@zackad/prettier-plugin-twig",
-    "version": "0.12.0",
+    "version": "0.13.0",
     "description": "Prettier Plugin for Twig",
     "repository": {
         "type": "git",

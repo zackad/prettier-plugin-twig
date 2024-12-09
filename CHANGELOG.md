@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.13.0 (2024-12-09)
+
 ### Features
 - Add support for [empty coalesce operator](https://plugins.craftcms.com/empty-coalesce), a CraftCMS extension
 
