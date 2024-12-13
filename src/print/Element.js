@@ -2,6 +2,7 @@ import { doc } from "prettier";
 import {
     removeSurroundingWhitespace,
     isInlineElement,
+    isOwnlineElement,
     printChildGroups,
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES
@@ -59,7 +60,9 @@ const p = (node, path, print, options) => {
         const closingTag = ["</", node.name, ">"];
         const result = [openingGroup];
         const joinedChildren = childGroups;
-        if (isInlineElement(node)) {
+        if (isOwnlineElement(node)) {
+            result.push([joinedChildren]);
+        } else if (isInlineElement(node)) {
             result.push(indent([softline, joinedChildren]), softline);
         } else {
             const childBlock = [];
