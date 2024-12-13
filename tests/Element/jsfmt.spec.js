@@ -68,4 +68,11 @@ describe("Elements", () => {
         });
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle ownline html element", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "ownline_html_element.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });
