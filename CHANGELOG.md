@@ -68,6 +68,7 @@ __bracketSameLine: `false`__
 <br />
 ```
 
+- GH-101 Fix printing some html tags to be on their own line (heading and table cell)
 - GH-106 Fix handling string literal when using block shortcut syntax
 
 ### Internals
