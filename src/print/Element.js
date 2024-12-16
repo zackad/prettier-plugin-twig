@@ -8,17 +8,37 @@ import {
 } from "../util/index.js";
 
 const { group, line, hardline, softline, indent, join } = doc.builders;
+
 const printOpeningTag = (node, path, print, options) => {
+    const groupId = Symbol("opening-tag");
 
     const opener = "<" + node.name;
     const printedAttributes = printSeparatedList(path, print, "", "attributes");
-    const openingTagEnd = node.selfClosing ? " />" : ">";
-    const hasAttributes = node.attributes && node.attributes.length > 0;
 
-    if (hasAttributes) {
-        return [opener, indent([line, printedAttributes]), openingTagEnd];
+    const openingTagEnd = [];
+    if (node.selfClosing) {
+        if (!options.bracketSameLine) {
+            openingTagEnd.push(line);
+        } else {
+            openingTagEnd.push(" ");
+        }
+        openingTagEnd.push("/>");
+    } else {
+        if (!options.bracketSameLine) {
+            openingTagEnd.push(softline);
+        }
+        openingTagEnd.push(">");
     }
-    return [opener, openingTagEnd];
+
+    const hasAttributes = node.attributes && node.attributes.length > 0;
+    if (hasAttributes) {
+        return group(
+            [opener, indent([line, printedAttributes]), openingTagEnd],
+            { id: groupId }
+        );
+    }
+
+    return group([opener, openingTagEnd], { id: groupId });
 };
 
 const printSeparatedList = (path, print, separator, attrName) => {
