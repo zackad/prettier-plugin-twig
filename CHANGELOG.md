@@ -2,6 +2,72 @@
 
 ## unreleased
 
+### Bugfixes
+- Properly implement `bracketSameLine` options for html element tag
+
+__Input__
+```twig
+<iframe class=""
+        src="https://www.google.com/maps/embed"
+        frameborder="0"
+        allowfullscreen></iframe>
+
+<img src="/public/logo.png" alt="some description that should be enough to break this into multiline" class="block bg-white border radius-lg"/>
+<img src="/public/logo.png" class="block bg-white border radius-lg"/>
+<a href="/homepage" class="block bg-white border radius-lg" aria-label="some text label">some text</a>
+
+<br />
+```
+
+__bracketSameLine: `true`__
+```twig
+<iframe
+    class=""
+    src="https://www.google.com/maps/embed"
+    frameborder="0"
+    allowfullscreen></iframe>
+
+<img
+    src="/public/logo.png"
+    alt="some description that should be enough to break this into multiline"
+    class="block bg-white border radius-lg" />
+<img src="/public/logo.png" class="block bg-white border radius-lg" />
+<a
+    href="/homepage"
+    class="block bg-white border radius-lg"
+    aria-label="some text label">
+    some text
+</a>
+
+<br />
+```
+
+__bracketSameLine: `false`__
+```twig
+<iframe
+    class=""
+    src="https://www.google.com/maps/embed"
+    frameborder="0"
+    allowfullscreen
+></iframe>
+
+<img
+    src="/public/logo.png"
+    alt="some description that should be enough to break this into multiline"
+    class="block bg-white border radius-lg"
+/>
+<img src="/public/logo.png" class="block bg-white border radius-lg" />
+<a
+    href="/homepage"
+    class="block bg-white border radius-lg"
+    aria-label="some text label"
+>
+    some text
+</a>
+
+<br />
+```
+
 ### Internals
 - Add option to add prefix/suffix for test snapshot output. This will allow to reuse single input file to produce several snapshot output with different configuration
 

@@ -29,4 +29,26 @@ describe("Options", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("bracket same line - enabled", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "bracket_same_line.twig",
+            suffix: "_enabled",
+            formatOptions: {
+                bracketSameLine: true
+            }
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
+    it("bracket same line - disabled", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "bracket_same_line.twig",
+            suffix: "_disabled",
+            formatOptions: {
+                bracketSameLine: false
+            }
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });
