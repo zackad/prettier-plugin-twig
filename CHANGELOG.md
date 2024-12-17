@@ -68,6 +68,8 @@ __bracketSameLine: `false`__
 <br />
 ```
 
+- GH-106 Fix handling string literal when using block shortcut syntax
+
 ### Internals
 - Add option to add prefix/suffix for test snapshot output. This will allow to reuse single input file to produce several snapshot output with different configuration
 

@@ -13,6 +13,12 @@ describe("Include embed", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should handle block shortcut", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "block_shortcut.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
     it("should handle embed", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "embed.twig"

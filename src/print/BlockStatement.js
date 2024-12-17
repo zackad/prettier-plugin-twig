@@ -1,6 +1,10 @@
 import { doc } from "prettier";
-import { Node } from "../melody/melody-types/index.js";
-import { EXPRESSION_NEEDED, printChildBlock } from "../util/index.js";
+import { Node, StringLiteral } from "../melody/melody-types/index.js";
+import {
+    printChildBlock,
+    EXPRESSION_NEEDED,
+    STRING_NEEDS_QUOTES
+} from "../util/index.js";
 
 const { hardline, group } = doc.builders;
 
@@ -37,6 +41,9 @@ const p = (node, path, print, options) => {
 
         return group(parts);
     } else if (Node.isPrintExpressionStatement(node.body)) {
+        if (node.body.value instanceof StringLiteral) {
+            node[STRING_NEEDS_QUOTES] = true;
+        }
         return [
             node.trimLeft ? "{%-" : "{%",
             " block ",
