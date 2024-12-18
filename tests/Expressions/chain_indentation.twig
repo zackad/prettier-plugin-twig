@@ -1,0 +1,26 @@
+<a class="task-edit"
+   href="{{
+   ea_url().setDashboard(
+       'App\\Controller\\Dashboard\\DashboardController'
+   ).setController(
+       'App\\Controller\\Dashboard\\CRUD\\TacheCrudController'
+   ).setAction(
+       'edit'
+   ).setEntityId(
+       tache.id
+   ).set(
+       'sort',
+       null
+   )
+   }}">
+    <i class="fa-solid fa-edit"></i>
+</a>
+
+{{  craft.entries
+    .section("news")
+    .section("news")
+    .orderBy("postDate DESC")
+    .limit(10)
+    .all(a.b) }}
+
+{{  craft.entries.all() }}
