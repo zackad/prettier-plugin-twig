@@ -28,7 +28,6 @@ const INLINE_HTML_ELEMENTS = [
     "img",
     "kbd",
     "label",
-    "li",
     "mark",
     "q",
     "s",
@@ -41,6 +40,22 @@ const INLINE_HTML_ELEMENTS = [
     "time",
     "tt",
     "var"
+];
+
+/**
+ * Introducing new "type" html element that should be printed on their own line
+ * @type {string[]}
+ */
+const OWNLINE_HTML_ELEMENTS = [
+    "h1",
+    "h2",
+    "h3",
+    "h4",
+    "h5",
+    "h6",
+    "li",
+    "td",
+    "th"
 ];
 
 /**
@@ -475,6 +490,12 @@ const isInlineElement = node => {
         isInlineHtmlElement ||
         Node.isPrintExpressionStatement(node) ||
         isInlineTextStatement(node)
+    );
+};
+
+export const isOwnlineElement = node => {
+    return (
+        Node.isElement(node) && OWNLINE_HTML_ELEMENTS.indexOf(node.name) >= 0
     );
 };
 

@@ -2,6 +2,7 @@ import { doc } from "prettier";
 import {
     removeSurroundingWhitespace,
     isInlineElement,
+    isOwnlineElement,
     printChildGroups,
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES
@@ -52,32 +53,34 @@ const p = (node, path, print, options) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = false;
 
-    if (!node.selfClosing) {
-        node.children = removeSurroundingWhitespace(node.children);
-
-        const childGroups = printChildGroups(node, path, print, "children");
-        const closingTag = ["</", node.name, ">"];
-        const result = [openingGroup];
-        const joinedChildren = childGroups;
-        if (isInlineElement(node)) {
-            result.push(indent([softline, joinedChildren]), softline);
-        } else {
-            const childBlock = [];
-            if (childGroups.length > 0) {
-                childBlock.push(hardline);
-            }
-            childBlock.push(joinedChildren);
-            result.push(indent(childBlock));
-            if (childGroups.length > 0) {
-                result.push(hardline);
-            }
-        }
-        result.push(closingTag);
-
-        return isInlineElement(node) ? group(result) : result;
+    if (node.selfClosing) {
+        return openingGroup;
     }
 
-    return openingGroup;
+    const groupElement = Symbol("element");
+    node.children = removeSurroundingWhitespace(node.children);
+
+    const childGroups = printChildGroups(node, path, print, "children");
+    const closingTag = ["</", node.name, ">"];
+    const result = [openingGroup];
+    const joinedChildren = childGroups;
+    if (isOwnlineElement(node) || isInlineElement(node)) {
+        const element = [indent([softline, joinedChildren]), softline];
+        result.push(element);
+    } else {
+        const childBlock = [];
+        if (childGroups.length > 0) {
+            childBlock.push(hardline);
+        }
+        childBlock.push(joinedChildren);
+        result.push(indent(childBlock));
+        if (childGroups.length > 0) {
+            result.push(hardline);
+        }
+    }
+    result.push(closingTag);
+
+    return group(result, { id: groupElement });
 };
 
 export { p as printElement };
