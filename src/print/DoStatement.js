@@ -1,4 +1,4 @@
-const p = (node, path, print) => {
+const printDoStatement = (node, path, print) => {
     return [
         node.trimLeft ? "{%-" : "{%",
         " do ",
@@ -7,4 +7,4 @@ const p = (node, path, print) => {
     ];
 };
 
-export { p as printDoStatement };
+export { printDoStatement };

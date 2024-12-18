@@ -3,7 +3,7 @@ import { printChildBlock } from "../util/index.js";
 
 const { hardline, group } = doc.builders;
 
-const p = (node, path, print) => {
+const printSpacelessBlock = (node, path, print) => {
     const parts = [
         node.trimLeft ? "{%-" : "{%",
         " spaceless ",
@@ -20,4 +20,4 @@ const p = (node, path, print) => {
     return result;
 };
 
-export { p as printSpacelessBlock };
+export { printSpacelessBlock };

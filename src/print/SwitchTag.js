@@ -9,7 +9,7 @@ import {
 
 const { indent, hardline } = doc.builders;
 
-const p = (node, path, print) => {
+const printSwitchTag = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const openingTag = printSingleTwigTag(node, path, print);
     const parts = [openingTag];
@@ -32,4 +32,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printSwitchTag };
+export { printSwitchTag };

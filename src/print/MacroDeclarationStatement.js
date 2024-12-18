@@ -16,7 +16,7 @@ const printOpener = (node, path, print) => {
     return group(parts);
 };
 
-const p = (node, path, print) => {
+const printMacroDeclarationStatement = (node, path, print) => {
     const parts = [printOpener(node, path, print)];
     parts.push(indent([hardline, path.call(print, "body")]));
     parts.push(
@@ -28,4 +28,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printMacroDeclarationStatement };
+export { printMacroDeclarationStatement };

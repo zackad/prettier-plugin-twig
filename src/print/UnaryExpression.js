@@ -7,7 +7,7 @@ import {
 
 const { group } = doc.builders;
 
-const p = (node, path, print) => {
+const printUnaryExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const parts = [node.operator, path.call(print, "argument")];
@@ -15,4 +15,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printUnaryExpression };
+export { printUnaryExpression };

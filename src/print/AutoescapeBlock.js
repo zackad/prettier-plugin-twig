@@ -25,7 +25,7 @@ const createOpener = (node, options) => {
     ];
 };
 
-const p = (node, path, print, options) => {
+const printAutoescapeBlock = (node, path, print, options) => {
     const parts = [createOpener(node, options)];
     parts.push(printChildBlock(node, path, print, "expressions"));
     parts.push(
@@ -38,4 +38,4 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-export { p as printAutoescapeBlock };
+export { printAutoescapeBlock };

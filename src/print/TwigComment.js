@@ -5,7 +5,7 @@ import {
     countNewlines
 } from "../util/index.js";
 
-const p = node => {
+const printTwigComment = node => {
     const originalText = node.value.value || "";
     const commentText = stripTwigCommentChars(originalText);
     const trimLeft = originalText.length >= 3 ? originalText[2] === "-" : false;
@@ -20,4 +20,4 @@ const p = node => {
     return [trimLeft ? "{#-" : "{#", commentText, trimRight ? "-#}" : "#}"];
 };
 
-export { p as printTwigComment };
+export { printTwigComment };

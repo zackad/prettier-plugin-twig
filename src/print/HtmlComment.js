@@ -8,7 +8,7 @@ import {
 
 const { join, indent, hardline } = doc.builders;
 
-const p = (node, path, print) => {
+const printHtmlComment = (node, path, print) => {
     const commentText = stripHtmlCommentChars(node.value.value || "");
 
     const numNewlines = countNewlines(commentText);
@@ -19,4 +19,4 @@ const p = (node, path, print) => {
     return ["<!-- ", commentText, " -->"];
 };
 
-export { p as printHtmlComment };
+export { printHtmlComment };

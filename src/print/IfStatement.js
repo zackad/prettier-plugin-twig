@@ -12,7 +12,7 @@ const { group, indent, line, hardline } = doc.builders;
 
 const IS_ELSEIF = Symbol("IS_ELSEIF");
 
-const p = (node, path, print) => {
+const printIfStatement = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     const hasElseBranch =
         Array.isArray(node.alternate) && node.alternate.length > 0;
@@ -78,4 +78,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printIfStatement };
+export { printIfStatement };

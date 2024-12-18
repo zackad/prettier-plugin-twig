@@ -11,7 +11,7 @@ const printImportDeclaration = node => {
     return parts;
 };
 
-const p = (node, path, print) => {
+const printFromStatement = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     // Unfortunately, ImportDeclaration has different
     // formatting needs here compared to when used
@@ -29,4 +29,4 @@ const p = (node, path, print) => {
     ]);
 };
 
-export { p as printFromStatement };
+export { printFromStatement };

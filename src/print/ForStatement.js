@@ -24,7 +24,7 @@ const printFor = (node, path, print) => {
     return group(parts);
 };
 
-const p = (node, path, print) => {
+const printForStatement = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     const parts = [printFor(node, path, print)];
     const isBodyEmpty =
@@ -55,4 +55,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printForStatement };
+export { printForStatement };

@@ -8,7 +8,7 @@ import {
 
 const { group, indent, line } = doc.builders;
 
-const p = (node, path, print) => {
+const printExpressionStatement = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const opener = node.trimLeft ? "{{-" : "{{";
@@ -22,4 +22,4 @@ const p = (node, path, print) => {
     return group([opener, value, padding, closing]);
 };
 
-export { p as printExpressionStatement };
+export { printExpressionStatement };

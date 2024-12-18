@@ -2,7 +2,7 @@ import { doc } from "prettier";
 
 const { group, indent, join, line } = doc.builders;
 
-const p = (node, path, print) => {
+const printUseStatement = (node, path, print) => {
     const docs = [
         node.trimLeft ? "{%-" : "{%",
         ' use "',
@@ -22,4 +22,4 @@ const p = (node, path, print) => {
     return group(docs);
 };
 
-export { p as printUseStatement };
+export { printUseStatement };

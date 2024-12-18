@@ -19,7 +19,7 @@ const printConcatenatedString = (valueNode, path, print, ...initialPath) => {
     return printedFragments;
 };
 
-const p = (node, path, print = print) => {
+const printAttribute = (node, path, print = print) => {
     node[EXPRESSION_NEEDED] = false;
     const docs = [path.call(print, "name")];
     node[EXPRESSION_NEEDED] = true;
@@ -47,4 +47,4 @@ const p = (node, path, print = print) => {
     return docs;
 };
 
-export { p as printAttribute };
+export { printAttribute };

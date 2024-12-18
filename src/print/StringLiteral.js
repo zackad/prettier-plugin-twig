@@ -33,7 +33,7 @@ const getQuoteChar = (s, options) => {
     return quoteChar(options);
 };
 
-const p = (node, path, print, options) => {
+const printStringLiteral = (node, path, print, options) => {
     // The structure this string literal is part of
     // determines if we need quotes or not
     const needsQuotes = firstValueInAncestorChain(
@@ -60,4 +60,4 @@ const p = (node, path, print, options) => {
     return node.value;
 };
 
-export { p as printStringLiteral };
+export { printStringLiteral };

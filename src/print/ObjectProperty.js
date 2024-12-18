@@ -1,7 +1,7 @@
 import { Node } from "../melody/melody-types/index.js";
 import { isValidIdentifierName, STRING_NEEDS_QUOTES } from "../util/index.js";
 
-const p = (node, path, print, options) => {
+const printObjectProperty = (node, path, print, options) => {
     node[STRING_NEEDS_QUOTES] =
         !node.computed &&
         Node.isStringLiteral(node.key) &&
@@ -28,4 +28,4 @@ const p = (node, path, print, options) => {
     return parts;
 };
 
-export { p as printObjectProperty };
+export { printObjectProperty };

@@ -22,7 +22,7 @@ const printOpener = (node, path, print) => {
     return group(parts);
 };
 
-const p = (node, path, print) => {
+const printEmbedStatement = (node, path, print) => {
     const children = printChildBlock(node, path, print, "blocks");
     const printedOpener = printOpener(node, path, print);
     const closing = [
@@ -35,4 +35,4 @@ const p = (node, path, print) => {
     return [printedOpener, children, closing];
 };
 
-export { p as printEmbedStatement };
+export { printEmbedStatement };

@@ -53,7 +53,7 @@ const joinFilters = (filterExpressions, space = "") => {
     );
 };
 
-const p = (node, path, print, options) => {
+const printFilterExpression = (node, path, print, options) => {
     let currentNode = node;
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
@@ -128,4 +128,4 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export { p as printFilterExpression };
+export { printFilterExpression };

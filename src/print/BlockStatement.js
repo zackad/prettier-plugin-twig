@@ -8,7 +8,7 @@ import {
 
 const { hardline, group } = doc.builders;
 
-const p = (node, path, print, options) => {
+const printBlockStatement = (node, path, print, options) => {
     node[EXPRESSION_NEEDED] = false;
     const hasChildren = Array.isArray(node.body);
     const printEndblockName = options.twigOutputEndblockName === true;
@@ -55,4 +55,4 @@ const p = (node, path, print, options) => {
     }
 };
 
-export { p as printBlockStatement };
+export { printBlockStatement };

@@ -1,5 +1,5 @@
-const p = (node, path, print) => {
+const printGenericToken = (node, path, print) => {
     return node.tokenText;
 };
 
-export { p as printGenericToken };
+export { printGenericToken };

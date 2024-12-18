@@ -46,7 +46,7 @@ const printSeparatedList = (path, print, separator, attrName) => {
     return join([separator, line], path.map(print, attrName));
 };
 
-const p = (node, path, print, options) => {
+const printElement = (node, path, print, options) => {
     // Set a flag in case attributes contain, e.g., a FilterExpression
     node[EXPRESSION_NEEDED] = true;
     const openingGroup = group(printOpeningTag(node, path, print, options));
@@ -83,4 +83,4 @@ const p = (node, path, print, options) => {
     return group(result, { id: groupElement });
 };
 
-export { p as printElement };
+export { printElement };

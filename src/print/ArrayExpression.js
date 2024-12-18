@@ -3,7 +3,7 @@ import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const { group, softline, line, indent, join } = doc.builders;
 
-const p = (node, path, print) => {
+const printArrayExpression = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const mappedElements = path.map(print, "elements");
     const indentedContent = [softline, join([",", line], mappedElements)];
@@ -11,4 +11,4 @@ const p = (node, path, print) => {
     return group(["[", indent(indentedContent), softline, "]"]);
 };
 
-export { p as printArrayExpression };
+export { printArrayExpression };

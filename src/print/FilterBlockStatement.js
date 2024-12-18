@@ -10,7 +10,7 @@ const printOpeningGroup = (node, path, print) => {
     return group(parts);
 };
 
-const p = (node, path, print) => {
+const printFilterBlockStatement = (node, path, print) => {
     node[FILTER_BLOCK] = true;
     const openingGroup = printOpeningGroup(node, path, print);
     const body = printChildBlock(node, path, print, "body");
@@ -24,4 +24,4 @@ const p = (node, path, print) => {
     return [openingGroup, body, closingStatement];
 };
 
-export { p as printFilterBlockStatement };
+export { printFilterBlockStatement };

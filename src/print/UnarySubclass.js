@@ -42,7 +42,7 @@ const printLogicalExpression = (node, path, print) => {
     return shouldCreateTopLevelGroup ? group(result) : result;
 };
 
-const p = (node, path, print) => {
+const printUnarySubclass = (node, path, print) => {
     // We need this part to prevent argument being wrapped into expression separated from operator
     // Example:
     // with node[EXPRESSION_NEEDED] = true; // default value
@@ -71,4 +71,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printUnarySubclass };
+export { printUnarySubclass };

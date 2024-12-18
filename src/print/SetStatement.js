@@ -80,7 +80,7 @@ const printEmbracingSet = (node, path, print) => {
     return parts;
 };
 
-const p = (node, path, print) => {
+const printSetStatement = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     if (isEmbracingSet(node)) {
         return printEmbracingSet(node, path, print);
@@ -88,4 +88,4 @@ const p = (node, path, print) => {
     return printRegularSet(node, path, print);
 };
 
-export { p as printSetStatement };
+export { printSetStatement };

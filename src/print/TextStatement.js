@@ -20,7 +20,7 @@ const newlinesOnly = (s, preserveWhitespace = true) => {
     return [hardline, hardline];
 };
 
-const p = (node, path, print) => {
+const printTextStatement = (node, path, print) => {
     // Check for special values that might have been
     // computed during preprocessing
     const preserveLeadingWhitespace =
@@ -42,4 +42,4 @@ const p = (node, path, print) => {
     return join([hardline, hardline], textGroups);
 };
 
-export { p as printTextStatement };
+export { printTextStatement };

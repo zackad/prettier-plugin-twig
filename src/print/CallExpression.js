@@ -8,7 +8,7 @@ import {
 
 const { group, softline, line, indent, join } = doc.builders;
 
-const p = (node, path, print) => {
+const printCallExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const mappedArguments = path.map(print, "arguments");
@@ -35,4 +35,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printCallExpression };
+export { printCallExpression };

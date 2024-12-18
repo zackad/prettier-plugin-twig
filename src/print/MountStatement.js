@@ -59,7 +59,7 @@ const buildErrorHandling = (node, path, print) => {
     return parts;
 };
 
-const p = (node, path, print) => {
+const printMountStatement = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const parts = [buildOpener(node, path, print)];
@@ -81,4 +81,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printMountStatement };
+export { printMountStatement };

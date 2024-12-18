@@ -3,7 +3,7 @@ import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const { group, line, indent } = doc.builders;
 
-const p = (node, path, print) => {
+const printImportDeclaration = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     return group([
         node.trimLeft ? "{%-" : "{%",
@@ -15,4 +15,4 @@ const p = (node, path, print) => {
     ]);
 };
 
-export { p as printImportDeclaration };
+export { printImportDeclaration };

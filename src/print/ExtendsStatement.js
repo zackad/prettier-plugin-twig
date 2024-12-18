@@ -1,6 +1,6 @@
 import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
-const p = (node, path, print) => {
+const printExtendsStatement = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     return [
         node.trimLeft ? "{%-" : "{%",
@@ -10,4 +10,4 @@ const p = (node, path, print) => {
     ];
 };
 
-export { p as printExtendsStatement };
+export { printExtendsStatement };

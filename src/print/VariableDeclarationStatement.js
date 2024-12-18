@@ -3,7 +3,7 @@ import { STRING_NEEDS_QUOTES, isContractableNodeType } from "../util/index.js";
 
 const { line, indent } = doc.builders;
 
-const p = (node, path, print) => {
+const printVariableDeclarationStatement = (node, path, print) => {
     const printedName = path.call(print, "name");
     node[STRING_NEEDS_QUOTES] = true;
     const printedValue = path.call(print, "value");
@@ -18,4 +18,4 @@ const p = (node, path, print) => {
     return [printedName, " =", rightHandSide];
 };
 
-export { p as printVariableDeclarationStatement };
+export { printVariableDeclarationStatement };

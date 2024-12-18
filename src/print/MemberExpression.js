@@ -7,7 +7,7 @@ import {
 
 const { group } = doc.builders;
 
-const p = (node, path, print) => {
+const printMemberExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const parts = [path.call(print, "object")];
@@ -20,4 +20,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printMemberExpression };
+export { printMemberExpression };

@@ -3,7 +3,7 @@ import { EXPRESSION_NEEDED, wrapExpressionIfNeeded } from "../util/index.js";
 
 const { group, line, hardline, indent, join } = doc.builders;
 
-const p = (node, path, print, options) => {
+const printObjectExpression = (node, path, print, options) => {
     if (node.properties.length === 0) {
         return "{}";
     }
@@ -18,4 +18,4 @@ const p = (node, path, print, options) => {
     return group(parts);
 };
 
-export { p as printObjectExpression };
+export { printObjectExpression };

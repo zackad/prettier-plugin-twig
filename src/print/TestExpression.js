@@ -18,7 +18,7 @@ const textMap = {
 const isNegator = node =>
     node.constructor.name === "UnarySubclass" && node.operator === "not";
 
-const p = (node, path, print) => {
+const printTestExpression = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const expressionType = node.__proto__.type;
     const parts = [path.call(print, "expression"), " is "];
@@ -46,4 +46,4 @@ const p = (node, path, print) => {
     return parts;
 };
 
-export { p as printTestExpression };
+export { printTestExpression };

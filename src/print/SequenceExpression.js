@@ -8,7 +8,7 @@ import {
 
 const { hardline } = doc.builders;
 
-const p = (node, path, print) => {
+const printSequenceExpression = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = false;
     node.expressions = removeSurroundingWhitespace(node.expressions);
     const items = printChildGroups(node, path, print, "expressions");
@@ -18,4 +18,4 @@ const p = (node, path, print) => {
     return items;
 };
 
-export { p as printSequenceExpression };
+export { printSequenceExpression };

@@ -7,7 +7,7 @@ import {
 
 const { line, indent, group } = doc.builders;
 
-const p = (node, path, print) => {
+const printConditionalExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
 
@@ -24,4 +24,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printConditionalExpression };
+export { printConditionalExpression };

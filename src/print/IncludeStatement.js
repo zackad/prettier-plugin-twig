@@ -3,7 +3,7 @@ import { STRING_NEEDS_QUOTES } from "../util/index.js";
 
 const { group } = doc.builders;
 
-const p = (node, path, print) => {
+const printIncludeStatement = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     const parts = [
         node.trimLeft ? "{%-" : "{%",
@@ -23,4 +23,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printIncludeStatement };
+export { printIncludeStatement };

@@ -7,7 +7,7 @@ import {
 
 const { group } = doc.builders;
 
-const p = (node, path, print) => {
+const printIdentifier = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
 
@@ -21,4 +21,4 @@ const p = (node, path, print) => {
     return parts.length === 1 ? result : group(result);
 };
 
-export { p as printIdentifier };
+export { printIdentifier };

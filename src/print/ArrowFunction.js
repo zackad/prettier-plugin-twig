@@ -1,7 +1,7 @@
 import { doc } from "prettier";
 const { group, indent, join, line, softline } = doc.builders;
 
-const p = (node, path, print) => {
+const printArrowFunction = (node, path, print) => {
     const args = node.args;
     const body = path.call(print, "body");
 
@@ -34,4 +34,4 @@ const p = (node, path, print) => {
     return group(parts);
 };
 
-export { p as printArrowFunction };
+export { printArrowFunction };

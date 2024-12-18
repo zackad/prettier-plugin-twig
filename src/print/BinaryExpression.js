@@ -65,7 +65,7 @@ const otherNeedsParentheses = (node, otherProp) => {
     );
 };
 
-const printBinaryExpression = (node, path, print) => {
+const internalPrintBinaryExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
 
@@ -145,11 +145,11 @@ const printBinaryExpression = (node, path, print) => {
     return shouldGroupResult ? group(result) : result;
 };
 
-const p = (node, path, print, options) => {
+const printBinaryExpression = (node, path, print, options) => {
     if (Node.isBinaryConcatExpression(node) && node.wasImplicitConcatenation) {
         return printInterpolatedString(node, path, print, options);
     }
-    return printBinaryExpression(node, path, print);
+    return internalPrintBinaryExpression(node, path, print);
 };
 
-export { p as printBinaryExpression };
+export { printBinaryExpression };

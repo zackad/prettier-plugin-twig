@@ -3,7 +3,7 @@ import { STRING_NEEDS_QUOTES, OVERRIDE_QUOTE_CHAR } from "../util/index.js";
 
 const { fill, join } = doc.builders;
 
-const p = (node, path, print) => {
+const printDeclaration = (node, path, print) => {
     node[STRING_NEEDS_QUOTES] = true;
     node[OVERRIDE_QUOTE_CHAR] = '"';
     const start = "<!" + (node.declarationType || "").toUpperCase();
@@ -12,4 +12,4 @@ const p = (node, path, print) => {
     return fill([start, " ", join(" ", printedParts), ">"]);
 };
 
-export { p as printDeclaration };
+export { printDeclaration };

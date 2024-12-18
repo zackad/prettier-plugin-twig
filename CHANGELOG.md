@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Internals
+- DX: Don't use alias to export print function to make it easier to identify when debugging call stack
+
 ---
 ## 0.14.0 (2024-12-18)
 
