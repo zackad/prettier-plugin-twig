@@ -2,8 +2,11 @@
 
 ## unreleased
 
+---
+## 0.14.0 (2024-12-18)
+
 ### Bugfixes
-- Properly implement `bracketSameLine` options for html element tag
+- [GH-90](https://github.com/zackad/prettier-plugin-twig/issues/90) Properly implement `bracketSameLine` options for html element tag
 
 __Input__
 ```twig
@@ -68,8 +71,8 @@ __bracketSameLine: `false`__
 <br />
 ```
 
-- GH-101 Fix printing some html tags to be on their own line (heading and table cell)
-- GH-106 Fix handling string literal when using block shortcut syntax
+- [GH-101](https://github.com/zackad/prettier-plugin-twig/issues/101) Fix printing some html tags to be on their own line (heading and table cell)
+- [GH-106](https://github.com/zackad/prettier-plugin-twig/issues/106) Fix handling string literal when using block shortcut syntax
 
 ### Internals
 - Add option to add prefix/suffix for test snapshot output. This will allow to reuse single input file to produce several snapshot output with different configuration
