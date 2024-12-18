@@ -91,4 +91,14 @@ describe("Expressions", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("Properly indent chain method", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "chain_indentation.twig",
+            formatOptions: {
+                experimentalMethodChainIndentation: true
+            }
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });

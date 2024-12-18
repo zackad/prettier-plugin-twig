@@ -103,12 +103,6 @@ const options = {
         category: "Global",
         default: false,
         description: "Output the Twig block name in the 'endblock' tag"
-    },
-    experimentalMethodChainIndentation: {
-        type: "boolean",
-        category: "Global",
-        default: false,
-        description: "Experimental: Fix indentation for chained method call"
     }
 };
 
