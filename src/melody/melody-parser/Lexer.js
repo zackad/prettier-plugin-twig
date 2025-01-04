@@ -578,6 +578,9 @@ export default class Lexer {
             if (c === "\\" && input.la(1) === start) {
                 input.next();
                 input.next();
+            } else if (c === "{" && input.la(1) === "{") {
+                // interpolation start
+                break;
             } else if (c === start) {
                 break;
             } else {

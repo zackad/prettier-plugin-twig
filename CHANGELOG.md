@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Bugfix
+- [GH-110](https://github.com/zackad/prettier-plugin-twig/issues/90) Fix regression when parsing concatenation expression inside html attribute value
+
 ### Internals
 - DX: Don't use alias to export print function to make it easier to identify when debugging call stack
 
