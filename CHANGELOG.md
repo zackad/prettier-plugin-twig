@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.14.1 (2025-01-04)
+
 ### Bugfix
 - [GH-110](https://github.com/zackad/prettier-plugin-twig/issues/90) Fix regression when parsing concatenation expression inside html attribute value
 
