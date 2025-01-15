@@ -3,6 +3,7 @@ import { resolve, extname, basename } from "path";
 import { URL, fileURLToPath } from "url";
 import { format, Options as PrettierOptions } from "prettier";
 import plugin from "src/index";
+import { parse } from "src/parser.js";
 
 /** @type {PrettierOptions} */
 const defaultOptions = {
@@ -79,12 +80,17 @@ export async function run_spec(metaUrl, options = {}) {
         "__snapshots__",
         generateSnapshotFileName(source, prefix, suffix)
     );
-    const actual = await format(code, {
+
+    /** @type {FormattingOptions} */
+    const actualOptions = {
         parser: "twig",
         plugins: [plugin],
         tabWidth: 4,
         ...formatOptions
-    });
+    };
+    const actual = await format(code, actualOptions);
+    const ast = await parse(code, null, actualOptions);
+    const astString = JSON.stringify(ast);
 
     return { snapshotFile, code, actual };
 }

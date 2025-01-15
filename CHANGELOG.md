@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Internal
+- Stringify ast object to make it easier to inspect when debugging on test setup
+
 ---
 ## 0.14.1 (2025-01-04)
 
