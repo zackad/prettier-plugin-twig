@@ -8,6 +8,14 @@ describe("Elements", () => {
         });
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle attribute with twig comment", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "attribute_twig_comment.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle attributes", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "attributes.twig"

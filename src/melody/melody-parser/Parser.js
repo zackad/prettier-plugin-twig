@@ -29,6 +29,7 @@ import { GenericTagParser } from "./GenericTagParser.js";
 import { createMultiTagParser } from "./GenericMultiTagParser.js";
 import { voidElements } from "./elementInfo.js";
 import * as he from "he";
+import { Attribute } from "../melody-types/index.js";
 
 /**
  * @typedef {Object} UnaryOperator
@@ -378,6 +379,7 @@ export default class Parser {
             tokens.lat(0) !== Types.ELEMENT_END
         ) {
             const key = tokens.nextIf(Types.SYMBOL);
+            let twigComment;
             if (key) {
                 const keyNode = new n.Identifier(key.text);
                 setStartFromToken(keyNode, key);
@@ -442,6 +444,10 @@ export default class Parser {
             } else if (tokens.nextIf(Types.EXPRESSION_START)) {
                 element.attributes.push(this.matchExpression());
                 tokens.expect(Types.EXPRESSION_END);
+            } else if ((twigComment = tokens.nextIf(Types.COMMENT))) {
+                const twigCommentValue = new n.StringLiteral(twigComment.text);
+                const twigCommentNode = new n.TwigComment(twigCommentValue);
+                element.attributes.push(twigCommentNode);
             } else {
                 this.error({
                     title: "Invalid token",

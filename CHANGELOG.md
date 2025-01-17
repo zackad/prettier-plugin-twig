@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- [GH-61](https://github.com/zackad/prettier-plugin-twig/issues/61#issuecomment-2596726423) Add support for twig comment as html element attribute
+
 ### Internal
 - Stringify ast object to make it easier to inspect when debugging on test setup
 
