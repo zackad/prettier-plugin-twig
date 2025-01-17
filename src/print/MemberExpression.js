@@ -5,13 +5,13 @@ import {
     wrapExpressionIfNeeded
 } from "../util/index.js";
 
-const { group } = doc.builders;
+const { group, indent, softline } = doc.builders;
 
 const printMemberExpression = (node, path, print) => {
     node[EXPRESSION_NEEDED] = false;
     node[STRING_NEEDS_QUOTES] = true;
     const parts = [path.call(print, "object")];
-    parts.push(node.computed ? "[" : ".");
+    parts.push(node.computed ? "[" : indent([softline, "."]));
     parts.push(path.call(print, "property"));
     if (node.computed) {
         parts.push("]");

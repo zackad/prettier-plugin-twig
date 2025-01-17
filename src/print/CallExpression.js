@@ -23,11 +23,7 @@ const printCallExpression = (node, path, print) => {
         // there is exactly one object parameter
         parts.push(mappedArguments[0], ")");
     } else {
-        parts.push(
-            indent([softline, join([",", line], mappedArguments)]),
-            softline,
-            ")"
-        );
+        parts.push(indent([join([", "], mappedArguments)]), ")");
     }
 
     wrapExpressionIfNeeded(path, parts, node);
