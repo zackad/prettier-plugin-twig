@@ -72,6 +72,13 @@ const printers = {
 
 /** @type {import('prettier').Options} Options */
 const options = {
+    twigTestExpressions: {
+        type: "path",
+        category: "Global",
+        array: true,
+        default: [{ value: [] }],
+        description: "Make custom Twig tests known to the parser."
+    },
     twigMultiTags: {
         type: "path",
         category: "Global",

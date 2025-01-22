@@ -353,7 +353,7 @@ export const TestInstanceOfExpression = createTest(
 //endregion
 
 //region Utilities
-function createTest(text, typeName) {
+export function createTest(text, typeName) {
     const TestExpression = class extends Node {
         /**
          * @param {Node} expr
