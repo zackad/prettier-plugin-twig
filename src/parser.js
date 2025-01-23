@@ -5,7 +5,7 @@ import {
     Parser
 } from "./melody/melody-parser/index.js";
 import { extension as coreExtension } from "./melody/melody-extension-core/index.js";
-import { createTest } from "./melody/melody-extension-core/operators.js";
+import { createTestExpression } from "./melody/melody-extension-core/operators.js";
 
 const ORIGINAL_SOURCE = Symbol("ORIGINAL_SOURCE");
 
@@ -77,7 +77,7 @@ const getMultiTagConfig = (tagsCsvs = []) =>
 
 const registerTestExtensions = (testExpressions = []) => {
     testExpressions.forEach(test =>
-        createTest(test, `Test[${test}]Expression`)
+        createTestExpression(test, `Test[${test}]Expression`)
     );
 };
 
