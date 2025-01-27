@@ -301,13 +301,19 @@ export const BinaryEmptyCoalesceExpression = createBinaryOperatorNode({
 //endregion
 
 //region Test Expressions
-export const TestEvenExpression = createTest("even", "TestEvenExpression");
-export const TestOddExpression = createTest("odd", "TestOddExpression");
-export const TestDefinedExpression = createTest(
+export const TestEvenExpression = createTestExpression(
+    "even",
+    "TestEvenExpression"
+);
+export const TestOddExpression = createTestExpression(
+    "odd",
+    "TestOddExpression"
+);
+export const TestDefinedExpression = createTestExpression(
     "defined",
     "TestDefinedExpression"
 );
-export const TestSameAsExpression = createTest(
+export const TestSameAsExpression = createTestExpression(
     "same as",
     "TestSameAsExpression"
 );
@@ -318,14 +324,17 @@ tests.push({
         return new TestSameAsExpression(expr, args);
     }
 });
-export const TestNullExpression = createTest("null", "TestNullExpression");
+export const TestNullExpression = createTestExpression(
+    "null",
+    "TestNullExpression"
+);
 tests.push({
     text: "none",
     createNode(expr, args) {
         return new TestNullExpression(expr, args);
     }
 });
-export const TestDivisibleByExpression = createTest(
+export const TestDivisibleByExpression = createTestExpression(
     "divisible by",
     "TestDivisibleByExpression"
 );
@@ -336,24 +345,26 @@ tests.push({
         return new TestDivisibleByExpression(expr, args);
     }
 });
-export const TestConstantExpression = createTest(
+export const TestConstantExpression = createTestExpression(
     "constant",
     "TestConstantExpression"
 );
-export const TestEmptyExpression = createTest("empty", "TestEmptyExpression");
-export const TestIterableExpression = createTest(
+export const TestEmptyExpression = createTestExpression(
+    "empty",
+    "TestEmptyExpression"
+);
+export const TestIterableExpression = createTestExpression(
     "iterable",
     "TestIterableExpression"
 );
-
-export const TestInstanceOfExpression = createTest(
+export const TestInstanceOfExpression = createTestExpression(
     "instance of",
     "TestInstanceOfExpression"
 );
 //endregion
 
 //region Utilities
-function createTest(text, typeName) {
+export function createTestExpression(text, typeName) {
     const TestExpression = class extends Node {
         /**
          * @param {Node} expr

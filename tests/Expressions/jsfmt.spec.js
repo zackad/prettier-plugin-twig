@@ -91,4 +91,13 @@ describe("Expressions", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should handle custom test expressions", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "custom_test_expression.twig",
+            formatOptions: {
+                twigTestExpressions: ["snake_case_test", "camelCaseTest"]
+            }
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });

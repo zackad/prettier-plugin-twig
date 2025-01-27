@@ -28,7 +28,15 @@ const printTestExpression = (node, path, print) => {
     if (isNegator(parent)) {
         parts.push("not ");
     }
-    if (!textMap[expressionType]) {
+
+    if (expressionType.includes("[") && expressionType.includes("]")) {
+        const testText = expressionType.substring(
+            expressionType.indexOf("[") + 1,
+            expressionType.lastIndexOf("]")
+        );
+
+        parts.push(testText);
+    } else if (!textMap[expressionType]) {
         console.error(
             "TestExpression: No text for " + expressionType + " defined"
         );
