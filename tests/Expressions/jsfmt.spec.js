@@ -93,7 +93,7 @@ describe("Expressions", () => {
     });
     it("should handle custom test expressions", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
-            source: "customTestExpression.twig",
+            source: "custom_test_expression.twig",
             formatOptions: {
                 twigTestExpressions: ["snake_case_test", "camelCaseTest"]
             }
