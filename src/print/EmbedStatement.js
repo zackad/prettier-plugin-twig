@@ -18,6 +18,9 @@ const printOpener = (node, path, print) => {
     if (node.argument) {
         parts.push(indent([line, "with ", path.call(print, "argument")]));
     }
+    if (node.contextFree) {
+        parts.push(" only");
+    }
     parts.push([line, node.trimRightEmbed ? "-%}" : "%}"]);
     return group(parts);
 };

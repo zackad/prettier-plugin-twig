@@ -5,7 +5,7 @@
         {%- embed 'foo.twig'
             with {
                 foo: 'bar'
-            }
+            } only
         %}
             {% block hello %}
                 {{ fun }}

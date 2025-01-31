@@ -2,7 +2,7 @@
 
 {% block hello %}
     <div class="test-{{ foo }} bar">
-        {%- embed "foo.twig" with { foo: 'bar' } %}
+        {%- embed "foo.twig" with { foo: 'bar' } only %}
             {% block hello %}
                 {{ fun }}
                 {% embed "bar.twig" -%}
