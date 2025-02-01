@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.15.0 (2025-02-01)
+
 ### Features
 - [GH-61](https://github.com/zackad/prettier-plugin-twig/issues/61#issuecomment-2596726423) Add support for twig comment as html element attribute
 - [GH-116](https://github.com/zackad/prettier-plugin-twig/issues/116) Add possibility to register any custom Twig test expression
