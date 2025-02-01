@@ -105,6 +105,25 @@ If we did not list the `"nav,endnav"` entry in `twigMultiTags`, this code exampl
 
 Note that the order matters: It has to be `"nav,endnav"`, and it must not be `"endnav,nav"`. In general, the first and the last tag name matter. In the case of `"switch,case,default,endswitch"`, the order of `case` and `default` does not matter. However, `switch` has to come first, and `endswitch` has to come last.
 
+### twigTestExpressions (default: `[]`)
+
+Make custom Twig tests known to the parser.
+
+```json
+twigTestExpressions: [
+    "snake_case_test",
+    "camelCaseTest"
+]
+```
+
+__Example__
+```twig
+{{ a is snake_case_test }}
+{{ a is not snake_case_test }}
+{{ a is camelCaseTest }}
+{{ a is not camelCaseTest }}
+```
+
 ## Features
 
 ### `prettier-ignore` and `prettier-ignore-start`

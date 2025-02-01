@@ -5,6 +5,7 @@ import {
     Parser
 } from "./melody/melody-parser/index.js";
 import { extension as coreExtension } from "./melody/melody-extension-core/index.js";
+import { createTestExpression } from "./melody/melody-extension-core/operators.js";
 
 const ORIGINAL_SOURCE = Symbol("ORIGINAL_SOURCE");
 
@@ -74,8 +75,15 @@ const getMultiTagConfig = (tagsCsvs = []) =>
         return acc;
     }, {});
 
+const registerTestExtensions = (testExpressions = []) => {
+    testExpressions.forEach(test =>
+        createTestExpression(test, `Test[${test}]Expression`)
+    );
+};
+
 const parse = (text, parsers, options) => {
     const multiTagConfig = getMultiTagConfig(options.twigMultiTags || []);
+    registerTestExtensions(options.twigTestExpressions || []);
 
     const extensions = [coreExtension];
     const parser = createConfiguredParser(text, multiTagConfig, ...extensions);
