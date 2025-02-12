@@ -1,0 +1,5 @@
+{# https://github.com/zackad/prettier-plugin-twig/issues/123 #}
+{% set x = -2 %}
+{% set x = -2.092 %}
+{{ "00001"|slice(-2, 2) }}
+{{ "00001"|slice(2, -2) }}

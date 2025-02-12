@@ -354,7 +354,10 @@ export default class Lexer {
                     return this.createToken(TokenTypes.ARROW, pos);
                 }
             default: {
-                if (isDigit(input.lac(0))) {
+                if (
+                    isDigit(input.lac(0)) ||
+                    (input.la(0) === "-" && isDigit(input.lac(1)))
+                ) {
                     input.next();
                     return this.matchNumber(pos);
                 }
@@ -601,6 +604,11 @@ export default class Lexer {
     matchNumber(pos) {
         const input = this.input;
         let c;
+
+        // check for negative number
+        if (input.la(0) === "-" && isDigit(input.lac(1))) {
+            input.next();
+        }
         while ((c = input.lac(0)) !== EOF) {
             if (!isDigit(c)) {
                 break;
