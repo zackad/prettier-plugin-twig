@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.15.1 (2025-02-12)
+
 ### Bugfixes
 - [GH-123](https://github.com/zackad/prettier-plugin-twig/issues/123) Fix parsing negative number
 
