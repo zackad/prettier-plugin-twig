@@ -69,6 +69,14 @@ export const BinaryOrExpression = createBinaryOperatorNode({
     precedence: 10,
     associativity: LEFT
 });
+
+export const BinaryXorExpression = createBinaryOperatorNode({
+    text: "xor",
+    type: "BinaryXorExpression",
+    precedence: 12,
+    associativity: LEFT
+});
+
 export const BinaryAndExpression = createBinaryOperatorNode({
     text: "and",
     type: "BinaryAndExpression",
