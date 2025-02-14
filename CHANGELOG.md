@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.15.2 (2025-02-14)
+
 ### Bugfixes
 - [GH-125](https://github.com/zackad/prettier-plugin-twig/issues/125) Add missing `xor` binary operator
 
