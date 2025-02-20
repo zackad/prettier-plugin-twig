@@ -64,6 +64,14 @@ describe("Elements", () => {
         });
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle single quote attribute value", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "single_quote_attribute_value.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle siblings", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "siblings.twig"
