@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.15.3 (2025-02-22)
+
 ### Bugfixes
 - [GH-127](https://github.com/zackad/prettier-plugin-twig/issues/127) Fix missing `ignore missing` part of include statement
 
