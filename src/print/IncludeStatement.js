@@ -10,6 +10,9 @@ const printIncludeStatement = (node, path, print) => {
         " include ",
         path.call(print, "source")
     ];
+    if (node.ignoreMissing) {
+        parts.push(" ignore missing");
+    }
     if (node.argument) {
         const printedArguments = path.call(print, "argument");
         parts.push(" with ");

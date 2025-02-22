@@ -24,3 +24,8 @@
 
 {% include 'foo/' ~ BRT %}
 {% include filename %}
+
+{% include 'foo.twig' ignore missing with {
+    foo,
+    bar
+} only %}
