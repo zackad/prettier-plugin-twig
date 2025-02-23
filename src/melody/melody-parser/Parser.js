@@ -444,6 +444,9 @@ export default class Parser {
             } else if (tokens.nextIf(Types.EXPRESSION_START)) {
                 element.attributes.push(this.matchExpression());
                 tokens.expect(Types.EXPRESSION_END);
+            } else if (tokens.nextIf(Types.TAG_START)) {
+                const tagExpression = this.matchTag();
+                element.attributes.push(tagExpression);
             } else if ((twigComment = tokens.nextIf(Types.COMMENT))) {
                 const twigCommentValue = new n.StringLiteral(twigComment.text);
                 const twigCommentNode = new n.TwigComment(twigCommentValue);
