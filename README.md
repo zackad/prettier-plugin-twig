@@ -7,33 +7,32 @@ Forked from [trivago/prettier-plugin-twig-melody](https://github.com/trivago/pre
 
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/zackad/prettier-plugin-twig-melody/ci.yaml?branch=master&style=for-the-badge&logo=github)
 ![GitHub License](https://img.shields.io/github/license/zackad/prettier-plugin-twig-melody?style=for-the-badge)
-![NPM Version](https://img.shields.io/npm/v/%40zackad%2Fprettier-plugin-twig?style=for-the-badge&logo=npm)
-![GitHub Tag](https://img.shields.io/github/v/tag/zackad/prettier-plugin-twig-melody?style=for-the-badge)
+[![NPM Version](https://img.shields.io/npm/v/%40zackad%2Fprettier-plugin-twig?style=for-the-badge&logo=npm)](https://www.npmjs.com/package/@zackad/prettier-plugin-twig)
 
 ---
 
 This Plugin enables Prettier to format `.twig` files, as well as `.html.twig`.
 
-## Install
+## Installation
 
 ```bash
 yarn add --dev @zackad/prettier-plugin-twig
 ```
 
-## Use
+## Configuration
 
-```bash
-prettier --write "**/*.twig"
-```
-
-In your editor, if the plugin is not automatically picked up and invoked (e.g., if you are using format on save, but no formatting is happening when you save), try adding the plugin explicitly in your Prettier configuration (e.g., `.prettierrc.json`) using the `plugins` key:
+Add the plugin explicitly into your Prettier configuration (e.g., `.prettierrc.json`) using the `plugins` key:
 
 ```json
 {
-    "printWidth": 80,
-    "tabWidth": 4,
     "plugins": ["@zackad/prettier-plugin-twig"]
 }
+```
+
+## Usage
+
+```bash
+./node_modules/.bin/prettier --write "**/*.twig"
 ```
 
 ## Options
@@ -75,12 +74,14 @@ Choose whether to output the block name in `{% endblock %}` tags (e.g., `{% endb
 An array of coherent sequences of non-standard Twig tags that should be treated as belonging together. Example (inspired by [Craft CMS](https://docs.craftcms.com/v2/templating/nav.html)):
 
 ```json
-twigMultiTags: [
-    "nav,endnav",
-    "switch,case,default,endswitch",
-    "ifchildren,endifchildren",
-    "cache,endcache"
-]
+{
+    "twigMultiTags": [
+        "nav,endnav",
+        "switch,case,default,endswitch",
+        "ifchildren,endifchildren",
+        "cache,endcache"
+    ]
+}
 ```
 
 Looking at the case of `nav,endnav`, this means that the Twig tags `{% nav %}` and `{% endnav %}` will be treated as a pair, and everything in between will be indented:
@@ -110,10 +111,12 @@ Note that the order matters: It has to be `"nav,endnav"`, and it must not be `"e
 Make custom Twig tests known to the parser.
 
 ```json
-twigTestExpressions: [
-    "snake_case_test",
-    "camelCaseTest"
-]
+{
+    "twigTestExpressions": [
+        "snake_case_test",
+        "camelCaseTest"
+    ]
+}
 ```
 
 __Example__
