@@ -41,6 +41,12 @@ describe("Generic tags", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should handle props tag", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "props.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
     it("should handle redirect tag", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "redirect.twig"
