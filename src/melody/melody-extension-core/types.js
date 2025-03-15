@@ -319,6 +319,36 @@ type(SetStatement, "SetStatement");
 alias(SetStatement, "Statement", "ContextMutation");
 visitor(SetStatement, "assignments");
 
+export class PropsStatement extends Node {
+    /**
+     *
+     * @param {Array<PropItem>} items
+     */
+    constructor(items) {
+        super();
+        this.items = items;
+    }
+}
+type(PropsStatement, "PropsStatement");
+alias(PropsStatement, "Statement");
+visitor(PropsStatement, "items");
+
+export class PropItem extends Node {
+    /**
+     *
+     * @param {Identifier} name
+     * @param {Node|undefined} value
+     */
+    constructor(name, value = undefined) {
+        super();
+        this.name = name;
+        this.value = value;
+    }
+}
+type(PropItem, "PropItem");
+alias(PropItem, "Expression");
+visitor(PropItem, "value");
+
 export class SpacelessBlock extends Node {
     /**
      * @param {Node} [body]
