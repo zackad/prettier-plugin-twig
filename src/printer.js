@@ -29,6 +29,8 @@ import { printIfStatement } from "./print/IfStatement.js";
 import { printMountStatement } from "./print/MountStatement.js";
 import { printForStatement } from "./print/ForStatement.js";
 import { printSetStatement } from "./print/SetStatement.js";
+import { printPropsStatement } from "./print/PropsStatement.js";
+import { printPropItem } from "./print/PropItem.js";
 import { printDoStatement } from "./print/DoStatement.js";
 import { printExtendsStatement } from "./print/ExtendsStatement.js";
 import { printEmbedStatement } from "./print/EmbedStatement.js";
@@ -221,6 +223,8 @@ printFunctions["MountStatement"] = printMountStatement;
 printFunctions["ForStatement"] = printForStatement;
 printFunctions["BinaryConcatExpression"] = printBinaryExpression;
 printFunctions["SetStatement"] = printSetStatement;
+printFunctions["PropsStatement"] = printPropsStatement;
+printFunctions["PropItem"] = printPropItem;
 printFunctions["VariableDeclarationStatement"] =
     printVariableDeclarationStatement;
 printFunctions["DoStatement"] = printDoStatement;
