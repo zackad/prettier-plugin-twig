@@ -31,6 +31,7 @@ import { SetParser } from "./parser/set.js";
 import { SpacelessParser } from "./parser/spaceless.js";
 import { UseParser } from "./parser/use.js";
 import { MountParser } from "./parser/mount.js";
+import { PropsParser } from "./parser/props.js";
 
 import forVisitor from "./visitors/for.js";
 import testVisitor from "./visitors/tests.js";
@@ -97,7 +98,8 @@ export const extension = {
         SetParser,
         SpacelessParser,
         UseParser,
-        MountParser
+        MountParser,
+        PropsParser
     ],
     unaryOperators,
     binaryOperators,
