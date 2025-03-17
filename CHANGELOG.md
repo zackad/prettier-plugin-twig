@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.16.0 (2025-03-17)
+
 ### Features
 - [GH-131](https://github.com/zackad/prettier-plugin-twig/issues/131) Improve formatting for `props` tags, feature of [twig component anonymous component](https://symfony.com/bundles/ux-twig-component/current/index.html#anonymous-components)
 
