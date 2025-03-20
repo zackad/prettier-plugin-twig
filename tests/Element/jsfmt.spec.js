@@ -16,6 +16,13 @@ describe("Elements", () => {
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
 
+    it("should handle attribute with twig tag", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "attribute_twig_tag.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle attributes", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "attributes.twig"
