@@ -1,0 +1,9 @@
+{# Example from https://twig.symfony.com/doc/3.x/templates.html#iterable-operators #}
+
+{% set sizes = [34, 36, 38, 40, 42] %}
+
+{% set hasOnlyOver38 = sizes has every v => v > 38 %}
+{# hasOnlyOver38 is false #}
+
+{% set hasOver38 = sizes has some v => v > 38 %}
+{# hasOver38 is true #}

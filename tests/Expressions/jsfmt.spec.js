@@ -39,6 +39,13 @@ describe("Expressions", () => {
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
 
+    it("should handle iterable operator", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "iterable_operator.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle negative number without space", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "negative_number.twig"
