@@ -3,6 +3,12 @@
 ## unreleased
 
 ---
+## 0.16.1 (2025-12-12)
+
+### Bugfixes
+- Remove space before and after opening and closing mappings expression to adhere with twig coding standard
+
+---
 ## 0.16.0 (2025-03-17)
 
 ### Features
