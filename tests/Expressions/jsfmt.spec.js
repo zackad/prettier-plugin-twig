@@ -52,6 +52,18 @@ describe("Expressions", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle mapping expressions without breaking", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "mappingExpression.twig",
+            suffix: "_no_breaking",
+            formatOptions: {
+                twigAlwaysBreakObjects: false
+            }
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle member expressions", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "memberExpression.twig"

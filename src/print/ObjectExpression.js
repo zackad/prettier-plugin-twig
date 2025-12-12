@@ -1,7 +1,7 @@
 import { doc } from "prettier";
 import { EXPRESSION_NEEDED, wrapExpressionIfNeeded } from "../util/index.js";
 
-const { group, line, hardline, indent, join } = doc.builders;
+const { group, hardline, softline, indent, join } = doc.builders;
 
 const printObjectExpression = (node, path, print, options) => {
     if (node.properties.length === 0) {
@@ -9,8 +9,8 @@ const printObjectExpression = (node, path, print, options) => {
     }
     node[EXPRESSION_NEEDED] = false;
     const mappedElements = path.map(print, "properties");
-    const separator = options.twigAlwaysBreakObjects ? hardline : line;
-    const indentedContent = [line, join([",", separator], mappedElements)];
+    const separator = options.twigAlwaysBreakObjects ? hardline : softline;
+    const indentedContent = [softline, join([", ", separator], mappedElements)];
 
     const parts = ["{", indent(indentedContent), separator, "}"];
     wrapExpressionIfNeeded(path, parts, node);
