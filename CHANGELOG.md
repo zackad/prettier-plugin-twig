@@ -3,6 +3,12 @@
 ## unreleased
 
 ---
+## 0.16.2 (2025-12-12)
+
+### Bugfixes
+- Revert changes for removing space between opening/closing mappings expression
+
+---
 ## 0.16.1 (2025-12-12)
 
 ### Bugfixes
