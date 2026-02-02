@@ -31,6 +31,7 @@ const State = {
 const STATE = Symbol("STATE");
 const OPERATORS = Symbol("OPERATORS");
 const STRING_START = Symbol("STRING_START");
+const ATTR_QUOTE = Symbol("ATTR_QUOTE");
 
 const CHAR_TO_TOKEN = {
     "[": TokenTypes.LBRACE,
@@ -57,6 +58,7 @@ export default class Lexer {
         this[STATE] = [State.TEXT];
         this[OPERATORS] = [];
         this[STRING_START] = null;
+        this[ATTR_QUOTE] = null;
         this.options = {
             preserveSourceLiterally: preserveSourceLiterally === true
         };
@@ -74,6 +76,7 @@ export default class Lexer {
     reset() {
         this.input.reset();
         this[STATE] = [State.TEXT];
+        this[ATTR_QUOTE] = null;
     }
 
     get source() {
@@ -265,6 +268,8 @@ export default class Lexer {
                         this.popState();
                         return this.createToken(TokenTypes.ELEMENT_END, pos);
                     case '"':
+                    case "'":
+                        this[ATTR_QUOTE] = c;
                         input.next();
                         this.pushState(State.ATTRIBUTE_VALUE);
                         return this.createToken(TokenTypes.STRING_START, pos);
@@ -275,12 +280,14 @@ export default class Lexer {
                         return this.matchSymbol(pos);
                 }
             } else if (this.state === State.ATTRIBUTE_VALUE) {
-                if (c === '"') {
+                const quoteChar = this[ATTR_QUOTE];
+                if (c === quoteChar) {
                     input.next();
                     this.popState();
+                    this[ATTR_QUOTE] = null;
                     return this.createToken(TokenTypes.STRING_END, pos);
                 }
-                return this.matchAttributeValue(pos);
+                return this.matchAttributeValue(pos, quoteChar);
             } else if (this.state === State.DECLARATION) {
                 switch (c) {
                     case ">":
@@ -569,9 +576,9 @@ export default class Lexer {
         return result;
     }
 
-    matchAttributeValue(pos) {
+    matchAttributeValue(pos, quoteChar = '"') {
         const input = this.input;
-        const start = this.state === State.STRING_SINGLE ? "'" : '"';
+        const start = quoteChar;
         let c = input.la(0);
         const c2 = input.la(1);
         if (c === "{" && (c2 === "{" || c2 === "#" || c2 === "%")) {

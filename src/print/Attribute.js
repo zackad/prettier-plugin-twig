@@ -25,7 +25,8 @@ const printAttribute = (node, path, print = print) => {
     node[EXPRESSION_NEEDED] = true;
     node[STRING_NEEDS_QUOTES] = false;
     if (node.value) {
-        docs.push('="');
+        const quote = node.quoteChar || '"';
+        docs.push("=", quote);
         if (
             Node.isBinaryConcatExpression(node.value) &&
             node.value.wasImplicitConcatenation
@@ -41,7 +42,7 @@ const printAttribute = (node, path, print = print) => {
             }
             docs.push(path.call(print, "value"));
         }
-        docs.push('"');
+        docs.push(quote);
     }
 
     return docs;

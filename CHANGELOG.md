@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Bugfixes
+- [GH-122](https://github.com/zackad/prettier-plugin-twig/issues/122) Add support for single-quoted attribute values
+
 ---
 ## 0.16.2 (2025-12-12)
 

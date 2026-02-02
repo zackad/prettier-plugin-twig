@@ -448,11 +448,13 @@ export class Attribute extends Node {
     /**
      * @param {Node} name
      * @param {Node} value
+     * @param {string} quoteChar
      */
-    constructor(name, value = null) {
+    constructor(name, value = null, quoteChar = '"') {
         super();
         this.name = name;
         this.value = value;
+        this.quoteChar = quoteChar;
     }
 
     isImmutable() {

@@ -9,6 +9,13 @@ describe("Elements", () => {
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
 
+    it("should support single-quoted attribute values so that things like Vue.js work #122", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "vuejs.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle attribute with twig comment", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "attribute_twig_comment.twig"

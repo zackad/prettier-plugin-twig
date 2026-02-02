@@ -432,7 +432,7 @@ export default class Parser {
                     if (nodes.length > 1) {
                         expr.wasImplicitConcatenation = true;
                     }
-                    const attr = new n.Attribute(keyNode, expr);
+                    const attr = new n.Attribute(keyNode, expr, start.text);
                     copyStart(attr, keyNode);
                     copyEnd(attr, expr);
                     element.attributes.push(attr);

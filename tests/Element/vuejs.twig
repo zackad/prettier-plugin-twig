@@ -1,0 +1,471 @@
+{# ===== VUE.JS DIRECTIVE TESTS ===== #}
+
+{# --- v-bind with single quotes (JSON values) --- #}
+<input type="checkbox" :value='{"label": "Health", "value": "1"}' v-model="selected" />
+<input type="checkbox" :value='{"label": "Finance", "value": "2"}' v-model="selected" />
+<input :class='["btn", isActive ? "active" : ""]' />
+<div :style='{"color": "red", "fontSize": "14px"}'></div>
+<component :is='currentComponent'></component>
+
+{# --- v-bind with double quotes --- #}
+<input type="text" :value="formData.name" />
+<div :class="{ active: isActive, 'text-danger': hasError }"></div>
+<div :style="{ color: activeColor, fontSize: fontSize + 'px' }"></div>
+<a :href="url">Link</a>
+<img :src="imageSrc" :alt="imageAlt" />
+
+{# --- v-bind longhand --- #}
+<a v-bind:href="url">Link</a>
+<div v-bind:class="dynamicClass"></div>
+<div v-bind="$attrs"></div>
+<div v-bind="objectOfAttrs"></div>
+
+{# --- v-bind shorthand with modifiers --- #}
+<input :value.trim="message" />
+<input :value.number="age" />
+<input :value.lazy="searchQuery" />
+<a :[attributeName]="url">Dynamic Attribute</a>
+<button :[eventName]="handler">Dynamic Event</button>
+<div :class.camel="someClass"></div>
+<svg :view-box.camel="viewBox"></svg>
+
+{# --- v-model variations --- #}
+<input v-model="message" placeholder="edit me" />
+<input v-model.trim="message" />
+<input v-model.number="age" type="number" />
+<input v-model.lazy="msg" />
+<textarea v-model="message" placeholder="multiline"></textarea>
+<input type="checkbox" v-model="checked" />
+<input type="radio" v-model="picked" value="a" />
+<select v-model="selected">
+    <option disabled value="">Please select one</option>
+    <option>A</option>
+    <option>B</option>
+</select>
+<select v-model="selected" multiple>
+    <option v-for="option in options" :value="option.value">
+        {{ option.text }}
+    </option>
+</select>
+
+{# --- v-on event handlers (longhand) --- #}
+<button v-on:click="counter++">Add 1</button>
+<button v-on:click="greet">Greet</button>
+<form v-on:submit.prevent="onSubmit">Submit</form>
+
+{# --- v-on event handlers (shorthand @) --- #}
+<button @click="counter++">Add 1</button>
+<button @click="greet">Greet</button>
+<button @click="say('hi')">Say hi</button>
+<button @click="say('what', $event)">Say what</button>
+<form @submit.prevent="onSubmit">Submit</form>
+<input @keyup.enter="submit" />
+<input @keyup.page-down="onPageDown" />
+<input @keyup.alt.enter="clear" />
+<div @click.ctrl="doSomething">Ctrl + Click</div>
+
+{# --- v-on modifiers --- #}
+<button @click.stop="doThis">Stop Propagation</button>
+<button @click.prevent="doThat">Prevent Default</button>
+<button @click.stop.prevent="doSomething">Chained Modifiers</button>
+<button @click.capture="doThis">Capture Mode</button>
+<button @click.self="doThat">Only Self</button>
+<button @click.once="doOnce">Once Only</button>
+<button @click.passive="onScroll">Passive</button>
+<button @click.ctrl.exact="onCtrlClick">Only Ctrl + Click</button>
+<button @click.exact="onClick">Only Click without modifiers</button>
+
+{# --- v-on key modifiers --- #}
+<input @keyup.enter="submit" />
+<input @keyup.tab="onTab" />
+<input @keyup.delete="onDelete" />
+<input @keyup.esc="onEsc" />
+<input @keyup.space="onSpace" />
+<input @keyup.up="onUp" />
+<input @keyup.down="onDown" />
+<input @keyup.left="onLeft" />
+<input @keyup.right="onRight" />
+<input @keydown.ctrl.c="onCopy" />
+<input @keydown.ctrl.v="onPaste" />
+
+{# --- v-on mouse modifiers --- #}
+<button @click.left="onClick">Left Click</button>
+<button @click.right="onRightClick">Right Click</button>
+<button @click.middle="onMiddleClick">Middle Click</button>
+
+{# --- Dynamic event names --- #}
+<button @[eventName]="handler">Dynamic Event</button>
+<a @[linkEvent]="handleLink">Dynamic Link Event</a>
+
+{# --- v-if / v-else-if / v-else --- #}
+<h1 v-if="awesome">Vue is awesome!</h1>
+<h1 v-else>Oh no 😢</h1>
+<div v-if="type === 'A'">A</div>
+<div v-else-if="type === 'B'">B</div>
+<div v-else-if="type === 'C'">C</div>
+<div v-else>Not A/B/C</div>
+<template v-if="loginType === 'username'">
+    <label>Username</label>
+    <input placeholder="Enter your username" />
+</template>
+<template v-else>
+    <label>Email</label>
+    <input placeholder="Enter your email address" />
+</template>
+
+{# --- v-show --- #}
+<h1 v-show="ok">Hello!</h1>
+<div v-show="isVisible" class="modal">Modal Content</div>
+
+{# --- v-for loops --- #}
+<li v-for="item in items">{{ item.message }}</li>
+<li v-for="item in items" :key="item.id">{{ item.message }}</li>
+<li v-for="(item, index) in items" :key="item.id">
+    {{ index }} - {{ item.message }}
+</li>
+<div v-for="(value, key) in object" :key="key">{{ key }}: {{ value }}</div>
+<div v-for="(value, name, index) in object" :key="name">
+    {{ index }}. {{ name }}: {{ value }}
+</div>
+<span v-for="n in 10" :key="n">{{ n }}</span>
+<template v-for="item in items" :key="item.id">
+    <li>{{ item.msg }}</li>
+    <li class="divider" role="presentation"></li>
+</template>
+<li v-for="todo in todos" v-if="!todo.isComplete" :key="todo.id">
+    {{ todo.name }}
+</li>
+
+{# --- v-for with v-bind:key variations --- #}
+<div v-for="item in list" v-bind:key="item.id">{{ item }}</div>
+<div v-for="(item, idx) in list" :key="`item-${idx}`">{{ item }}</div>
+
+{# --- v-slot (longhand) --- #}
+<template v-slot:header>
+    <h1>Header content</h1>
+</template>
+<template v-slot:default>
+    Default content
+</template>
+<template v-slot:footer>
+    <p>Footer content</p>
+</template>
+
+{# --- v-slot (shorthand #) --- #}
+<template #header>
+    <h1>Header (shorthand)</h1>
+</template>
+<template #default>
+    Default (shorthand)
+</template>
+<template #footer>
+    <p>Footer (shorthand)</p>
+</template>
+
+{# --- Scoped slots --- #}
+<template v-slot:default="slotProps">
+    {{ slotProps.text }}
+</template>
+<template #default="{ text, count }">
+    {{ text }} - {{ count }}
+</template>
+<template v-slot:item="{ item, index }">
+    <li>{{ index }}: {{ item.name }}</li>
+</template>
+
+{# --- Dynamic slot names --- #}
+<template v-slot:[dynamicSlotName]>
+    Dynamic slot name
+</template>
+<template #[dynamicSlotName]>
+    Dynamic slot (shorthand)
+</template>
+
+{# --- v-pre / v-once / v-memo / v-cloak --- #}
+<span v-pre>This will not be compiled</span>
+<span v-once>This will never change: {{ msg }}</span>
+<div v-memo="[valueA, valueB]">Memoized content</div>
+<div v-cloak>{{ message }}</div>
+
+{# --- v-html / v-text --- #}
+<div v-html="rawHtml"></div>
+<span v-text="message"></span>
+<p v-html='`<strong>Bold</strong>`'></p>
+
+{# --- ref attribute --- #}
+<input ref="input" />
+<input ref="inputRef" />
+<input :ref="(el) => { inputRef = el }" />
+<li v-for="item in list" :ref="setItemRef">{{ item }}</li>
+<child-component ref="childRef"></child-component>
+
+{# --- Component props with various value types --- #}
+<my-component
+    :prop-a='100'
+    :prop-b='"hello"'
+    :prop-c='true'
+    :prop-d='["a", "b", "c"]'
+    :prop-e='{"name": "John", "age": 30}'
+    :prop-f='someVariable'
+    prop-g="static string"
+    :prop-h='null'
+    :prop-i='undefined'
+></my-component>
+
+{# --- Props with complex JSON (single quotes) --- #}
+<data-table
+    :columns='[
+        {"field": "name", "label": "Name"},
+        {"field": "age", "label": "Age"},
+        {"field": "email", "label": "Email"}
+    ]'
+    :options='{"sortable": true, "filterable": true}'
+></data-table>
+
+{# --- Boolean props --- #}
+<my-button disabled></my-button>
+<my-button :disabled="true"></my-button>
+<my-button :disabled="false"></my-button>
+<my-button :disabled="isDisabled"></my-button>
+
+{# --- Teleport --- #}
+<teleport to="body">
+    <div class="modal">Modal content</div>
+</teleport>
+<teleport to="#modals">
+    <div class="modal">Modal to ID</div>
+</teleport>
+<teleport to=".modal-container">
+    <div class="modal">Modal to class</div>
+</teleport>
+<teleport to="body" :disabled="isMobile">
+    <div class="modal">Conditional teleport</div>
+</teleport>
+
+{# --- Transition --- #}
+<transition name="fade">
+    <p v-if="show">hello</p>
+</transition>
+<transition name="slide-fade">
+    <p v-if="show">sliding</p>
+</transition>
+<transition
+    name="custom-classes"
+    enter-active-class="animate__animated animate__tada"
+    leave-active-class="animate__animated animate__bounceOutRight"
+>
+    <p v-if="show">animated</p>
+</transition>
+<transition
+    @before-enter="onBeforeEnter"
+    @enter="onEnter"
+    @after-enter="onAfterEnter"
+    @enter-cancelled="onEnterCancelled"
+    @before-leave="onBeforeLeave"
+    @leave="onLeave"
+    @after-leave="onAfterLeave"
+    @leave-cancelled="onLeaveCancelled"
+>
+    <p v-if="show">with hooks</p>
+</transition>
+<transition name="fade" mode="out-in">
+    <component :is="currentComponent"></component>
+</transition>
+<transition name="fade" mode="in-out">
+    <component :is="currentComponent"></component>
+</transition>
+<transition appear>
+    <p>appears on initial render</p>
+</transition>
+
+{# --- TransitionGroup --- #}
+<transition-group name="list" tag="ul">
+    <li v-for="item in items" :key="item">{{ item }}</li>
+</transition-group>
+<transition-group name="fade" tag="div" class="container">
+    <span v-for="item in items" :key="item.id">{{ item.text }}</span>
+</transition-group>
+
+{# --- KeepAlive --- #}
+<keep-alive>
+    <component :is="currentTab"></component>
+</keep-alive>
+<keep-alive include="a,b">
+    <component :is="view"></component>
+</keep-alive>
+<keep-alive :include="['a', 'b']">
+    <component :is="view"></component>
+</keep-alive>
+<keep-alive :include="/a|b/">
+    <component :is="view"></component>
+</keep-alive>
+<keep-alive :exclude="['c']">
+    <component :is="view"></component>
+</keep-alive>
+<keep-alive :max="10">
+    <component :is="view"></component>
+</keep-alive>
+
+{# --- Suspense --- #}
+<suspense>
+    <async-component />
+</suspense>
+<suspense>
+    <template #default>
+        <async-component />
+    </template>
+    <template #fallback>
+        <div>Loading...</div>
+    </template>
+</suspense>
+<suspense @pending="onPending" @resolve="onResolve" @fallback="onFallback">
+    <async-component />
+</suspense>
+
+{# --- Custom directives --- #}
+<div v-focus></div>
+<div v-highlight="'yellow'"></div>
+<input v-focus:foo.bar="baz" />
+<div v-demo:foo.a.b="message"></div>
+<p v-pin:[direction]="200">Pinned</p>
+
+{# --- Multiple directives on one element --- #}
+<input
+    v-model="searchQuery"
+    v-focus
+    @keyup.enter="search"
+    :placeholder="placeholder"
+    :disabled="isLoading"
+/>
+
+{# --- Component with all features --- #}
+<user-profile
+    v-if="isLoggedIn"
+    v-show="showProfile"
+    :user='{"id": 1, "name": "John"}'
+    :settings="userSettings"
+    :class="{ premium: isPremium }"
+    :style="{ border: '1px solid #ccc' }"
+    @update="onUpdate"
+    @delete="onDelete"
+    ref="profileRef"
+    v-memo="[user.id]"
+>
+    <template #header>
+        <h2>User Profile</h2>
+    </template>
+    <template #default="{ data }">
+        <p>{{ data.bio }}</p>
+    </template>
+    <template #footer>
+        <button @click="save">Save</button>
+    </template>
+</user-profile>
+
+{# --- Mixed Twig + Vue --- #}
+<div
+    :class='{"active": isActive}'
+    class="base-class {{ twigClass }}"
+    data-id="{{ item.id }}"
+    v-if="showElement"
+>
+    {{ vueVariable }} - {{ twigVariable }}
+</div>
+
+{% for item in items %}
+    <div
+        :key='{{ item.id }}'
+        :data-config='{{ item.config|json_encode }}'
+        @click="handleClick({{ item.id }})"
+    >
+        {{ item.name }}
+    </div>
+{% endfor %}
+
+{# --- Complex Real-world Example --- #}
+<div
+    id="app"
+    v-cloak
+    :class='{"dark-mode": isDark, "sidebar-open": sidebarOpen}'
+    @keyup.escape="closeSidebar"
+>
+    <header class="header" v-show="showHeader">
+        <nav class="nav">
+            <a
+                v-for="link in navLinks"
+                :key="link.id"
+                :href="link.url"
+                :class='{"active": currentRoute === link.url}'
+                @click.prevent="navigate(link.url)"
+            >
+                {{ link.label }}
+            </a>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <transition name="fade" mode="out-in">
+            <router-view :key="$route.fullPath"></router-view>
+        </transition>
+    </main>
+
+    <aside
+        class="sidebar"
+        v-show="sidebarOpen"
+        :style='{"width": sidebarWidth + "px"}'
+        @click.self="closeSidebar"
+    >
+        <slot name="sidebar"></slot>
+    </aside>
+
+    <teleport to="body">
+        <div v-if="modalOpen" class="modal-overlay" @click.self="closeModal">
+            <div
+                class="modal-content"
+                :class='{"modal-large": isLargeModal}'
+                role="dialog"
+                aria-modal="true"
+            >
+                <slot name="modal"></slot>
+            </div>
+        </div>
+    </teleport>
+</div>
+
+{# --- Form with full validation --- #}
+<form @submit.prevent="handleSubmit" novalidate>
+    <div class="form-group">
+        <label for="email">Email</label>
+        <input
+            id="email"
+            v-model.trim="form.email"
+            type="email"
+            :class='{"is-invalid": errors.email}'
+            @blur="validateEmail"
+        />
+        <span v-if="errors.email" class="error">{{ errors.email }}</span>
+    </div>
+
+    <div class="form-group">
+        <label for="password">Password</label>
+        <input
+            id="password"
+            v-model="form.password"
+            type="password"
+            :class='{"is-invalid": errors.password}'
+            @input="validatePassword"
+        />
+    </div>
+
+    <div class="form-group">
+        <label>
+            <input type="checkbox" v-model="form.remember" />
+            Remember me
+        </label>
+    </div>
+
+    <button type="submit" :disabled="!isValid || isSubmitting">
+        <span v-if="isSubmitting">Loading...</span>
+        <span v-else>Submit</span>
+    </button>
+</form>
