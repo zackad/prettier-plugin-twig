@@ -37,18 +37,20 @@ export const BlockParser = {
         let openingTagEndToken;
         let closingTagStartToken;
         if ((openingTagEndToken = tokens.nextIf(Types.TAG_END))) {
+            const blockName = createNode(Identifier, nameToken, nameToken.text);
+            const blockBody = parser.parse((tokenText, token, tokens) => {
+                const result = !!(
+                    token.type === Types.TAG_START &&
+                    tokens.nextIf(Types.SYMBOL, "endblock")
+                );
+                if (result) {
+                    closingTagStartToken = token;
+                }
+                return result;
+            });
             blockStatement = new BlockStatement(
-                createNode(Identifier, nameToken, nameToken.text),
-                parser.parse((tokenText, token, tokens) => {
-                    const result = !!(
-                        token.type === Types.TAG_START &&
-                        tokens.nextIf(Types.SYMBOL, "endblock")
-                    );
-                    if (result) {
-                        closingTagStartToken = token;
-                    }
-                    return result;
-                }).expressions
+                blockName,
+                blockBody.expressions
             );
 
             if (tokens.nextIf(Types.SYMBOL, nameToken.text)) {
