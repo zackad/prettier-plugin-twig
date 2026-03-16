@@ -319,6 +319,36 @@ type(SetStatement, "SetStatement");
 alias(SetStatement, "Statement", "ContextMutation");
 visitor(SetStatement, "assignments");
 
+export class TypesVariableDeclaration extends Node {
+    /**
+     * @param {Identifier} name
+     * @param {string} value
+     */
+    constructor(name, value) {
+        super();
+        this.name = name;
+        this.value = value;
+        this.optional = false;
+    }
+}
+type(TypesVariableDeclaration, "TypesVariableDeclaration");
+alias(TypesVariableDeclaration, "Statement");
+visitor(TypesVariableDeclaration, "name", "value");
+
+export class TypesDeclarationStatement extends Node {
+    /**
+     * @param {Array<TypesVariableDeclaration>} declarations
+     */
+    constructor(declarations = []) {
+        super();
+        this.declarations = declarations;
+        this.enclosed = false;
+    }
+}
+type(TypesDeclarationStatement, "TypesDeclarationStatement");
+alias(TypesDeclarationStatement, "Statement");
+visitor(TypesDeclarationStatement, "declarations");
+
 export class PropsStatement extends Node {
     /**
      *

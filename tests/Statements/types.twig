@@ -1,0 +1,22 @@
+{% types is_correct: "boolean" %}
+
+{% types number: "int|float" %}
+
+{% types disjunctive: "A&B" %}
+
+{% types
+    is_correct: "boolean",
+    score: "number",
+%}
+
+{% types is_correct:"boolean",score:"number"%}
+
+{% types {
+    is_correct: "boolean",
+    score: "number",
+} %}
+
+{% types {
+    is_correct: "boolean",
+    score?: "number",
+} %}

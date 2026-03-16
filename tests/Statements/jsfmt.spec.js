@@ -44,4 +44,10 @@ describe("Statements", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should handle types statements", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "types.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });
