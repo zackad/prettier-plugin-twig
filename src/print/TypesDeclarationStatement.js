@@ -7,6 +7,10 @@ const { group, join, line, indentIfBreak, hardline, softline } = doc.builders;
  */
 
 /**
+ * The `{% types %}` tag node printer.
+ *
+ * Introduced in Twig version 3.13.
+ *
  * @param {TypesDeclarationStatement} node
  */
 const printTypesDeclarationStatement = (node, path, print) => {

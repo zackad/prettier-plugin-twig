@@ -319,6 +319,13 @@ type(SetStatement, "SetStatement");
 alias(SetStatement, "Statement", "ContextMutation");
 visitor(SetStatement, "assignments");
 
+/**
+ * The `{% types foo?: 'string' %}` variable type node.
+ *
+ * Introduced in Twig version 3.13.
+ *
+ * @property {boolean} optional
+ */
 export class TypesVariableDeclaration extends Node {
     /**
      * @param {Identifier} name
@@ -335,6 +342,13 @@ type(TypesVariableDeclaration, "TypesVariableDeclaration");
 alias(TypesVariableDeclaration, "Statement");
 visitor(TypesVariableDeclaration, "name", "value");
 
+/**
+ * The `{% types %}` tag node.
+ *
+ * Introduced in Twig version 3.13.
+ *
+ * @property {boolean} enclosed
+ */
 export class TypesDeclarationStatement extends Node {
     /**
      * @param {Array<TypesVariableDeclaration>} declarations

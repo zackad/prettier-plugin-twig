@@ -8,6 +8,10 @@ const { group } = doc.builders;
  */
 
 /**
+ * The `{% types foo?: 'string' %}` variable type node printer.
+ *
+ * Introduced in Twig version 3.13.
+ *
  * @param {TypesVariableDeclaration} node
  */
 const printTypesVariableDeclaration = (node, path, print) => {

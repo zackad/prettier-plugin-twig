@@ -22,6 +22,11 @@ import { Identifier, StringLiteral } from "../../melody-types/index.js";
  * @typedef {import('../../melody-types/index.js').Node} Node
  */
 
+/**
+ * The `{% types %}` tag node parser.
+ *
+ * Introduced in Twig version 3.13.
+ */
 export const TypesParser = {
     name: "types",
     /**
