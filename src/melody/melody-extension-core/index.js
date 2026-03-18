@@ -29,6 +29,7 @@ import { IncludeParser } from "./parser/include.js";
 import { MacroParser } from "./parser/macro.js";
 import { SetParser } from "./parser/set.js";
 import { SpacelessParser } from "./parser/spaceless.js";
+import { TypesParser } from "./parser/types.js";
 import { UseParser } from "./parser/use.js";
 import { MountParser } from "./parser/mount.js";
 import { PropsParser } from "./parser/props.js";
@@ -97,6 +98,7 @@ export const extension = {
         MacroParser,
         SetParser,
         SpacelessParser,
+        TypesParser,
         UseParser,
         MountParser,
         PropsParser
@@ -128,6 +130,8 @@ export {
     VariableDeclarationStatement,
     SetStatement,
     SpacelessBlock,
+    TypesDeclarationStatement,
+    TypesVariableDeclaration,
     AliasExpression,
     UseStatement,
     UnaryNotExpression,

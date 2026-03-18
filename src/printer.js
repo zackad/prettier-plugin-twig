@@ -46,6 +46,8 @@ import { printFilterBlockStatement } from "./print/FilterBlockStatement.js";
 import { printVariableDeclarationStatement } from "./print/VariableDeclarationStatement.js";
 import { printNamedArgumentExpression } from "./print/NamedArgumentExpression.js";
 import { printSwitchTag } from "./print/SwitchTag.js";
+import { printTypesDeclarationStatement } from "./print/TypesDeclarationStatement.js";
+import { printTypesVariableDeclaration } from "./print/TypesVariableDeclaration.js";
 import {
     isWhitespaceNode,
     isHtmlCommentEqualTo,
@@ -223,6 +225,8 @@ printFunctions["MountStatement"] = printMountStatement;
 printFunctions["ForStatement"] = printForStatement;
 printFunctions["BinaryConcatExpression"] = printBinaryExpression;
 printFunctions["SetStatement"] = printSetStatement;
+printFunctions["TypesDeclarationStatement"] = printTypesDeclarationStatement;
+printFunctions["TypesVariableDeclaration"] = printTypesVariableDeclaration;
 printFunctions["PropsStatement"] = printPropsStatement;
 printFunctions["PropItem"] = printPropItem;
 printFunctions["VariableDeclarationStatement"] =
