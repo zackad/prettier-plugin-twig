@@ -3,6 +3,12 @@
 ## unreleased
 
 ---
+## 0.17.0 (2026-03-18)
+
+### Features
+- [GH-147](https://github.com/zackad/prettier-plugin-twig/pull/147) Add support for `types` tag introduced in twig v3.13 by @mcaskill
+
+---
 ## 0.16.3 (2026-02-03)
 
 ### Bugfixes
