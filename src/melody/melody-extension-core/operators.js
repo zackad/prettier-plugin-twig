@@ -317,6 +317,18 @@ export const TestOddExpression = createTestExpression(
     "odd",
     "TestOddExpression"
 );
+
+export const TestNumericExpression = createTestExpression(
+    "numeric",
+    "TestNumericExpression"
+);
+tests.push({
+    text: "numeric",
+    createNode(expr, args) {
+        return new TestNumericExpression(expr, args);
+    }
+});
+
 export const TestDefinedExpression = createTestExpression(
     "defined",
     "TestDefinedExpression"
