@@ -29,7 +29,6 @@ import { GenericTagParser } from "./GenericTagParser.js";
 import { createMultiTagParser } from "./GenericMultiTagParser.js";
 import { voidElements } from "./elementInfo.js";
 import * as he from "he";
-import { Attribute } from "../melody-types/index.js";
 
 /**
  * @typedef {Object} UnaryOperator
