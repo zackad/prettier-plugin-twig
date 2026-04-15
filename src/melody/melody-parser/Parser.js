@@ -648,8 +648,7 @@ export default class Parser {
                         },
                         {
                             errorType: "UNEXPECTED_TOKEN",
-                            tokenText: token.text,
-                            tokenType: token.type
+                            token
                         }
                     );
                 }

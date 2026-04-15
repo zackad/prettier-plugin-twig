@@ -34,7 +34,7 @@ export const GenericTagParser = {
                 } catch (e) {
                     if (e.errorType === "UNEXPECTED_TOKEN") {
                         twigTag.parts.push(
-                            new n.GenericToken(e.tokenType, e.tokenText)
+                            new n.GenericToken(e.token.type, e.token.text)
                         );
                         tokens.next();
                     } else {
