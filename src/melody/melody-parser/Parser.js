@@ -157,8 +157,15 @@ export default class Parser {
                 setEndFromToken(p, token);
                 return p;
             }
-            this.parseToken(token, p);
-
+            try {
+                this.parseToken(token, p);
+            } catch (e) {
+                if (e.errorType === "UNEXPECTED_TOKEN") {
+                    this.parseUnexpectedToken(e, token, p);
+                } else {
+                    throw e;
+                }
+            }
         }
         return p;
     }
@@ -256,6 +263,59 @@ export default class Parser {
                     p.add(htmlComment);
                 }
                 break;
+        }
+    }
+
+    /**
+     * @param {Error} cause
+     * @param {SequenceExpression} p
+     */
+    parseUnexpectedToken(cause, startToken, p) {
+        const tokens = this.tokens;
+        switch (startToken.type) {
+            case Types.DECLARATION_START:
+            case Types.EXPRESSION_START:
+            case Types.TAG_START: {
+                const END_DELIMITER = Types.DELIMITER_TABLE[startToken.type];
+                const unexpectedToken = cause.token;
+                let currentToken;
+                while ((currentToken = tokens.la(0))) {
+                    if (
+                        currentToken.type === Types.EOF ||
+                        currentToken.type === END_DELIMITER
+                    ) {
+                        break;
+                    } else {
+                        tokens.next();
+                    }
+                }
+                const endToken = tokens.expect(END_DELIMITER);
+
+                const start = Math.max(startToken.pos.index - 1, 0);
+                const end = Math.min(
+                    endToken.endPos.index,
+                    endToken.source.length
+                );
+                const slicedSource = unexpectedToken.source.slice(start, end);
+
+                const erroredSource = createNode(
+                    n.StringLiteral,
+                    unexpectedToken,
+                    slicedSource
+                );
+                const erroredStatement = createNode(
+                    n.PrintErroredStatement,
+                    unexpectedToken,
+                    erroredSource,
+                    cause
+                );
+
+                setStartFromToken(erroredStatement, startToken);
+                setEndFromToken(erroredStatement, currentToken);
+
+                p.add(erroredStatement);
+                break;
+            }
         }
     }
 

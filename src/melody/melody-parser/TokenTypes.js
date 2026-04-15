@@ -65,6 +65,15 @@ export const EOF_TOKEN = {
     text: ""
 };
 
+export const DELIMITER_TABLE = {
+    [DECLARATION_START]: ELEMENT_END,
+    [ELEMENT_START]: ELEMENT_END,
+    [EXPRESSION_START]: EXPRESSION_END,
+    [INTERPOLATION_START]: INTERPOLATION_END,
+    [STRING_START]: STRING_END,
+    [TAG_START]: TAG_END
+};
+
 export const ERROR_TABLE = {
     [EXPRESSION_END]: 'expression end "}}"',
     [EXPRESSION_START]: 'expression start "{{"',
