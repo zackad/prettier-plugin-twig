@@ -157,99 +157,106 @@ export default class Parser {
                 setEndFromToken(p, token);
                 return p;
             }
-            switch (token.type) {
-                case Types.EXPRESSION_START: {
-                    const expression = this.matchExpression();
-                    const statement = new n.PrintExpressionStatement(
-                        expression
-                    );
-                    const endToken = tokens.expect(Types.EXPRESSION_END);
-                    setStartFromToken(statement, token);
-                    setEndFromToken(statement, endToken);
-                    setEndFromToken(p, endToken);
-                    statement.trimLeft = !!expression.trimLeft;
-                    statement.trimRight = !!expression.trimRight;
-                    p.add(statement);
+            this.parseToken(token, p);
 
-                    break;
+        }
+        return p;
+    }
+
+    /**
+     * @param {SequenceExpression} p
+     */
+    parseToken(token, p) {
+        const tokens = this.tokens;
+        switch (token.type) {
+            case Types.EXPRESSION_START: {
+                const expression = this.matchExpression();
+                const statement = new n.PrintExpressionStatement(expression);
+                const endToken = tokens.expect(Types.EXPRESSION_END);
+                setStartFromToken(statement, token);
+                setEndFromToken(statement, endToken);
+                setEndFromToken(p, endToken);
+                statement.trimLeft = !!expression.trimLeft;
+                statement.trimRight = !!expression.trimRight;
+                p.add(statement);
+
+                break;
+            }
+            case Types.TAG_START:
+                p.add(this.matchTag());
+                break;
+            case Types.TEXT: {
+                const textStringLiteral = createNode(
+                    n.StringLiteral,
+                    token,
+                    token.text
+                );
+                const textTextStatement = createNode(
+                    n.PrintTextStatement,
+                    token,
+                    textStringLiteral
+                );
+                p.add(textTextStatement);
+                break;
+            }
+            case Types.ENTITY: {
+                const entityStringLiteral = createNode(
+                    n.StringLiteral,
+                    token,
+                    !this.options.decodeEntities ||
+                        this.options.preserveSourceLiterally
+                        ? token.text
+                        : he.decode(token.text)
+                );
+                const entityTextStatement = createNode(
+                    n.PrintTextStatement,
+                    token,
+                    entityStringLiteral
+                );
+                p.add(entityTextStatement);
+                break;
+            }
+            case Types.ELEMENT_START:
+                p.add(this.matchElement());
+                break;
+            case Types.DECLARATION_START: {
+                const declarationNode = this.matchDeclaration();
+                if (!this.options.ignoreDeclarations) {
+                    p.add(declarationNode);
                 }
-                case Types.TAG_START:
-                    p.add(this.matchTag());
-                    break;
-                case Types.TEXT: {
-                    const textStringLiteral = createNode(
+                break;
+            }
+            case Types.COMMENT:
+                if (!this.options.ignoreComments) {
+                    const stringLiteral = createNode(
                         n.StringLiteral,
                         token,
                         token.text
                     );
-                    const textTextStatement = createNode(
-                        n.PrintTextStatement,
+                    const twigComment = createNode(
+                        n.TwigComment,
                         token,
-                        textStringLiteral
+                        stringLiteral
                     );
-                    p.add(textTextStatement);
-                    break;
+                    p.add(twigComment);
                 }
-                case Types.ENTITY: {
-                    const entityStringLiteral = createNode(
+                break;
+            case Types.HTML_COMMENT:
+                if (!this.options.ignoreHtmlComments) {
+                    const stringLiteral = createNode(
                         n.StringLiteral,
                         token,
-                        !this.options.decodeEntities ||
-                            this.options.preserveSourceLiterally
-                            ? token.text
-                            : he.decode(token.text)
+                        token.text
                     );
-                    const entityTextStatement = createNode(
-                        n.PrintTextStatement,
+                    const htmlComment = createNode(
+                        n.HtmlComment,
                         token,
-                        entityStringLiteral
+                        stringLiteral
                     );
-                    p.add(entityTextStatement);
-                    break;
+                    p.add(htmlComment);
                 }
-                case Types.ELEMENT_START:
-                    p.add(this.matchElement());
-                    break;
-                case Types.DECLARATION_START: {
-                    const declarationNode = this.matchDeclaration();
-                    if (!this.options.ignoreDeclarations) {
-                        p.add(declarationNode);
-                    }
-                    break;
-                }
-                case Types.COMMENT:
-                    if (!this.options.ignoreComments) {
-                        const stringLiteral = createNode(
-                            n.StringLiteral,
-                            token,
-                            token.text
-                        );
-                        const twigComment = createNode(
-                            n.TwigComment,
-                            token,
-                            stringLiteral
-                        );
-                        p.add(twigComment);
-                    }
-                    break;
-                case Types.HTML_COMMENT:
-                    if (!this.options.ignoreHtmlComments) {
-                        const stringLiteral = createNode(
-                            n.StringLiteral,
-                            token,
-                            token.text
-                        );
-                        const htmlComment = createNode(
-                            n.HtmlComment,
-                            token,
-                            stringLiteral
-                        );
-                        p.add(htmlComment);
-                    }
-                    break;
-            }
+                break;
         }
-        return p;
     }
 
     /**
