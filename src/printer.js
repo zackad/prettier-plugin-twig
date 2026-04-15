@@ -53,6 +53,7 @@ import {
     isHtmlCommentEqualTo,
     isTwigCommentEqualTo
 } from "./util/index.js";
+import { PRETTIER_IGNORED_CODE } from "./util/publicSymbols.js";
 import { ORIGINAL_SOURCE } from "./parser.js";
 
 const printFunctions = {};
@@ -102,13 +103,13 @@ const print = (path, options, print) => {
     }
 
     checkForIgnoreEnd(node);
-    const useOriginalSource =
+    node[PRETTIER_IGNORED_CODE] =
         (shouldApplyIgnoreNext(node) && ignoreNext) || ignoreRegion;
     const hasPrintFunction = printFunctions[nodeType];
 
     // Happy path: We have a formatting function, and the user wants the
     // node formatted
-    if (!useOriginalSource && hasPrintFunction) {
+    if (!node[PRETTIER_IGNORED_CODE] && hasPrintFunction) {
         checkForIgnoreStart(node);
         return printFunctions[nodeType](node, path, print, options);
     } else if (!hasPrintFunction) {
