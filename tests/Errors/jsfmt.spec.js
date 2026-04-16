@@ -16,4 +16,20 @@ describe("Errors", () => {
             await expect(promise).rejects.toThrow("Invalid Token");
         });
     });
+    describe("lexer", () => {
+        it("should fail against non-breaking space token in expression", async () => {
+            const promise = run_spec(import.meta.url, {
+                source: "nonBreakingSpaceInExpression.twig"
+            });
+            await expect(promise).rejects.toThrow(
+                "Unsupported token: Non-breaking space"
+            );
+        });
+        it("should fail against unknown token in expression", async () => {
+            const promise = run_spec(import.meta.url, {
+                source: "unknownTokenInExpression.twig"
+            });
+            await expect(promise).rejects.toThrow("Unknown token ^");
+        });
+    });
 });
