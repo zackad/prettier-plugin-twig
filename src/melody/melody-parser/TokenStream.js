@@ -50,19 +50,6 @@ export default class TokenStream {
         );
         this[TOKENS] = getAllTokens(lexer, mergedOptions);
         this[LENGTH] = this[TOKENS].length;
-
-        if (
-            this[TOKENS].length &&
-            this[TOKENS][this[TOKENS].length - 1].type === ERROR
-        ) {
-            const errorToken = this[TOKENS][this[TOKENS].length - 1];
-            this.error(
-                errorToken.message,
-                errorToken.pos,
-                errorToken.advice,
-                errorToken.endPos.index - errorToken.pos.index || 1
-            );
-        }
     }
 
     la(offset) {
@@ -85,6 +72,18 @@ export default class TokenStream {
         }
         const token = this[TOKENS][this.index];
         this.index++;
+        if (token.type === ERROR) {
+            this.error(
+                token.message,
+                token.pos,
+                token.advice,
+                token.endPos.index - token.pos.index || 1,
+                {
+                    errorType: "UNEXPECTED_TOKEN",
+                    token
+                }
+            );
+        }
         return token;
     }
 
@@ -179,9 +178,6 @@ function getAllTokens(lexer, options) {
             tokens[tokens.length] = token;
         }
         acceptWhitespaceControl = options.applyWhitespaceTrimming;
-        if (token.type === ERROR) {
-            return tokens;
-        }
     }
     return tokens;
 }

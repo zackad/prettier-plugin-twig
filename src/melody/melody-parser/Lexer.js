@@ -413,11 +413,13 @@ export default class Lexer {
                     input.next();
                     return this.createToken(CHAR_TO_TOKEN[c], pos);
                 } else if (c === "\xa0") {
+                    input.next();
                     return this.error(
                         "Unsupported token: Non-breaking space",
                         pos
                     );
                 }
+                input.next();
                 return this.error(`Unknown token ${c}`, pos);
             }
         }
