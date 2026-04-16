@@ -106,7 +106,11 @@ export default class TokenStream {
             `Expected ${ERROR_TABLE[type] || type || text} but found ${
                 ERROR_TABLE[token.type] || token.type || token.text
             } instead.`,
-            token.length
+            token.length,
+            {
+                errorType: "UNEXPECTED_TOKEN",
+                token
+            }
         );
     }
 

@@ -5,6 +5,7 @@ import { printElement } from "./print/Element.js";
 import { printAttribute } from "./print/Attribute.js";
 import { printIdentifier } from "./print/Identifier.js";
 import { printExpressionStatement } from "./print/ExpressionStatement.js";
+import { printErroredStatement } from "./print/ErroredStatement.js";
 import { printMemberExpression } from "./print/MemberExpression.js";
 import { printFilterExpression } from "./print/FilterExpression.js";
 import { printArrowFunction } from "./print/ArrowFunction.js";
@@ -53,6 +54,7 @@ import {
     isHtmlCommentEqualTo,
     isTwigCommentEqualTo
 } from "./util/index.js";
+import { PRETTIER_IGNORED_CODE } from "./util/publicSymbols.js";
 import { ORIGINAL_SOURCE } from "./parser.js";
 
 const printFunctions = {};
@@ -102,13 +104,13 @@ const print = (path, options, print) => {
     }
 
     checkForIgnoreEnd(node);
-    const useOriginalSource =
+    node[PRETTIER_IGNORED_CODE] =
         (shouldApplyIgnoreNext(node) && ignoreNext) || ignoreRegion;
     const hasPrintFunction = printFunctions[nodeType];
 
     // Happy path: We have a formatting function, and the user wants the
     // node formatted
-    if (!useOriginalSource && hasPrintFunction) {
+    if (!node[PRETTIER_IGNORED_CODE] && hasPrintFunction) {
         checkForIgnoreStart(node);
         return printFunctions[nodeType](node, path, print, options);
     } else if (!hasPrintFunction) {
@@ -193,6 +195,7 @@ printFunctions["Element"] = printElement;
 printFunctions["Attribute"] = printAttribute;
 printFunctions["PrintTextStatement"] = printTextStatement;
 printFunctions["PrintExpressionStatement"] = printExpressionStatement;
+printFunctions["PrintErroredStatement"] = printErroredStatement;
 printFunctions["MemberExpression"] = printMemberExpression;
 printFunctions["FilterExpression"] = printFilterExpression;
 printFunctions["ArrowFunction"] = printArrowFunction;

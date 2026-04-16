@@ -157,6 +157,21 @@ type(PrintTextStatement, "PrintTextStatement");
 alias(PrintTextStatement, "Statement", "PrintStatement");
 visitor(PrintTextStatement, "value");
 
+export class PrintErroredStatement extends Node {
+    /**
+     * @param {StringLiteral} input
+     * @param {?Error} [cause]
+     */
+    constructor(input, cause = null) {
+        super();
+        this.value = input;
+        this.cause = cause;
+    }
+}
+type(PrintErroredStatement, "PrintErroredStatement");
+alias(PrintErroredStatement, "Statement", "PrintStatement");
+visitor(PrintErroredStatement, "value");
+
 export class ConstantValue extends Node {
     constructor(value) {
         super();
