@@ -29,7 +29,6 @@ import { GenericTagParser } from "./GenericTagParser.js";
 import { createMultiTagParser } from "./GenericMultiTagParser.js";
 import { voidElements } from "./elementInfo.js";
 import * as he from "he";
-import { Attribute } from "../melody-types/index.js";
 
 /**
  * @typedef {Object} UnaryOperator
@@ -158,99 +157,166 @@ export default class Parser {
                 setEndFromToken(p, token);
                 return p;
             }
-            switch (token.type) {
-                case Types.EXPRESSION_START: {
-                    const expression = this.matchExpression();
-                    const statement = new n.PrintExpressionStatement(
-                        expression
-                    );
-                    const endToken = tokens.expect(Types.EXPRESSION_END);
-                    setStartFromToken(statement, token);
-                    setEndFromToken(statement, endToken);
-                    setEndFromToken(p, endToken);
-                    statement.trimLeft = !!expression.trimLeft;
-                    statement.trimRight = !!expression.trimRight;
-                    p.add(statement);
-
-                    break;
+            try {
+                this.parseToken(token, p);
+            } catch (e) {
+                if (e.errorType === "UNEXPECTED_TOKEN") {
+                    this.parseUnexpectedToken(e, token, p);
+                } else {
+                    throw e;
                 }
-                case Types.TAG_START:
-                    p.add(this.matchTag());
-                    break;
-                case Types.TEXT: {
-                    const textStringLiteral = createNode(
+            }
+        }
+        return p;
+    }
+
+    /**
+     * @param {SequenceExpression} p
+     */
+    parseToken(token, p) {
+        const tokens = this.tokens;
+        switch (token.type) {
+            case Types.EXPRESSION_START: {
+                const expression = this.matchExpression();
+                const statement = new n.PrintExpressionStatement(expression);
+                const endToken = tokens.expect(Types.EXPRESSION_END);
+                setStartFromToken(statement, token);
+                setEndFromToken(statement, endToken);
+                setEndFromToken(p, endToken);
+                statement.trimLeft = !!expression.trimLeft;
+                statement.trimRight = !!expression.trimRight;
+                p.add(statement);
+
+                break;
+            }
+            case Types.TAG_START:
+                p.add(this.matchTag());
+                break;
+            case Types.TEXT: {
+                const textStringLiteral = createNode(
+                    n.StringLiteral,
+                    token,
+                    token.text
+                );
+                const textTextStatement = createNode(
+                    n.PrintTextStatement,
+                    token,
+                    textStringLiteral
+                );
+                p.add(textTextStatement);
+                break;
+            }
+            case Types.ENTITY: {
+                const entityStringLiteral = createNode(
+                    n.StringLiteral,
+                    token,
+                    !this.options.decodeEntities ||
+                        this.options.preserveSourceLiterally
+                        ? token.text
+                        : he.decode(token.text)
+                );
+                const entityTextStatement = createNode(
+                    n.PrintTextStatement,
+                    token,
+                    entityStringLiteral
+                );
+                p.add(entityTextStatement);
+                break;
+            }
+            case Types.ELEMENT_START:
+                p.add(this.matchElement());
+                break;
+            case Types.DECLARATION_START: {
+                const declarationNode = this.matchDeclaration();
+                if (!this.options.ignoreDeclarations) {
+                    p.add(declarationNode);
+                }
+                break;
+            }
+            case Types.COMMENT:
+                if (!this.options.ignoreComments) {
+                    const stringLiteral = createNode(
                         n.StringLiteral,
                         token,
                         token.text
                     );
-                    const textTextStatement = createNode(
-                        n.PrintTextStatement,
+                    const twigComment = createNode(
+                        n.TwigComment,
                         token,
-                        textStringLiteral
+                        stringLiteral
                     );
-                    p.add(textTextStatement);
-                    break;
+                    p.add(twigComment);
                 }
-                case Types.ENTITY: {
-                    const entityStringLiteral = createNode(
+                break;
+            case Types.HTML_COMMENT:
+                if (!this.options.ignoreHtmlComments) {
+                    const stringLiteral = createNode(
                         n.StringLiteral,
                         token,
-                        !this.options.decodeEntities ||
-                            this.options.preserveSourceLiterally
-                            ? token.text
-                            : he.decode(token.text)
+                        token.text
                     );
-                    const entityTextStatement = createNode(
-                        n.PrintTextStatement,
+                    const htmlComment = createNode(
+                        n.HtmlComment,
                         token,
-                        entityStringLiteral
+                        stringLiteral
                     );
-                    p.add(entityTextStatement);
-                    break;
+                    p.add(htmlComment);
                 }
-                case Types.ELEMENT_START:
-                    p.add(this.matchElement());
-                    break;
-                case Types.DECLARATION_START: {
-                    const declarationNode = this.matchDeclaration();
-                    if (!this.options.ignoreDeclarations) {
-                        p.add(declarationNode);
+                break;
+        }
+    }
+
+    /**
+     * @param {Error} cause
+     * @param {SequenceExpression} p
+     */
+    parseUnexpectedToken(cause, startToken, p) {
+        const tokens = this.tokens;
+        switch (startToken.type) {
+            case Types.DECLARATION_START:
+            case Types.EXPRESSION_START:
+            case Types.TAG_START: {
+                const END_DELIMITER = Types.DELIMITER_TABLE[startToken.type];
+                const unexpectedToken = cause.token;
+                let currentToken;
+                while ((currentToken = tokens.la(0))) {
+                    if (
+                        currentToken.type === Types.EOF ||
+                        currentToken.type === END_DELIMITER
+                    ) {
+                        break;
+                    } else {
+                        tokens.next();
                     }
-                    break;
                 }
-                case Types.COMMENT:
-                    if (!this.options.ignoreComments) {
-                        const stringLiteral = createNode(
-                            n.StringLiteral,
-                            token,
-                            token.text
-                        );
-                        const twigComment = createNode(
-                            n.TwigComment,
-                            token,
-                            stringLiteral
-                        );
-                        p.add(twigComment);
-                    }
-                    break;
-                case Types.HTML_COMMENT:
-                    if (!this.options.ignoreHtmlComments) {
-                        const stringLiteral = createNode(
-                            n.StringLiteral,
-                            token,
-                            token.text
-                        );
-                        const htmlComment = createNode(
-                            n.HtmlComment,
-                            token,
-                            stringLiteral
-                        );
-                        p.add(htmlComment);
-                    }
-                    break;
+                const endToken = tokens.expect(END_DELIMITER);
+
+                const start = Math.max(startToken.pos.index - 1, 0);
+                const end = Math.min(
+                    endToken.endPos.index,
+                    endToken.source.length
+                );
+                const slicedSource = unexpectedToken.source.slice(start, end);
+
+                const erroredSource = createNode(
+                    n.StringLiteral,
+                    unexpectedToken,
+                    slicedSource
+                );
+                const erroredStatement = createNode(
+                    n.PrintErroredStatement,
+                    unexpectedToken,
+                    erroredSource,
+                    cause
+                );
+
+                setStartFromToken(erroredStatement, startToken);
+                setEndFromToken(erroredStatement, currentToken);
+
+                p.add(erroredStatement);
+                break;
             }
         }
-        return p;
     }
 
     /**
@@ -649,8 +715,7 @@ export default class Parser {
                         },
                         {
                             errorType: "UNEXPECTED_TOKEN",
-                            tokenText: token.text,
-                            tokenType: token.type
+                            token
                         }
                     );
                 }

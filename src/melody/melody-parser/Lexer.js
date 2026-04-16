@@ -186,6 +186,8 @@ export default class Lexer {
                                 input.next();
                                 input.next();
                                 if (!(c = input.next()) === ">") {
+                                    // Unused error; Prettier appears to
+                                    // fix malformed HTML comments.
                                     this.error(
                                         "Unexpected end for HTML comment",
                                         input.mark(),
@@ -304,6 +306,7 @@ export default class Lexer {
                         return this.matchSymbol(pos);
                 }
             } else {
+                // Unreachable error?
                 return this.error(`Invalid state ${this.state}`, pos);
             }
         }
@@ -410,11 +413,13 @@ export default class Lexer {
                     input.next();
                     return this.createToken(CHAR_TO_TOKEN[c], pos);
                 } else if (c === "\xa0") {
+                    input.next();
                     return this.error(
                         "Unsupported token: Non-breaking space",
                         pos
                     );
                 }
+                input.next();
                 return this.error(`Unknown token ${c}`, pos);
             }
         }
@@ -521,6 +526,7 @@ export default class Lexer {
         }
         const end = input.mark();
         if (pos.index === end.index) {
+            // Unreachable error?
             return this.error(
                 "Expected an Identifier",
                 pos,

@@ -56,6 +56,12 @@ const PRESERVE_LEADING_WHITESPACE = Symbol("PRESERVE_LEADING_WHITESPACE");
 const PRESERVE_TRAILING_WHITESPACE = Symbol("PRESERVE_TRAILING_WHITESPACE");
 
 /**
+ * Signals to statements that they should be ignored
+ * and printed as is.
+ */
+const PRETTIER_IGNORED_CODE = Symbol("PRETTIER_IGNORED_CODE");
+
+/**
  * Signals to text statements that only newlines should be
  * preserved when hitting a whitespace-only node
  */
@@ -77,6 +83,7 @@ const IS_ROOT_LOGICAL_EXPRESSION = Symbol("IS_ROOT_LOGICAL_EXPRESSION");
 export {
     STRING_NEEDS_QUOTES,
     OVERRIDE_QUOTE_CHAR,
+    PRETTIER_IGNORED_CODE,
     INSIDE_OF_STRING,
     EXPRESSION_NEEDED,
     FILTER_BLOCK,

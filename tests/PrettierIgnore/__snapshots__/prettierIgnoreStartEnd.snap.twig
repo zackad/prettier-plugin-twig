@@ -17,3 +17,17 @@
 <div>
     <span class="what-about-this">Should re-format</span>
 </div>
+
+<!-- prettier-ignore-start -->
+{% set unexpectedQuestionMark?: %}
+<!-- prettier-ignore-end -->
+
+{# prettier-ignore-start #}
+{% set unexpectedQuestionMark?: %}
+{# prettier-ignore-end #}
+
+{# prettier-ignore-start #}
+{%    foobar^ %}
+Test
+{% endfoobar    %}
+{# prettier-ignore-end #}
