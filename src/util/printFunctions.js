@@ -1,10 +1,15 @@
 import { doc } from "prettier";
 import { Node } from "../melody/melody-types/index.js";
 
-const { line, indent, group } = doc.builders;
+const { indent, group } = doc.builders;
 
 const noSpaceBeforeToken = {
-    ",": true
+    ",": true,
+    "=": true
+};
+
+const noSpaceAfterToken = {
+    "=": true
 };
 
 const printSingleTwigTag = (node, path, print) => {
@@ -17,16 +22,19 @@ const printSingleTwigTag = (node, path, print) => {
     const indentedParts = [];
     for (let i = 1; i < node.parts.length; i++) {
         const part = node.parts[i];
+        const prevPart = node.parts[i - 1];
         const isToken = Node.isGenericToken(part);
-        const separator =
-            isToken && noSpaceBeforeToken[part.tokenText] ? "" : line;
+        const isPrevToken = Node.isGenericToken(prevPart);
+        const noSpaceBefore = isToken && noSpaceBeforeToken[part.tokenText];
+        const noSpaceAfter = isPrevToken && noSpaceAfterToken[prevPart.tokenText];
+        const separator = noSpaceBefore || noSpaceAfter ? "" : " ";
         indentedParts.push(separator, printedParts[i]);
     }
     if (node.parts.length > 1) {
         parts.push(indent(indentedParts));
     }
     const closing = node.trimRight ? "-%}" : "%}";
-    parts.push(line, closing);
+    parts.push(" ", closing);
     return group(parts);
 };
 
