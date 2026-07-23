@@ -23,7 +23,8 @@ const printSingleTwigTag = (node, path, print) => {
         const isToken = Node.isGenericToken(part);
         const isPrevToken = Node.isGenericToken(prevPart);
         const noSpaceBefore = isToken && noSpaceBeforeToken[part.tokenText];
-        const noSpaceAfter = isPrevToken && noSpaceAfterToken[prevPart.tokenText];
+        const noSpaceAfter =
+            isPrevToken && noSpaceAfterToken[prevPart.tokenText];
         const separator = noSpaceBefore || noSpaceAfter ? "" : line;
         indentedParts.push(separator, printedParts[i]);
     }
