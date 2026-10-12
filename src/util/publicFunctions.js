@@ -444,6 +444,42 @@ const stripTwigCommentChars = s => {
     return result;
 };
 
+/**
+ * Splits a Twig comment into its text and the delimiters around it.
+ * Documentation comments (Twig 3.29) open with "{##" and may close
+ * symmetrically with "##}".
+ *
+ * @param {string} s
+ */
+const parseTwigComment = s => {
+    let text = s.startsWith("{#") ? s.slice(2) : s;
+    // "{##}" is an empty regular comment, not a documentation comment
+    const isDocumentation = text.startsWith("#") && text !== "#}";
+    if (isDocumentation) {
+        text = text.slice(1);
+    }
+    const trimLeft = text.startsWith("-");
+    if (trimLeft) {
+        text = text.slice(1);
+    }
+    if (text.endsWith("#}")) {
+        text = text.slice(0, -2);
+    }
+    const hasSymmetricClose = isDocumentation && text.endsWith("#");
+    if (hasSymmetricClose) {
+        text = text.slice(0, -1);
+    }
+    const trimRight = text.endsWith("-");
+    if (trimRight) {
+        text = text.slice(0, -1);
+    }
+    return {
+        text,
+        open: (isDocumentation ? "{##" : "{#") + (trimLeft ? "-" : ""),
+        close: (trimRight ? "-" : "") + (hasSymmetricClose ? "##}" : "#}")
+    };
+};
+
 const normalizeHtmlComment = s => {
     const commentText = stripHtmlCommentChars(s);
     return "<!-- " + unifyWhitespace(commentText) + " -->";
@@ -599,6 +635,8 @@ export {
     hasAtLeastTwoNewlines,
     stripHtmlCommentChars,
     stripTwigCommentChars,
+    parseTwigComment,
+    unifyWhitespace,
     normalizeHtmlComment,
     normalizeTwigComment,
     isHtmlCommentEqualTo,

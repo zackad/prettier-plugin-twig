@@ -15,4 +15,11 @@ describe("Comments", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle twig documentation comments", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "documentation_comments.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });

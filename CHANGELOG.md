@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Features
+- Preserve `{## ... ##}` documentation comments introduced in twig v3.29 by @renestalder
+
 ---
 ## 0.17.0 (2026-03-18)
 
