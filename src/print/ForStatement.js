@@ -2,12 +2,41 @@ import { doc } from "prettier";
 import {
     EXPRESSION_NEEDED,
     isWhitespaceNode,
+    hasLeadingComments,
     indentWithHardline
 } from "../util/index.js";
 
 const { group, indent, line, hardline } = doc.builders;
 
+const printForWithTargetComments = (node, path, print) => {
+    const targets = [];
+    if (node.keyTarget) {
+        targets.push(path.call(print, "keyTarget"), ",", line);
+    }
+    targets.push(
+        path.call(print, "valueTarget"),
+        " in ",
+        path.call(print, "sequence")
+    );
+    if (node.condition) {
+        targets.push(line, "if ", path.call(print, "condition"));
+    }
+    return group([
+        node.trimLeft ? "{%-" : "{%",
+        " for",
+        indent([hardline, targets]),
+        hardline,
+        node.trimRightFor ? "-%}" : "%}"
+    ]);
+};
+
 const printFor = (node, path, print) => {
+    if (
+        hasLeadingComments(node.keyTarget) ||
+        hasLeadingComments(node.valueTarget)
+    ) {
+        return printForWithTargetComments(node, path, print);
+    }
     const parts = [node.trimLeft ? "{%-" : "{%", " for "];
     if (node.keyTarget) {
         parts.push(path.call(print, "keyTarget"), ", ");

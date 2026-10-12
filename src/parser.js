@@ -88,6 +88,7 @@ const parse = (text, parsers, options) => {
     const extensions = [coreExtension];
     const parser = createConfiguredParser(text, multiTagConfig, ...extensions);
     const ast = parser.parse();
+    parser.tokens.assertInlineCommentsAttached();
     ast[ORIGINAL_SOURCE] = text;
     return ast;
 };

@@ -9,6 +9,14 @@ describe("Errors", () => {
             });
             await expect(promise).rejects.toThrow("Invalid Token");
         });
+        it("should fail against inline comment in unsupported position", async () => {
+            const promise = run_spec(import.meta.url, {
+                source: "unsupported_inline_comment_position.twig"
+            });
+            await expect(promise).rejects.toThrow(
+                "Unsupported inline comment position"
+            );
+        });
         it("should fail against unexpected token in tag", async () => {
             const promise = run_spec(import.meta.url, {
                 source: "unexpectedTokenInTag.twig"

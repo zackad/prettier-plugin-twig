@@ -356,6 +356,8 @@ export default class Lexer {
                 this.pushState(State.STRING_DOUBLE);
                 input.next();
                 return this.createToken(TokenTypes.STRING_START, pos);
+            case "#":
+                return this.matchInlineComment(pos);
             case "=":
                 // Lookahead for '>'
                 if (input.la(1) === ">") {
@@ -667,6 +669,16 @@ export default class Lexer {
             input.next();
         }
         return this.createToken(TokenTypes.TEXT, pos);
+    }
+
+    // Inline comment (Twig 3.15), runs to the end of the line
+    matchInlineComment(pos) {
+        const input = this.input;
+        let c;
+        while ((c = input.la(0)) !== EOF && c !== "\n") {
+            input.next();
+        }
+        return this.createToken(TokenTypes.INLINE_COMMENT, pos);
     }
 
     matchComment(pos) {

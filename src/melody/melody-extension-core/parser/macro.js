@@ -25,6 +25,8 @@ import {
     setStartFromToken,
     setEndFromToken,
     createNode,
+    attachListItemComments,
+    attachTrailingComments,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight
 } from "../../melody-parser/index.js";
@@ -43,7 +45,14 @@ export const MacroParser = {
             const arg = tokens.expect(Types.SYMBOL);
             // if default value is defined
             if (!tokens.test(Types.ASSIGNMENT)) {
-                args.push(createNode(Identifier, arg, arg.text));
+                args.push(
+                    attachListItemComments(
+                        createNode(Identifier, arg, arg.text),
+                        args[args.length - 1],
+                        tokens,
+                        arg
+                    )
+                );
             } else {
                 tokens.expect(Types.ASSIGNMENT);
                 let value;
@@ -76,7 +85,14 @@ export const MacroParser = {
                     value = tokens.expect(Types.FALSE);
                     node = createNode(BooleanLiteral, value, value.text);
                 }
-                args.push(createNode(Identifier, arg, arg.text, node));
+                args.push(
+                    attachListItemComments(
+                        createNode(Identifier, arg, arg.text, node),
+                        args[args.length - 1],
+                        tokens,
+                        arg
+                    )
+                );
             }
 
             if (!tokens.nextIf(Types.COMMA) && !tokens.test(Types.RPAREN)) {
@@ -88,6 +104,7 @@ export const MacroParser = {
                 });
             }
         }
+        attachTrailingComments(args[args.length - 1], tokens, tokens.la(0));
         tokens.expect(Types.RPAREN);
 
         const openingTagEndToken = tokens.la(0);

@@ -3,7 +3,8 @@ import { Node } from "../melody/melody-types/index.js";
 import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
-    isContractableNodeType
+    isContractableNodeType,
+    hasComments
 } from "../util/index.js";
 
 const { group, indent, line } = doc.builders;
@@ -15,7 +16,8 @@ const printExpressionStatement = (node, path, print) => {
     const closing = node.trimRight ? "-}}" : "}}";
     const shouldContractValue =
         isContractableNodeType(node.value) &&
-        !Node.isObjectExpression(node.value);
+        !Node.isObjectExpression(node.value) &&
+        !hasComments(node.value);
     const padding = shouldContractValue ? " " : line;
     const printedValue = [padding, path.call(print, "value")];
     const value = shouldContractValue ? printedValue : indent(printedValue);

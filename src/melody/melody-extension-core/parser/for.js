@@ -19,6 +19,7 @@ import {
     setStartFromToken,
     setEndFromToken,
     createNode,
+    attachLeadingComments,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight
 } from "../../melody-parser/index.js";
@@ -32,23 +33,23 @@ export const ForParser = {
 
         const keyTarget = tokens.expect(Types.SYMBOL);
         if (tokens.nextIf(Types.COMMA)) {
-            forStatement.keyTarget = createNode(
-                Identifier,
-                keyTarget,
-                keyTarget.text
+            forStatement.keyTarget = attachLeadingComments(
+                createNode(Identifier, keyTarget, keyTarget.text),
+                tokens,
+                keyTarget
             );
             const valueTarget = tokens.expect(Types.SYMBOL);
-            forStatement.valueTarget = createNode(
-                Identifier,
-                valueTarget,
-                valueTarget.text
+            forStatement.valueTarget = attachLeadingComments(
+                createNode(Identifier, valueTarget, valueTarget.text),
+                tokens,
+                valueTarget
             );
         } else {
             forStatement.keyTarget = null;
-            forStatement.valueTarget = createNode(
-                Identifier,
-                keyTarget,
-                keyTarget.text
+            forStatement.valueTarget = attachLeadingComments(
+                createNode(Identifier, keyTarget, keyTarget.text),
+                tokens,
+                keyTarget
             );
         }
 

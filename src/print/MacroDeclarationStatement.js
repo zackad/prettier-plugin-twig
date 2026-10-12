@@ -1,4 +1,5 @@
 import { doc } from "prettier";
+import { hasTrailingComments } from "../util/index.js";
 
 const { group, join, line, softline, hardline, indent } = doc.builders;
 
@@ -12,6 +13,10 @@ const printOpener = (node, path, print) => {
     const mappedArguments = path.map(print, "arguments");
     const joinedArguments = join([",", line], mappedArguments);
     parts.push(indent([softline, joinedArguments]));
+    // The closing parenthesis must not end up in a trailing comment
+    if (hasTrailingComments(node.arguments[node.arguments.length - 1])) {
+        parts.push(softline);
+    }
     parts.push(")", line, node.trimRightMacro ? "-%}" : "%}");
     return group(parts);
 };

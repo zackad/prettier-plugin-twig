@@ -27,6 +27,10 @@ import {
     copyLoc,
     getNodeSource,
     createNode,
+    attachLeadingComments,
+    attachListItemComments,
+    attachTrailingComments,
+    INLINE_COMMENT_ERROR,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight,
     isMelodyExtension
@@ -88,6 +92,10 @@ export {
     copyLoc,
     getNodeSource,
     createNode,
+    attachLeadingComments,
+    attachListItemComments,
+    attachTrailingComments,
+    INLINE_COMMENT_ERROR,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight,
     Types

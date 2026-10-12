@@ -14,4 +14,10 @@ describe("Prettier ignore", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should keep ignored statements with unsupported inline comments", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "prettier_ignore_inline_comment.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });

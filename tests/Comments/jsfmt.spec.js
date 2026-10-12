@@ -22,4 +22,11 @@ describe("Comments", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+
+    it("should handle inline comments in tags and expressions", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "inline_comments.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });

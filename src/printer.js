@@ -50,12 +50,14 @@ import { printSwitchTag } from "./print/SwitchTag.js";
 import { printTypesDeclarationStatement } from "./print/TypesDeclarationStatement.js";
 import { printTypesVariableDeclaration } from "./print/TypesVariableDeclaration.js";
 import {
+    printComments,
     isWhitespaceNode,
     isHtmlCommentEqualTo,
     isTwigCommentEqualTo
 } from "./util/index.js";
 import { PRETTIER_IGNORED_CODE } from "./util/publicSymbols.js";
 import { ORIGINAL_SOURCE } from "./parser.js";
+import { INLINE_COMMENT_ERROR } from "./melody/melody-parser/index.js";
 
 const printFunctions = {};
 
@@ -111,8 +113,14 @@ const print = (path, options, print) => {
     // Happy path: We have a formatting function, and the user wants the
     // node formatted
     if (!node[PRETTIER_IGNORED_CODE] && hasPrintFunction) {
+        if (node[INLINE_COMMENT_ERROR]) {
+            throw node[INLINE_COMMENT_ERROR];
+        }
         checkForIgnoreStart(node);
-        return printFunctions[nodeType](node, path, print, options);
+        return printComments(
+            node,
+            printFunctions[nodeType](node, path, print, options)
+        );
     } else if (!hasPrintFunction) {
         console.warn(`No print function available for node type "${nodeType}"`);
     }
