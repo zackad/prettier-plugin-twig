@@ -1,0 +1,6 @@
+{% for item in items %}
+    {# prettier-ignore #}
+    {{ item # kept verbatim, although not supported here
+        |upper }}
+    {{   item }}
+{% endfor %}

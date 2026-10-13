@@ -3,6 +3,8 @@ import {
     TypesVariableDeclaration
 } from "../types.js";
 import {
+    attachListItemComments,
+    attachTrailingComments,
     createNode,
     setEndFromToken,
     setStartFromToken,
@@ -60,12 +62,24 @@ export const TypesParser = {
                 });
             }
 
-            const varType = new TypesVariableDeclaration(nameNode, valueNode);
+            const varType = attachListItemComments(
+                new TypesVariableDeclaration(nameNode, valueNode),
+                typesStatement.declarations[
+                    typesStatement.declarations.length - 1
+                ],
+                tokens,
+                nameToken
+            );
             varType.optional = isVariableOptional;
             typesStatement.declarations.push(varType);
 
             tokens.nextIf(Types.COMMA);
         }
+        attachTrailingComments(
+            typesStatement.declarations[typesStatement.declarations.length - 1],
+            tokens,
+            tokens.la(0)
+        );
 
         if (typesStatement.enclosed) {
             tokens.expect(Types.RBRACKET);

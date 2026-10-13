@@ -18,6 +18,7 @@ import {
     ERROR,
     ERROR_TABLE,
     COMMENT,
+    INLINE_COMMENT,
     WHITESPACE,
     HTML_COMMENT,
     TAG_START,
@@ -33,6 +34,7 @@ import codeFrame from "../melody-code-frame/index.js";
 
 const TOKENS = Symbol("TOKENS");
 const LENGTH = Symbol("LENGTH");
+const INLINE_COMMENTS = Symbol("INLINE_COMMENTS");
 
 export default class TokenStream {
     constructor(lexer, options) {
@@ -48,8 +50,57 @@ export default class TokenStream {
             },
             options
         );
-        this[TOKENS] = getAllTokens(lexer, mergedOptions);
+        this[INLINE_COMMENTS] = [];
+        this[TOKENS] = getAllTokens(
+            lexer,
+            mergedOptions,
+            this[INLINE_COMMENTS]
+        );
         this[LENGTH] = this[TOKENS].length;
+    }
+
+    takeLeadingComments(token, filter = () => true) {
+        if (!token || !token.leadingComments) {
+            return [];
+        }
+        const comments = token.leadingComments.filter(filter);
+        comments.forEach(c => (c.handled = true));
+        return comments;
+    }
+
+    takeCommentsInRange(start, end) {
+        for (const comment of this[INLINE_COMMENTS]) {
+            if (comment.pos.index >= start && comment.end <= end) {
+                comment.handled = true;
+            }
+        }
+    }
+
+    // The innermost statement reports them, so prettier-ignore can keep it verbatim
+    claimUnattachedComments(start, end) {
+        const comments = this[INLINE_COMMENTS].filter(
+            c => !c.handled && c.pos.index >= start && c.end <= end
+        );
+        comments.forEach(c => (c.handled = true));
+        return comments.length > 0
+            ? this.createUnsupportedCommentError(comments[0])
+            : null;
+    }
+
+    assertInlineCommentsAttached() {
+        const comment = this[INLINE_COMMENTS].find(c => !c.handled);
+        if (comment) {
+            throw this.createUnsupportedCommentError(comment);
+        }
+    }
+
+    createUnsupportedCommentError(comment) {
+        return this.createError(
+            "Unsupported inline comment position",
+            comment.pos,
+            "Inline comments are only supported on their own line before a variable declaration in the props, types, set, for and macro tags, or before a key in a hash.",
+            comment.length
+        );
     }
 
     la(offset) {
@@ -114,6 +165,10 @@ export default class TokenStream {
     }
 
     error(message, pos, advice, length = 1, metadata = {}) {
+        throw this.createError(message, pos, advice, length, metadata);
+    }
+
+    createError(message, pos, advice, length = 1, metadata = {}) {
         let errorMessage = `ERROR: ${message}\n`;
         errorMessage += codeFrame({
             rawLines: this.input.source,
@@ -131,16 +186,32 @@ export default class TokenStream {
         }
         const result = new Error(errorMessage);
         Object.assign(result, metadata);
-        throw result;
+        return result;
     }
 }
 
-function getAllTokens(lexer, options) {
+function getAllTokens(lexer, options, inlineComments = []) {
     let token;
     const tokens = [];
     let acceptWhitespaceControl = false;
     let trimNext = false;
+    let pendingInlineComments = [];
+    let previousToken = null;
     while ((token = lexer.next()) !== EOF_TOKEN) {
+        if (token.type === INLINE_COMMENT) {
+            token.trailing =
+                !!previousToken && previousToken.endPos.line === token.pos.line;
+            inlineComments.push(token);
+            pendingInlineComments.push(token);
+            continue;
+        }
+        if (token.type !== WHITESPACE) {
+            previousToken = token;
+            if (pendingInlineComments.length > 0) {
+                token.leadingComments = pendingInlineComments;
+                pendingInlineComments = [];
+            }
+        }
         const shouldTrimNext = trimNext;
         trimNext = false;
         if (acceptWhitespaceControl) {
