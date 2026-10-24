@@ -1,57 +1,38 @@
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    systems.url = "github:nix-systems/default";
-    devenv.url = "github:cachix/devenv";
-    devenv.inputs.nixpkgs.follows = "nixpkgs";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      devenv,
-      systems,
-      ...
-    }@inputs:
+    { self, nixpkgs, ... }@inputs:
     let
-      forEachSystem = nixpkgs.lib.genAttrs (import systems);
+      # Define the systems you want to support
+      supportedSystems = [
+        "aarch64-linux"
+        "x86_64-linux"
+        "aarch64-darwin"
+        "x86_64-darwin"
+      ];
+
+      # Helper function to generate attributes for each supported system
+      eachSystem =
+        f:
+        nixpkgs.lib.genAttrs supportedSystems (
+          system:
+          f {
+            pkgs = import nixpkgs {
+              inherit system;
+            };
+          }
+        );
     in
     {
-      packages = forEachSystem (system: {
-        devenv-up = self.devShells.${system}.default.config.procfileScript;
-      });
-
-      devShells = forEachSystem (
-        system:
-        let
-          pkgs = nixpkgs.legacyPackages.${system};
-        in
-        {
-          default = devenv.lib.mkShell {
-            inherit inputs pkgs;
-            modules = [
-              {
-                # https://devenv.sh/basics/
-                env.NODE_OPTIONS = "--experimental-vm-modules";
-
-                # https://devenv.sh/packages/
-                packages = [
-                  pkgs.nodejs
-                  pkgs.yarn
-                ];
-
-                # https://devenv.sh/languages/
-                # languages.nix.enable = true;
-
-                # https://devenv.sh/pre-commit-hooks/
-                # pre-commit.hooks.shellcheck.enable = true;
-
-                # https://devenv.sh/processes/
-                # processes.ping.exec = "ping example.com";
-
-                # See full reference at https://devenv.sh/reference/options/
-              }
+      devShells = eachSystem (
+        { pkgs }: {
+          default = pkgs.mkShell {
+            buildInputs = with pkgs; [
+              nodejs
+              yarn
             ];
           };
         }
