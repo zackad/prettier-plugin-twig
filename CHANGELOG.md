@@ -2,9 +2,16 @@
 
 ## unreleased
 
+---
+## 0.18.0 (2026-10-24)
+
 ### Features
-- Preserve `{## ... ##}` documentation comments introduced in twig v3.29 by @renestalder
-- Add support for inline comments (`#` and `##`) in `props`, `types`, `set`, `for`, `macro` arguments, hashes and `{{ }}` expressions, introduced in twig v3.15 by @renestalder
+- [GH-150](https://github.com/zackad/prettier-plugin-twig/pull/150) [GH-151](https://github.com/zackad/prettier-plugin-twig/pull/151) [GH-152](https://github.com/zackad/prettier-plugin-twig/pull/152) Improve error handling for unexpected token @mcaskill
+- [GH-154](https://github.com/zackad/prettier-plugin-twig/pull/154) Preserve `{## ... ##}` documentation comments introduced in twig v3.29 by @renestalder
+- [GH-154](https://github.com/zackad/prettier-plugin-twig/pull/154) Add support for inline comments (`#` and `##`) in `props`, `types`, `set`, `for`, `macro` arguments, hashes and `{{ }}` expressions, introduced in twig v3.15 by @renestalder
+
+### Bugfixes
+- [GH-153](https://github.com/zackad/prettier-plugin-twig/pull/153) Keep twig component attrs inline by @mahmoud-linkness
 
 ---
 ## 0.17.0 (2026-03-18)
