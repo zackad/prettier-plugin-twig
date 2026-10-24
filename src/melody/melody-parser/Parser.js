@@ -23,7 +23,11 @@ import {
     copyStart,
     copyEnd,
     copyLoc,
-    createNode
+    createNode,
+    attachLeadingComments,
+    attachListItemComments,
+    attachTrailingComments,
+    INLINE_COMMENT_ERROR
 } from "./util.js";
 import { GenericTagParser } from "./GenericTagParser.js";
 import { createMultiTagParser } from "./GenericMultiTagParser.js";
@@ -157,8 +161,19 @@ export default class Parser {
                 setEndFromToken(p, token);
                 return p;
             }
+            const statementCount = p.expressions.length;
             try {
                 this.parseToken(token, p);
+                if (p.expressions.length > statementCount) {
+                    const statement = p.expressions[p.expressions.length - 1];
+                    const commentError = tokens.claimUnattachedComments(
+                        token.pos.index,
+                        tokens.la(-1).end
+                    );
+                    if (commentError) {
+                        statement[INLINE_COMMENT_ERROR] = commentError;
+                    }
+                }
             } catch (e) {
                 if (e.errorType === "UNEXPECTED_TOKEN") {
                     this.parseUnexpectedToken(e, token, p);
@@ -177,7 +192,10 @@ export default class Parser {
         const tokens = this.tokens;
         switch (token.type) {
             case Types.EXPRESSION_START: {
+                const expressionStartToken = tokens.la(0);
                 const expression = this.matchExpression();
+                attachLeadingComments(expression, tokens, expressionStartToken);
+                attachTrailingComments(expression, tokens, tokens.la(0));
                 const statement = new n.PrintExpressionStatement(expression);
                 const endToken = tokens.expect(Types.EXPRESSION_END);
                 setStartFromToken(statement, token);
@@ -290,6 +308,8 @@ export default class Parser {
                     }
                 }
                 const endToken = tokens.expect(END_DELIMITER);
+                // The statement is kept verbatim, including its comments
+                tokens.takeCommentsInRange(startToken.pos.index, endToken.end);
 
                 const start = Math.max(startToken.pos.index - 1, 0);
                 const end = Math.min(
@@ -835,6 +855,7 @@ export default class Parser {
         while (!tokens.test(Types.RBRACKET) && !tokens.test(Types.EOF)) {
             let computed = false;
             let key;
+            const propertyStartToken = tokens.la(0);
 
             // find the key part of object property
             if (tokens.test(Types.STRING_START)) {
@@ -864,6 +885,12 @@ export default class Parser {
                 const prop = new n.ObjectProperty(value, computed, key);
                 copyStart(prop, key);
                 copyEnd(prop, value);
+                attachListItemComments(
+                    prop,
+                    obj.properties[obj.properties.length - 1],
+                    tokens,
+                    propertyStartToken
+                );
                 obj.properties.push(prop);
             } else {
                 // when the part is missing, we can assume that it is being omitted
@@ -875,6 +902,12 @@ export default class Parser {
                 const prop = new n.ObjectProperty(value, computed);
                 copyStart(prop, key);
                 copyEnd(prop, value);
+                attachListItemComments(
+                    prop,
+                    obj.properties[obj.properties.length - 1],
+                    tokens,
+                    propertyStartToken
+                );
                 obj.properties.push(prop);
             }
 
@@ -886,6 +919,11 @@ export default class Parser {
                 }
             }
         }
+        attachTrailingComments(
+            obj.properties[obj.properties.length - 1],
+            tokens,
+            tokens.la(0)
+        );
         setEndFromToken(obj, tokens.expect(Types.RBRACKET));
         return obj;
     }

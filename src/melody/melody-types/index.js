@@ -40,7 +40,9 @@ export class Node {
                 }
                 const value = this[name];
                 if (Array.isArray(value)) {
-                    acc[name] = value.map(val => val.toJSON());
+                    acc[name] = value.map(val =>
+                        val && val.toJSON ? val.toJSON() : val
+                    );
                 } else {
                     acc[name] = value && value.toJSON ? value.toJSON() : value;
                 }

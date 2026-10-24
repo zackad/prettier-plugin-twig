@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+export const INLINE_COMMENT_ERROR = Symbol("INLINE_COMMENT_ERROR");
+
 export function setStartFromToken(node, { pos: { index, line, column } }) {
     node.loc.start = { line, column, index };
     return node;
@@ -72,6 +74,39 @@ export function copyLoc(node, { loc: { start, end } }) {
 
 export function createNode(Type, token, ...args) {
     return setEndFromToken(setStartFromToken(new Type(...args), token), token);
+}
+
+function addComment(node, key, comment) {
+    node[key] = node[key] || [];
+    node[key].push(comment.text.trimEnd());
+}
+
+export function attachLeadingComments(node, tokens, token) {
+    for (const comment of tokens.takeLeadingComments(token)) {
+        addComment(node, "leadingComments", comment);
+    }
+    return node;
+}
+
+// Comments on the line of the previous list item stay with that item
+export function attachListItemComments(node, previousNode, tokens, token) {
+    for (const comment of tokens.takeLeadingComments(token)) {
+        if (comment.trailing && previousNode) {
+            addComment(previousNode, "trailingComments", comment);
+        } else {
+            addComment(node, "leadingComments", comment);
+        }
+    }
+    return node;
+}
+
+export function attachTrailingComments(node, tokens, token) {
+    if (!node) {
+        return;
+    }
+    for (const comment of tokens.takeLeadingComments(token, c => c.trailing)) {
+        addComment(node, "trailingComments", comment);
+    }
 }
 
 export function startNode(Type, token, ...args) {

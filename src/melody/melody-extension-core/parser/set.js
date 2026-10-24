@@ -19,6 +19,7 @@ import {
     setStartFromToken,
     setEndFromToken,
     createNode,
+    attachLeadingComments,
     hasTagStartTokenTrimLeft,
     hasTagEndTokenTrimRight
 } from "../../melody-parser/index.js";
@@ -29,6 +30,7 @@ export const SetParser = {
     parse(parser, token) {
         const tokens = parser.tokens;
         const names = [];
+        const nameTokens = [];
         const values = [];
 
         let openingTagEndToken;
@@ -37,6 +39,7 @@ export const SetParser = {
         do {
             const name = tokens.expect(Types.SYMBOL);
             names.push(createNode(Identifier, name, name.text));
+            nameTokens.push(name);
         } while (tokens.nextIf(Types.COMMA));
 
         if (tokens.nextIf(Types.ASSIGNMENT)) {
@@ -79,9 +82,10 @@ ${names.length} variable names and ${values.length} values.`
         // now join names and values
         const assignments = [];
         for (let i = 0, len = names.length; i < len; i++) {
-            assignments[i] = new VariableDeclarationStatement(
-                names[i],
-                values[i]
+            assignments[i] = attachLeadingComments(
+                new VariableDeclarationStatement(names[i], values[i]),
+                tokens,
+                nameTokens[i]
             );
         }
 

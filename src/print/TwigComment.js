@@ -1,23 +1,19 @@
 import {
-    createTextGroups,
-    stripTwigCommentChars,
-    normalizeTwigComment,
+    parseTwigComment,
+    unifyWhitespace,
     countNewlines
 } from "../util/index.js";
 
 const printTwigComment = node => {
     const originalText = node.value.value || "";
-    const commentText = stripTwigCommentChars(originalText);
-    const trimLeft = originalText.length >= 3 ? originalText[2] === "-" : false;
-    const trimRight =
-        originalText.length >= 3 ? originalText.slice(-3, -2) === "-" : false;
+    const { text, open, close } = parseTwigComment(originalText);
 
-    const numNewlines = countNewlines(commentText);
+    const numNewlines = countNewlines(text);
     if (numNewlines === 0) {
-        return normalizeTwigComment(commentText, trimLeft, trimRight);
+        return [open, " ", unifyWhitespace(text), " ", close];
     }
 
-    return [trimLeft ? "{#-" : "{#", commentText, trimRight ? "-#}" : "#}"];
+    return [open, text, close];
 };
 
 export { printTwigComment };

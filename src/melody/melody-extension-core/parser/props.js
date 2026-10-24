@@ -1,5 +1,7 @@
 import { DoStatement, PropItem, PropsStatement } from "../types.js";
 import {
+    attachListItemComments,
+    attachTrailingComments,
     createNode,
     setEndFromToken,
     setStartFromToken,
@@ -25,9 +27,19 @@ export const PropsParser = {
             } else {
                 valueNode = undefined;
             }
-            const item = new PropItem(nameNode, valueNode);
+            const item = attachListItemComments(
+                new PropItem(nameNode, valueNode),
+                items[items.length - 1],
+                tokenStream,
+                name
+            );
             items.push(item);
         } while (tokenStream.nextIf(Types.COMMA));
+        attachTrailingComments(
+            items[items.length - 1],
+            tokenStream,
+            tokenStream.la(0)
+        );
 
         const propsStatement = new PropsStatement(items);
         setStartFromToken(propsStatement, token);

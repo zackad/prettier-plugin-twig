@@ -1,7 +1,8 @@
 import { doc } from "prettier";
 import { Node } from "../melody/melody-types/index.js";
 
-const { line, indent, group } = doc.builders;
+const { line, indent, group, hardline, join, lineSuffix, breakParent } =
+    doc.builders;
 
 const noSpaceBeforeToken = {
     ",": true
@@ -55,4 +56,42 @@ const printSingleTwigTag = (node, path, print) => {
     return group(parts);
 };
 
-export { printSingleTwigTag };
+const hasLeadingComments = node =>
+    !!node &&
+    Array.isArray(node.leadingComments) &&
+    node.leadingComments.length > 0;
+
+const hasTrailingComments = node =>
+    !!node &&
+    Array.isArray(node.trailingComments) &&
+    node.trailingComments.length > 0;
+
+const hasComments = node =>
+    hasLeadingComments(node) || hasTrailingComments(node);
+
+// Own group, so the line breaks forced by the comments do not break the node itself
+const printComments = (node, printed) => {
+    if (!hasComments(node)) {
+        return printed;
+    }
+    const parts = [];
+    if (hasLeadingComments(node)) {
+        parts.push(join(hardline, node.leadingComments), hardline);
+    }
+    parts.push(group(printed));
+    if (hasTrailingComments(node)) {
+        parts.push(
+            lineSuffix([" ", join(" ", node.trailingComments)]),
+            breakParent
+        );
+    }
+    return parts;
+};
+
+export {
+    printSingleTwigTag,
+    printComments,
+    hasLeadingComments,
+    hasTrailingComments,
+    hasComments
+};
