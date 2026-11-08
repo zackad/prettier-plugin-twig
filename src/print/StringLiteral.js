@@ -2,35 +2,66 @@ import {
     firstValueInAncestorChain,
     quoteChar,
     STRING_NEEDS_QUOTES,
-    OVERRIDE_QUOTE_CHAR
+    OVERRIDE_QUOTE_CHAR,
+    INSIDE_OF_STRING
 } from "../util/index.js";
 
-const isUnmaskedOccurrence = (s, pos) => {
-    return pos === 0 || s[pos - 1] !== "\\";
-};
-
-const containsUnmasked = char => s => {
-    let pos = s.indexOf(char);
-    while (pos >= 0) {
-        if (isUnmaskedOccurrence(s, pos)) {
-            return true;
+/**
+ * Lists the quote characters of a string literal value that are not
+ * part of an escape sequence (a backslash escapes the next character)
+ */
+const unescapedQuotes = s => {
+    const quotes = new Set();
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === "\\") {
+            i++;
+        } else if (s[i] === "'" || s[i] === '"') {
+            quotes.add(s[i]);
         }
-        pos = s.indexOf(char, pos + 1);
     }
-    return false;
+    return quotes;
 };
 
-const containsUnmaskedSingleQuote = containsUnmasked("'");
-const containsUnmaskedDoubleQuote = containsUnmasked('"');
+/**
+ * Escapes the occurrences of the given quote character that are not
+ * already part of an escape sequence
+ */
+const escapeQuotes = (s, quote) => {
+    let result = "";
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === "\\") {
+            result += s.slice(i, i + 2);
+            i++;
+        } else {
+            result += s[i] === quote ? "\\" + quote : s[i];
+        }
+    }
+    return result;
+};
+
+const alternate = quote => (quote === '"' ? "'" : '"');
 
 const getQuoteChar = (s, options) => {
-    if (containsUnmaskedSingleQuote(s)) {
-        return '"';
+    const preferred = quoteChar(options);
+    const quotes = unescapedQuotes(s);
+    if (quotes.has(preferred) && !quotes.has(alternate(preferred))) {
+        return alternate(preferred);
     }
-    if (containsUnmaskedDoubleQuote(s)) {
-        return "'";
+    return preferred;
+};
+
+/**
+ * Whether the string literal is a fragment of an interpolated
+ * string ("... #{ expr } ..."), which is always double quoted
+ */
+const isInterpolatedStringFragment = path => {
+    for (let i = path.stack.length - 2; i >= 0; i--) {
+        const element = path.stack[i];
+        if (element && element[STRING_NEEDS_QUOTES] !== undefined) {
+            return element[INSIDE_OF_STRING] === true;
+        }
     }
-    return quoteChar(options);
+    return false;
 };
 
 const printStringLiteral = (node, path, print, options) => {
@@ -54,7 +85,11 @@ const printStringLiteral = (node, path, print, options) => {
         const quote = overridingQuoteChar
             ? overridingQuoteChar
             : getQuoteChar(node.value, options);
-        return quote + node.value + quote;
+        return quote + escapeQuotes(node.value, quote) + quote;
+    }
+
+    if (isInterpolatedStringFragment(path)) {
+        return escapeQuotes(node.value, '"');
     }
 
     return node.value;
