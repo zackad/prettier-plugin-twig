@@ -561,8 +561,9 @@ export default class Lexer {
             return this.createToken(TokenTypes.STRING_END, pos);
         }
         while ((c = input.la(0)) !== start && c !== EOF) {
-            if (c === "\\" && input.la(1) === start) {
-                // escape sequence for string start
+            if (c === "\\" && input.la(1) !== EOF) {
+                // escape sequence: the next character never ends the string
+                // or starts an interpolation (e.g. \', \\ or \#{)
                 input.next();
                 input.next();
             } else if (allowInterpolation && c === "#" && input.la(1) === "{") {
@@ -574,11 +575,11 @@ export default class Lexer {
             }
         }
         const result = this.createToken(TokenTypes.STRING, pos);
-        // Replace double backslash before escaped quotes
+        // Unescape escaped quotes, but keep every other escape sequence
+        // (including an escaped backslash right before a quote) as is
         if (!this.options.preserveSourceLiterally) {
-            result.text = result.text.replace(
-                new RegExp("(?:\\\\)(" + start + ")", "g"),
-                "$1"
+            result.text = result.text.replace(/\\([\s\S])/g, (match, char) =>
+                char === start ? char : match
             );
         }
         return result;

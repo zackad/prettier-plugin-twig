@@ -93,6 +93,12 @@ describe("Expressions", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should keep escape sequences in string literals", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "stringEscapes.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
     it("should handle unary not", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "unaryNot.twig"
