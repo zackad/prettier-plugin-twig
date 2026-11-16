@@ -30,7 +30,8 @@ import {
     copyStart,
     copyEnd,
     copyLoc,
-    LEFT
+    LEFT,
+    RIGHT
 } from "../melody-parser/index.js";
 
 export const unaryOperators = [];
@@ -290,7 +291,7 @@ export const BinaryPowerExpression = createBinaryOperatorNode({
     text: "**",
     type: "BinaryPowerExpression",
     precedence: 200,
-    associativity: LEFT
+    associativity: RIGHT
 });
 export const BinaryNullCoalesceExpression = createBinaryOperatorNode({
     text: "??",

@@ -1,6 +1,7 @@
 import { doc } from "prettier";
 import { Node } from "../melody/melody-types/index.js";
 import { extension as coreExtension } from "../melody/melody-extension-core/index.js";
+import { LEFT } from "../melody/melody-parser/index.js";
 import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
@@ -21,6 +22,14 @@ const operatorPrecedence = coreExtension.binaryOperators.reduce((acc, curr) => {
     acc[curr.text] = curr.precedence;
     return acc;
 }, {});
+
+const operatorAssociativity = coreExtension.binaryOperators.reduce(
+    (acc, curr) => {
+        acc[curr.text] = curr.associativity;
+        return acc;
+    },
+    {}
+);
 
 const printInterpolatedString = (node, path, print, options) => {
     node[STRING_NEEDS_QUOTES] = false;
@@ -54,8 +63,15 @@ const otherNeedsParentheses = (node, otherProp) => {
     const otherPrecedence = isBinaryOther
         ? operatorPrecedence[node[otherProp].operator]
         : Number.MAX_SAFE_INTEGER;
+    const sameSideAsAssociativity =
+        (operatorAssociativity[node.operator] === LEFT) ===
+        (otherProp === "left");
     return (
         otherPrecedence < ownPrecedence ||
+        (otherPrecedence === ownPrecedence &&
+            isBinaryOther &&
+            !other.wasImplicitConcatenation &&
+            !sameSideAsAssociativity) ||
         (otherPrecedence > ownPrecedence &&
             isBinaryOther &&
             hasLogicalOperator(other)) ||
