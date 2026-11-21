@@ -1,4 +1,5 @@
 import { doc } from "prettier";
+import { Node } from "../melody/melody-types/index.js";
 import {
     EXPRESSION_NEEDED,
     STRING_NEEDS_QUOTES,
@@ -18,7 +19,13 @@ const printConditionalExpression = (node, path, print) => {
     if (node.alternate) {
         rest.push(line, ": ", path.call(print, "alternate"));
     }
-    const parts = [path.call(print, "test"), indent(rest)];
+    const printedTest = path.call(print, "test");
+    const parts = [
+        Node.isConditionalExpression(node.test)
+            ? ["(", printedTest, ")"]
+            : printedTest,
+        indent(rest)
+    ];
     wrapExpressionIfNeeded(path, parts, node);
 
     return group(parts);

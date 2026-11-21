@@ -56,6 +56,8 @@ const hasLogicalOperator = node => {
     return node.operator === "or" || node.operator === "and";
 };
 
+const isSignOperator = operator => operator === "-" || operator === "+";
+
 const otherNeedsParentheses = (node, otherProp) => {
     const other = node[otherProp];
     const isBinaryOther = Node.isBinaryExpression(other);
@@ -76,8 +78,11 @@ const otherNeedsParentheses = (node, otherProp) => {
             isBinaryOther &&
             hasLogicalOperator(other)) ||
         Node.isFilterExpression(other) ||
-        (Node.isBinaryConcatExpression(node) &&
-            Node.isConditionalExpression(other))
+        Node.isConditionalExpression(other) ||
+        (node.operator === "**" &&
+            otherProp === "left" &&
+            Node.isUnaryLike(other) &&
+            isSignOperator(other.operator))
     );
 };
 

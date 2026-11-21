@@ -16,6 +16,8 @@ const argumentNeedsParentheses = node => isMultipartExpression(node);
 
 const isLogicalOperator = operator => operator === "not";
 
+const isSignOperator = operator => operator === "-" || operator === "+";
+
 const printLogicalExpression = (node, path, print) => {
     const foundRootAbove = firstValueInAncestorChain(
         path,
@@ -65,7 +67,15 @@ const printUnarySubclass = (node, path, print) => {
     } else if (!hasTestExpressionArgument) {
         parts.push(node.operator, " ");
     }
-    parts.push(path.call(print, "argument"));
+    if (
+        isSignOperator(node.operator) &&
+        !hasTestExpressionArgument &&
+        argumentNeedsParentheses(node.argument)
+    ) {
+        parts.push("(", path.call(print, "argument"), ")");
+    } else {
+        parts.push(path.call(print, "argument"));
+    }
     wrapExpressionIfNeeded(path, parts, node);
 
     return parts;
