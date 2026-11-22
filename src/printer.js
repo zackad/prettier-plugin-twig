@@ -103,6 +103,8 @@ const print = (path, options, print) => {
     // Try to get the entire original source from AST root
     if (node[ORIGINAL_SOURCE]) {
         originalSource = node[ORIGINAL_SOURCE];
+        ignoreRegion = false;
+        ignoreNext = false;
     }
 
     checkForIgnoreEnd(node);

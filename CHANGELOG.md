@@ -2,6 +2,9 @@
 
 ## unreleased
 
+### Bugfixes
+- [GH-146](https://github.com/zackad/prettier-plugin-twig/issues/146) Reset `prettier-ignore` state per file so an unclosed ignore region no longer empties later files by @anubhavlal07
+
 ---
 ## 0.18.1 (2026-11-22)
 
