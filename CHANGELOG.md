@@ -2,6 +2,9 @@
 
 ## unreleased
 
+---
+## 0.18.1 (2026-11-22)
+
 ### Bugfixes
 - [GH-159](https://github.com/zackad/prettier-plugin-twig/issues/159) Keep parentheses required by operator associativity in binary expressions by @anubhavlal07
 - [GH-159](https://github.com/zackad/prettier-plugin-twig/issues/159) Keep parentheses required around unary operands, conditional operands and nested conditional tests by @anubhavlal07
