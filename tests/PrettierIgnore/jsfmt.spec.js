@@ -20,4 +20,13 @@ describe("Prettier ignore", () => {
         });
         await expect(actual).toMatchFileSnapshot(snapshotFile);
     });
+    it("should not leak an ignore region into the next file", async () => {
+        await run_spec(import.meta.url, {
+            source: "prettierIgnoreRegionInsideElement.twig"
+        });
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "prettierIgnore.twig"
+        });
+        await expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
 });
