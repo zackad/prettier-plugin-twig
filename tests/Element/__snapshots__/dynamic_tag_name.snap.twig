@@ -1,0 +1,21 @@
+<{{ tag }}
+    {{
+    attributes.defaults({
+        class: 'btn'
+    })
+    }}
+>
+    {% block content %}
+
+    {% endblock %}
+</{{ tag }}>
+
+<nav>
+    <{{ heading }} id="{{ heading_id }}">
+        {{ title }}
+    </{{ heading }}>
+</nav>
+
+<{{ outer }}>
+    <{{ inner }} />
+</{{ outer }}>

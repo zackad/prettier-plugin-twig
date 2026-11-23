@@ -3,6 +3,14 @@ import { describe, expect, it } from "vitest";
 
 describe("Errors", () => {
     describe("parsers", () => {
+        it("should reject mismatched variable tag names", async () => {
+            const promise = run_spec(import.meta.url, {
+                source: "mismatched_dynamic_tags.twig"
+            });
+            await expect(promise).rejects.toThrow(
+                "Expected </{{ inner }}>, found </{{ outer }}>"
+            );
+        });
         it("should fail against unexpected token in expression", async () => {
             const promise = run_spec(import.meta.url, {
                 source: "unexpectedTokenInExpression.twig"

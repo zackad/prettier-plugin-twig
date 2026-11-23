@@ -23,6 +23,13 @@ describe("Elements", () => {
         expect(actual).toMatchFileSnapshot(snapshotFile);
     });
 
+    it("should pair element names supplied by a Twig variable", async () => {
+        const { actual, snapshotFile } = await run_spec(import.meta.url, {
+            source: "dynamic_tag_name.twig"
+        });
+        expect(actual).toMatchFileSnapshot(snapshotFile);
+    });
+
     it("should handle attributes", async () => {
         const { actual, snapshotFile } = await run_spec(import.meta.url, {
             source: "attributes.twig"

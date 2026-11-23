@@ -396,8 +396,39 @@ export default class Parser {
         return declaration;
     }
 
+    matchElementName() {
+        const tokens = this.tokens;
+        const name = tokens.nextIf(Types.SYMBOL);
+        if (name) {
+            return name.text;
+        }
+        if (
+            tokens.test(Types.EXPRESSION_START, "{{") &&
+            tokens.lat(1) === Types.SYMBOL &&
+            tokens.lat(2) === Types.EXPRESSION_END &&
+            tokens.la(2).text === "}}"
+        ) {
+            tokens.next(); // {{
+            const variable = tokens.next();
+            tokens.next(); // }}
+            return `{{ ${variable.text} }}`;
+        }
+
+        this.error({
+            title: "Expected element start",
+            pos: tokens.la(0).pos,
+            advice:
+                tokens.lat(0) === Types.SLASH
+                    ? `Unexpected closing "${
+                          tokens.la(1).text
+                      }" tag. Seems like your DOM is out of control.`
+                    : "Expected an element to start"
+        });
+    }
+
     /**
-     * matchElement = '<' SYMBOL attributes* '/'? '>' (children)* '<' '/' SYMBOL '>'
+     * matchElement = '<' name attributes* '/'? '>' (children)* '<' '/' name '>'
+     * name = SYMBOL | '{{' SYMBOL '}}'
      * attributes = SYMBOL '=' (matchExpression | matchString)
      *              | matchExpression
      */
@@ -405,21 +436,8 @@ export default class Parser {
         const tokens = this.tokens;
         const elementNameToken = tokens.la(0);
         const tagStartToken = tokens.la(-1);
-        let elementName;
-        if (!(elementName = tokens.nextIf(Types.SYMBOL))) {
-            this.error({
-                title: "Expected element start",
-                pos: elementNameToken.pos,
-                advice:
-                    tokens.lat(0) === Types.SLASH
-                        ? `Unexpected closing "${
-                              tokens.la(1).text
-                          }" tag. Seems like your DOM is out of control.`
-                        : "Expected an element to start"
-            });
-        }
-
-        const element = new n.Element(elementName.text);
+        const elementName = this.matchElementName();
+        const element = new n.Element(elementName);
 
         this.matchAttributes(element, tokens);
 
@@ -428,7 +446,7 @@ export default class Parser {
             element.selfClosing = true;
         } else {
             tokens.expect(Types.ELEMENT_END);
-            if (voidElements[elementName.text]) {
+            if (voidElements[elementName]) {
                 element.selfClosing = true;
             } else {
                 element.children = this.parse((_, token, tokens) => {
@@ -436,16 +454,17 @@ export default class Parser {
                         token.type === Types.ELEMENT_START &&
                         tokens.lat(0) === Types.SLASH
                     ) {
-                        const name = tokens.la(1);
-                        if (
-                            name.type === Types.SYMBOL &&
-                            name.text === elementName.text
-                        ) {
-                            tokens.next(); // SLASH
-                            tokens.next(); // elementName
-                            tokens.expect(Types.ELEMENT_END);
-                            return true;
+                        tokens.next(); // SLASH
+                        const closingName = this.matchElementName();
+                        if (closingName !== elementName) {
+                            this.error({
+                                title: "Unexpected closing tag",
+                                pos: token.pos,
+                                advice: `Expected </${elementName}>, found </${closingName}>`
+                            });
                         }
+                        tokens.expect(Types.ELEMENT_END);
+                        return true;
                     }
                     return false;
                 }).expressions;
