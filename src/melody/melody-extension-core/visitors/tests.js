@@ -48,6 +48,55 @@ export default {
                 path.replaceWithJS(expr);
             }
         },
+        TestNumericExpression: {
+            exit(path) {
+                // typeof value === 'number' || (typeof value === 'string' && value.trim() !== '' && !isNaN(Number(value)))
+                path.replaceWithJS(
+                    t.logicalExpression(
+                        "||",
+                        t.binaryExpression(
+                            "===",
+                            t.unaryExpression("typeof", path.get("expression").node),
+                            t.stringLiteral("number")
+                        ),
+                        t.logicalExpression(
+                            "&&",
+                            t.binaryExpression(
+                                "===",
+                                t.unaryExpression("typeof", path.get("expression").node),
+                                t.stringLiteral("string")
+                            ),
+                            t.logicalExpression(
+                                "&&",
+                                t.binaryExpression(
+                                    "!==",
+                                    t.callExpression(
+                                        t.memberExpression(
+                                            path.get("expression").node,
+                                            t.identifier("trim")
+                                        ),
+                                        []
+                                    ),
+                                    t.stringLiteral("")
+                                ),
+                                t.unaryExpression(
+                                    "!",
+                                    t.callExpression(
+                                        t.identifier("isNaN"),
+                                        [
+                                            t.callExpression(
+                                                t.identifier("Number"),
+                                                [path.get("expression").node]
+                                            )
+                                        ]
+                                    )
+                                )
+                            )
+                        )
+                    )
+                );
+            }
+        },
         TestDefinedExpression: {
             exit(path) {
                 path.replaceWithJS(
